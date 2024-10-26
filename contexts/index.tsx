@@ -1,10 +1,10 @@
 import React, { PropsWithChildren } from "react";
-import { WorkspacesProvider } from "./workspaces";
+import { UserProvider } from "./users";
 
 const AppContextProviders: React.FC<PropsWithChildren> = ({ children }) => (
-  <WorkspacesProvider>
+  <UserProvider>
     <AppHooksProvider>{children}</AppHooksProvider>
-  </WorkspacesProvider>
+  </UserProvider>
 );
 
 export { AppContextProviders };

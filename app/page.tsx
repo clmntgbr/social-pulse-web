@@ -1,15 +1,15 @@
 "use client";
 
-import useWorkspacesContext from "@/contexts/workspaces/hooks";
+import useUserContext from "@/contexts/users/hooks";
 
 export default function Home() {
-  const { workspaces } = useWorkspacesContext();
+  const { user } = useUserContext();
 
   return (
     <>
-      <div>{JSON.stringify(workspaces.workspaces?.member)}</div>
+      <div>{JSON.stringify(user.workspaces?.member)}</div>
       <p>============================================================</p>
-      <div>{JSON.stringify(workspaces.workspace)}</div>
+      <div>{JSON.stringify(user.workspace)}</div>
     </>
   );
 }

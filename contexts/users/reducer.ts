@@ -1,28 +1,28 @@
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
-import { WorkspacesAction } from "./actions";
-import { WorkspacesActionTypes } from "./types";
+import { UserAction } from "./actions";
+import { UserActionTypes } from "./types";
 
-export type WorkspacesState = {
+export type UserState = {
   error: boolean;
   loading: boolean;
   workspaces: GetWorkspaces | null;
   workspace: GetWorkspace | null;
 };
 
-export const initialWorkspacesState: WorkspacesState = {
+export const initialUserState: UserState = {
   error: false,
   loading: false,
   workspaces: null,
   workspace: null,
 };
 
-export function workspacesReducer(
-  state: WorkspacesState,
-  action: WorkspacesActionTypes
-): WorkspacesState {
+export function userReducer(
+  state: UserState,
+  action: UserActionTypes
+): UserState {
   switch (action.type) {
-    case WorkspacesAction.WORKSPACES_LOADING_START: {
+    case UserAction.USER_LOADING_START: {
       return {
         ...state,
         loading: true,
@@ -30,32 +30,32 @@ export function workspacesReducer(
       };
     }
 
-    case WorkspacesAction.WORKSPACES_LOADING_END: {
+    case UserAction.USER_LOADING_END: {
       return {
         ...state,
         loading: false,
       };
     }
 
-    case WorkspacesAction.GET_WORKSPACES_SUCCESS: {
+    case UserAction.GET_WORKSPACES_SUCCESS: {
       return {
         ...state,
         workspaces: action.payload,
       };
     }
 
-    case WorkspacesAction.GET_WORKSPACE_SUCCESS: {
+    case UserAction.GET_WORKSPACE_SUCCESS: {
       return {
         ...state,
         workspace: action.payload,
       };
     }
-    case WorkspacesAction.GET_WORKSPACES_NOT_FOUND:
-    case WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR:
-    case WorkspacesAction.GET_WORKSPACES_ERROR:
-    case WorkspacesAction.GET_WORKSPACE_NOT_FOUND:
-    case WorkspacesAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR:
-    case WorkspacesAction.GET_WORKSPACE_ERROR: {
+    case UserAction.GET_WORKSPACES_NOT_FOUND:
+    case UserAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR:
+    case UserAction.GET_WORKSPACES_ERROR:
+    case UserAction.GET_WORKSPACE_NOT_FOUND:
+    case UserAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR:
+    case UserAction.GET_WORKSPACE_ERROR: {
       return {
         ...state,
         error: true,

@@ -5,46 +5,46 @@ import {
   SetHttpInternalServerErrorAction,
   SetNotFoundErrorAction,
 } from "../ActionErrorTypes";
-import { WorkspacesAction } from "./actions";
+import { UserAction } from "./actions";
 
 export type SetWorkspacesLoadingStartAction = {
-  type: WorkspacesAction.WORKSPACES_LOADING_START;
+  type: UserAction.USER_LOADING_START;
 };
 export type SetWorkspacesLoadingEndAction = {
-  type: WorkspacesAction.WORKSPACES_LOADING_END;
+  type: UserAction.USER_LOADING_END;
 };
 
 export type GetWorkspacesSuccessAction = {
-  type: WorkspacesAction.GET_WORKSPACES_SUCCESS;
+  type: UserAction.GET_WORKSPACES_SUCCESS;
   payload: GetWorkspaces;
 };
 
 export type GetWorkspacesNotFoundAction =
-  SetNotFoundErrorAction<WorkspacesAction.GET_WORKSPACES_NOT_FOUND>;
+  SetNotFoundErrorAction<UserAction.GET_WORKSPACES_NOT_FOUND>;
 
 export type GetWorkspacesHttpInternalErrorAction =
-  SetHttpInternalServerErrorAction<WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR>;
+  SetHttpInternalServerErrorAction<UserAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR>;
 
 export type GetWorkspacesErrorAction =
-  SetErrorAction<WorkspacesAction.GET_WORKSPACES_ERROR>;
+  SetErrorAction<UserAction.GET_WORKSPACES_ERROR>;
 
 ///
 
 export type GetWorkspaceSuccessAction = {
-  type: WorkspacesAction.GET_WORKSPACE_SUCCESS;
+  type: UserAction.GET_WORKSPACE_SUCCESS;
   payload: GetWorkspace;
 };
 
 export type GetWorkspaceNotFoundAction =
-  SetNotFoundErrorAction<WorkspacesAction.GET_WORKSPACE_NOT_FOUND>;
+  SetNotFoundErrorAction<UserAction.GET_WORKSPACE_NOT_FOUND>;
 
 export type GetWorkspaceHttpInternalErrorAction =
-  SetHttpInternalServerErrorAction<WorkspacesAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR>;
+  SetHttpInternalServerErrorAction<UserAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR>;
 
 export type GetWorkspaceErrorAction =
-  SetErrorAction<WorkspacesAction.GET_WORKSPACE_ERROR>;
+  SetErrorAction<UserAction.GET_WORKSPACE_ERROR>;
 
-export type WorkspacesActionTypes =
+export type UserActionTypes =
   | SetWorkspacesLoadingStartAction
   | SetWorkspacesLoadingEndAction
   | GetWorkspacesSuccessAction
