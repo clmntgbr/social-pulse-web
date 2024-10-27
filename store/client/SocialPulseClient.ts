@@ -1,8 +1,9 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
+import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
-import { SOCIAL_ACCOUNTS, WORKSPACES } from "./RoutesEnum";
+import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
   private httpClient: AxiosInstance;
@@ -37,6 +38,14 @@ export default class SocialPulseClient {
   public async getSocialAccounts(): Promise<AxiosResponse<GetSocialAccounts> | null> {
     try {
       return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_SOCIAL_ACCOUNTS);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getUser(): Promise<AxiosResponse<GetUser> | null> {
+    try {
+      return await this.httpClient.get(USERS.GET_USER);
     } catch {
       return null;
     }

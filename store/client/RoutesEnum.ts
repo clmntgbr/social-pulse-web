@@ -9,3 +9,7 @@ export enum WORKSPACES {
   GET_WORKSPACES = "/workspaces",
   GET_WORKSPACE = "/workspace",
 }
+
+export enum USERS {
+  GET_USER = "/me",
+}

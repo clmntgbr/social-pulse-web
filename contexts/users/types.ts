@@ -1,4 +1,5 @@
 import { GetSocialAccounts } from "@/store/client/interface/GetSocialAccounts";
+import { GetUser } from "@/store/client/interface/GetUser";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
 import {
@@ -7,6 +8,8 @@ import {
   SetNotFoundErrorAction,
 } from "../ActionErrorTypes";
 import { UserAction } from "./actions";
+
+// Get Workspaces
 
 export type SetWorkspacesLoadingStartAction = {
   type: UserAction.USER_LOADING_START;
@@ -29,7 +32,7 @@ export type GetWorkspacesHttpInternalErrorAction =
 export type GetWorkspacesErrorAction =
   SetErrorAction<UserAction.GET_WORKSPACES_ERROR>;
 
-///
+/// Get Workspace
 
 export type GetWorkspaceSuccessAction = {
   type: UserAction.GET_WORKSPACE_SUCCESS;
@@ -45,7 +48,7 @@ export type GetWorkspaceHttpInternalErrorAction =
 export type GetWorkspaceErrorAction =
   SetErrorAction<UserAction.GET_WORKSPACE_ERROR>;
 
-///
+/// Get Social Accounts
 
 export type GetSocialAccountsSuccessAction = {
   type: UserAction.GET_SOCIAL_ACCOUNTS_SUCCESS;
@@ -61,6 +64,21 @@ export type GetSocialAccountsHttpInternalErrorAction =
 export type GetSocialAccountsErrorAction =
   SetErrorAction<UserAction.GET_SOCIAL_ACCOUNTS_ERROR>;
 
+/// Get User
+
+export type GetUserSuccessAction = {
+  type: UserAction.GET_USER_SUCCESS;
+  payload: GetUser;
+};
+
+export type GetUserNotFoundAction =
+  SetNotFoundErrorAction<UserAction.GET_USER_NOT_FOUND>;
+
+export type GetUserHttpInternalErrorAction =
+  SetHttpInternalServerErrorAction<UserAction.GET_USER_HTTP_INTERNAL_ERROR>;
+
+export type GetUserErrorAction = SetErrorAction<UserAction.GET_USER_ERROR>;
+
 export type UserActionTypes =
   | SetWorkspacesLoadingStartAction
   | SetWorkspacesLoadingEndAction
@@ -75,4 +93,8 @@ export type UserActionTypes =
   | GetSocialAccountsSuccessAction
   | GetSocialAccountsNotFoundAction
   | GetSocialAccountsHttpInternalErrorAction
-  | GetSocialAccountsErrorAction;
+  | GetSocialAccountsErrorAction
+  | GetUserSuccessAction
+  | GetUserNotFoundAction
+  | GetUserHttpInternalErrorAction
+  | GetUserErrorAction;

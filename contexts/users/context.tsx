@@ -1,6 +1,7 @@
 "use client";
 
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
+import { getUser } from "@/store/users/getUser";
 import { getWorkspace } from "@/store/workspaces/getWorkspace";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { useAuth } from "@clerk/nextjs";
@@ -26,10 +27,15 @@ export const UserContext = createContext<UserContextType | undefined>(
 export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, userDispatch] = useReducer(userReducer, initialUserState);
 
-  if (process.env.NODE_ENV === "development") {
-    (window as { userDispatch?: Dispatch<UserActionTypes> }).userDispatch =
-      userDispatch;
-  }
+  useEffect(() => {
+    if (
+      process.env.NODE_ENV === "development" &&
+      typeof window !== "undefined"
+    ) {
+      (window as { userDispatch?: Dispatch<UserActionTypes> }).userDispatch =
+        userDispatch;
+    }
+  }, [userDispatch]);
 
   const { getToken } = useAuth();
 
@@ -40,14 +46,16 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
       getWorkspaces(`${token}`, userDispatch);
       getWorkspace(`${token}`, userDispatch);
       getSocialAccounts(`${token}`, userDispatch);
+      getUser(`${token}`, userDispatch);
 
-      const timer = setInterval(() => {
-        getWorkspaces(`${token}`, userDispatch);
-        getWorkspace(`${token}`, userDispatch);
-        getSocialAccounts(`${token}`, userDispatch);
-      }, 10000);
+      // const timer = setInterval(() => {
+      //   getWorkspaces(`${token}`, userDispatch);
+      //   getWorkspace(`${token}`, userDispatch);
+      //   getSocialAccounts(`${token}`, userDispatch);
+      //   getUser(`${token}`, userDispatch);
+      // }, 10000);
 
-      return () => clearTimeout(timer);
+      // return () => clearTimeout(timer);
     };
 
     fetchUser();
