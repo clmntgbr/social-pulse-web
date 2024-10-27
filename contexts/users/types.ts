@@ -1,3 +1,4 @@
+import { GetSocialAccounts } from "@/store/client/interface/GetSocialAccounts";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
 import {
@@ -44,6 +45,22 @@ export type GetWorkspaceHttpInternalErrorAction =
 export type GetWorkspaceErrorAction =
   SetErrorAction<UserAction.GET_WORKSPACE_ERROR>;
 
+///
+
+export type GetSocialAccountsSuccessAction = {
+  type: UserAction.GET_SOCIAL_ACCOUNTS_SUCCESS;
+  payload: GetSocialAccounts;
+};
+
+export type GetSocialAccountsNotFoundAction =
+  SetNotFoundErrorAction<UserAction.GET_SOCIAL_ACCOUNTS_NOT_FOUND>;
+
+export type GetSocialAccountsHttpInternalErrorAction =
+  SetHttpInternalServerErrorAction<UserAction.GET_SOCIAL_ACCOUNTS_HTTP_INTERNAL_ERROR>;
+
+export type GetSocialAccountsErrorAction =
+  SetErrorAction<UserAction.GET_SOCIAL_ACCOUNTS_ERROR>;
+
 export type UserActionTypes =
   | SetWorkspacesLoadingStartAction
   | SetWorkspacesLoadingEndAction
@@ -54,4 +71,8 @@ export type UserActionTypes =
   | GetWorkspaceSuccessAction
   | GetWorkspaceNotFoundAction
   | GetWorkspaceHttpInternalErrorAction
-  | GetWorkspaceErrorAction;
+  | GetWorkspaceErrorAction
+  | GetSocialAccountsSuccessAction
+  | GetSocialAccountsNotFoundAction
+  | GetSocialAccountsHttpInternalErrorAction
+  | GetSocialAccountsErrorAction;

@@ -1,3 +1,4 @@
+import { GetSocialAccounts } from "@/store/client/interface/GetSocialAccounts";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
 import { UserAction } from "./actions";
@@ -8,6 +9,7 @@ export type UserState = {
   loading: boolean;
   workspaces: GetWorkspaces | null;
   workspace: GetWorkspace | null;
+  socialAccounts: GetSocialAccounts | null;
 };
 
 export const initialUserState: UserState = {
@@ -15,6 +17,7 @@ export const initialUserState: UserState = {
   loading: false,
   workspaces: null,
   workspace: null,
+  socialAccounts: null,
 };
 
 export function userReducer(
@@ -44,15 +47,28 @@ export function userReducer(
       };
     }
 
+    case UserAction.GET_SOCIAL_ACCOUNTS_SUCCESS: {
+      return {
+        ...state,
+        socialAccounts: action.payload,
+      };
+    }
+
     case UserAction.GET_WORKSPACE_SUCCESS: {
       return {
         ...state,
         workspace: action.payload,
       };
     }
+
+    case UserAction.GET_SOCIAL_ACCOUNTS_NOT_FOUND:
+    case UserAction.GET_SOCIAL_ACCOUNTS_HTTP_INTERNAL_ERROR:
+    case UserAction.GET_SOCIAL_ACCOUNTS_ERROR:
+
     case UserAction.GET_WORKSPACES_NOT_FOUND:
     case UserAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR:
     case UserAction.GET_WORKSPACES_ERROR:
+
     case UserAction.GET_WORKSPACE_NOT_FOUND:
     case UserAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR:
     case UserAction.GET_WORKSPACE_ERROR: {
@@ -61,6 +77,7 @@ export function userReducer(
         error: true,
         workspaces: null,
         workspace: null,
+        socialAccounts: null,
       };
     }
 

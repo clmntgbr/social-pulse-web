@@ -1,13 +1,15 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
+import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetWorkspace } from "./interface/GetWorkspace";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
+import { SOCIAL_ACCOUNTS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
   private httpClient: AxiosInstance;
 
   constructor(token: string) {
     this.httpClient = axios.create({
-      baseURL: "http://localhost:9000",
+      baseURL: "http://localhost:9000/api",
       timeout: 1000,
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +20,7 @@ export default class SocialPulseClient {
 
   public async getWorkspaces(): Promise<AxiosResponse<GetWorkspaces> | null> {
     try {
-      return await this.httpClient.get("/api/workspaces");
+      return await this.httpClient.get(WORKSPACES.GET_WORKSPACES);
     } catch {
       return null;
     }
@@ -26,7 +28,15 @@ export default class SocialPulseClient {
 
   public async getWorkspace(): Promise<AxiosResponse<GetWorkspace> | null> {
     try {
-      return await this.httpClient.get("/api/workspace");
+      return await this.httpClient.get(WORKSPACES.GET_WORKSPACE);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getSocialAccounts(): Promise<AxiosResponse<GetSocialAccounts> | null> {
+    try {
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_SOCIAL_ACCOUNTS);
     } catch {
       return null;
     }
