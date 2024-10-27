@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,10 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useUserContext from "@/contexts/users/hooks";
 import Image from "next/image";
 
-export async function User() {
-  // const { user } = useUserContext();
+export function User() {
+  const { user } = useUserContext();
 
   return (
     <DropdownMenu>
@@ -21,11 +24,11 @@ export async function User() {
           className="overflow-hidden rounded-full"
         >
           <Image
-            src={"/placeholder-user.jpg"}
+            src={user.me?.avatarUrl ?? "/placeholder-user.jpg"}
             width={36}
             height={36}
             alt="Avatar"
-            className="overflow-hidden rounded-full"
+            className="overflow-hidden rounded-full h-full w-full object-cover"
           />
         </Button>
       </DropdownMenuTrigger>

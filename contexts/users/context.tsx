@@ -1,9 +1,6 @@
 "use client";
 
-import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { getUser } from "@/store/users/getUser";
-import { getWorkspace } from "@/store/workspaces/getWorkspace";
-import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { useAuth } from "@clerk/nextjs";
 import React, {
   createContext,
@@ -44,15 +41,9 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const token = await getToken();
 
       await getUser(`${token}`, userDispatch);
-      await getWorkspaces(`${token}`, userDispatch);
-      await getWorkspace(`${token}`, userDispatch);
-      await getSocialAccounts(`${token}`, userDispatch);
 
       const timer = setInterval(async () => {
         await getUser(`${token}`, userDispatch);
-        await getWorkspaces(`${token}`, userDispatch);
-        await getWorkspace(`${token}`, userDispatch);
-        await getSocialAccounts(`${token}`, userDispatch);
       }, 10000);
 
       return () => clearTimeout(timer);

@@ -1,5 +1,5 @@
-import { UserAction } from "@/contexts/users/actions";
-import { UserActionTypes } from "@/contexts/users/types";
+import { WorkspacesAction } from "@/contexts/workspaces/actions";
+import { WorkspacesActionTypes } from "@/contexts/workspaces/types";
 import { Dispatch } from "react";
 import { GetWorkspaces } from "../client/interface/GetWorkspaces";
 import SocialPulseClient from "../client/SocialPulseClient";
@@ -8,17 +8,17 @@ import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
 export async function getWorkspaces(
   token: string,
-  dispatch: Dispatch<UserActionTypes>
+  dispatch: Dispatch<WorkspacesActionTypes>
 ): Promise<void> {
   try {
-    dispatch({ type: UserAction.USER_LOADING_START });
+    dispatch({ type: WorkspacesAction.WORKSPACES_LOADING_START });
 
     const client = new SocialPulseClient(token);
     const response = await client.getWorkspaces();
 
     if (response === null) {
       dispatch({
-        type: UserAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR,
+        type: WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR,
         payload: new HttpInternalServerError("Get plans failed"),
       });
       return;
@@ -27,21 +27,21 @@ export async function getWorkspaces(
     switch (response.status) {
       case HTTP_STATUS.OK:
         dispatch({
-          type: UserAction.GET_WORKSPACES_SUCCESS,
+          type: WorkspacesAction.GET_WORKSPACES_SUCCESS,
           payload: response.data as GetWorkspaces,
         });
         break;
 
       case HTTP_STATUS.NOT_FOUND:
         dispatch({
-          type: UserAction.GET_WORKSPACES_NOT_FOUND,
+          type: WorkspacesAction.GET_WORKSPACES_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
         break;
 
       default:
         dispatch({
-          type: UserAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR,
+          type: WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(
             `Unexpected status: ${response.status}`
           ),
@@ -49,10 +49,10 @@ export async function getWorkspaces(
     }
   } catch (error) {
     dispatch({
-      type: UserAction.GET_WORKSPACES_ERROR,
+      type: WorkspacesAction.GET_WORKSPACES_ERROR,
       payload: error instanceof Error ? error : new Error("Get plans failed"),
     });
   } finally {
-    dispatch({ type: UserAction.USER_LOADING_END });
+    dispatch({ type: WorkspacesAction.WORKSPACES_LOADING_END });
   }
 }

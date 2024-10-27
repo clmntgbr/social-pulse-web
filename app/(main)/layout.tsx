@@ -25,10 +25,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { NavItem } from "./nav-item";
+import { NavItem } from "./(navigation)/nav-item";
 import Providers from "./providers";
-import { SearchInput } from "./search";
-import { User } from "./user";
+import { SearchInput } from "./(navigation)/search";
+import { User } from "./(navigation)/user";
 import { VercelLogo } from "@/components/ui/icons";
 
 export default function DashboardLayout({
