@@ -1,11 +1,9 @@
 "use client";
 
 import useUserContext from "@/contexts/users/hooks";
-import { useAuth } from "@clerk/nextjs";
 
 export default function Home() {
-  const { user, userDispatch } = useUserContext();
-  const { getToken } = useAuth();
+  const { user } = useUserContext();
 
   return (
     <>

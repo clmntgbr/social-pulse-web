@@ -43,19 +43,19 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const fetchUser = async () => {
       const token = await getToken();
 
-      getWorkspaces(`${token}`, userDispatch);
-      getWorkspace(`${token}`, userDispatch);
-      getSocialAccounts(`${token}`, userDispatch);
-      getUser(`${token}`, userDispatch);
+      await getUser(`${token}`, userDispatch);
+      await getWorkspaces(`${token}`, userDispatch);
+      await getWorkspace(`${token}`, userDispatch);
+      await getSocialAccounts(`${token}`, userDispatch);
 
-      // const timer = setInterval(() => {
-      //   getWorkspaces(`${token}`, userDispatch);
-      //   getWorkspace(`${token}`, userDispatch);
-      //   getSocialAccounts(`${token}`, userDispatch);
-      //   getUser(`${token}`, userDispatch);
-      // }, 10000);
+      const timer = setInterval(async () => {
+        await getUser(`${token}`, userDispatch);
+        await getWorkspaces(`${token}`, userDispatch);
+        await getWorkspace(`${token}`, userDispatch);
+        await getSocialAccounts(`${token}`, userDispatch);
+      }, 10000);
 
-      // return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
     };
 
     fetchUser();
