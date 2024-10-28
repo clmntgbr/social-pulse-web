@@ -1,10 +1,10 @@
-import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
-import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import { VercelLogo } from "@/components/ui/icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
+import Link from "next/link";
+import { Menu } from "./(navigation)/menu";
 import { NavItem } from "./(navigation)/nav-item";
 import SocialAccounts from "./(navigation)/social-accounts";
 import { User } from "./(navigation)/user";
@@ -18,6 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <DesktopNav />
         <div className="flex flex-col sm:pl-14">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 py-4 sm:static sm:h-auto">
+            <MobileNav />
             <div className="gap-4 hidden md:flex">
               <WorkspacesSwitcher />
               <SocialAccounts />
@@ -25,7 +26,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-50">
               <div className="flex-2 flex items-center justify-center">
-                <p>menu</p>
+                <Menu />
               </div>
             </div>
 
