@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/library/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { AppContextProviders } from "@/contexts";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -20,7 +21,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${GeistSans.className} ${GeistMono.className} antialiased`}>
-          <AppContextProviders>{children}</AppContextProviders>
+          <AppContextProviders>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              {children}
+            </ThemeProvider>
+          </AppContextProviders>
           <Toaster />
         </body>
       </html>

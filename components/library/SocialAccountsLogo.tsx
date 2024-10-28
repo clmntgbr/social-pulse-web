@@ -16,7 +16,7 @@ export const SocialAccountsLogo: React.FC<SocialAccountsLogoProps> = ({ avatarUr
           <Tooltip>
             <TooltipTrigger>
               <>
-                <Avatar className="h-9 w-9">
+                <Avatar className="h-8 w-8">
                   <AvatarImage src={avatarUrl} />
                   <AvatarFallback>{username}</AvatarFallback>
                 </Avatar>
