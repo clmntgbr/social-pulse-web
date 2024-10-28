@@ -1,42 +1,17 @@
-import {
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  PanelLeft,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from "lucide-react";
+import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
 import Link from "next/link";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { VercelLogo } from "@/components/ui/icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { NavItem } from "./(navigation)/nav-item";
 import { SearchInput } from "./(navigation)/search";
 import { User } from "./(navigation)/user";
 import WorkspacesSwitcher from "./(navigation)/workspaces-switcher";
 import Providers from "./providers";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Providers>
       <main className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -48,9 +23,7 @@ export default function DashboardLayout({
             <SearchInput />
             <User />
           </header>
-          <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">
-            {children}
-          </main>
+          <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">{children}</main>
         </div>
       </main>
     </Providers>
@@ -92,10 +65,7 @@ function DesktopNav() {
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
+            <Link href="#" className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
               <Settings className="h-5 w-5" />
               <span className="sr-only">Settings</span>
             </Link>
@@ -118,74 +88,32 @@ function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-6 text-lg font-medium">
-          <Link
-            href="#"
-            className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-          >
+          <Link href="#" className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base">
             <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
             <span className="sr-only">Vercel</span>
           </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
+          <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
             <Home className="h-5 w-5" />
             Dashboard
           </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
+          <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
             <ShoppingCart className="h-5 w-5" />
             Orders
           </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-foreground"
-          >
+          <Link href="#" className="flex items-center gap-4 px-2.5 text-foreground">
             <Package className="h-5 w-5" />
             Products
           </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
+          <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
             <Users2 className="h-5 w-5" />
             Customers
           </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
+          <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
             <LineChart className="h-5 w-5" />
             Settings
           </Link>
         </nav>
       </SheetContent>
     </Sheet>
-  );
-}
-
-function DashboardBreadcrumb() {
-  return (
-    <Breadcrumb className="hidden md:flex">
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="#">Dashboard</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="#">Products</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>All Products</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
   );
 }

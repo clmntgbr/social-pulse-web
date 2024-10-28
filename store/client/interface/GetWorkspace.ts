@@ -1,3 +1,3 @@
 import { Workspace } from "./workspace";
 
-export interface GetWorkspace extends Workspace {}
+export type GetWorkspace = Workspace;

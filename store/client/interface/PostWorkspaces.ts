@@ -1,3 +1,3 @@
 import { Workspace } from "./workspace";
 
-export interface PostWorkspaces extends Workspace {}
+export type PostWorkspaces = Workspace;
