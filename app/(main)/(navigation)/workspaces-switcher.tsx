@@ -48,11 +48,13 @@ export default function WorkspacesSwitcher() {
   const { workspaces } = useWorkspacesContext();
   const [open, setOpen] = useState(false);
   const [showNewTeamDialog, setShowNewTeamDialog] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState<Workspace | null>(null);
+  const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(
+    null
+  );
 
   useEffect(() => {
-    if (!selectedTeam) {
-      setSelectedTeam(workspaces.workspace);
+    if (!selectedWorkspace) {
+      setSelectedWorkspace(workspaces.workspace);
     }
   });
 
@@ -78,13 +80,13 @@ export default function WorkspacesSwitcher() {
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={`https://avatar.vercel.sh/${selectedTeam?.uuid}.png`}
-                alt={selectedTeam?.label}
+                src={`https://avatar.vercel.sh/${selectedWorkspace?.uuid}.png`}
+                alt={selectedWorkspace?.label}
                 className="grayscale"
               />
-              <AvatarFallback>{selectedTeam?.label}</AvatarFallback>
+              <AvatarFallback>{selectedWorkspace?.label}</AvatarFallback>
             </Avatar>
-            {selectedTeam?.label}
+            {selectedWorkspace?.label}
             <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -96,7 +98,7 @@ export default function WorkspacesSwitcher() {
                 <CommandItem
                   key={workspace.label}
                   onSelect={() => {
-                    setSelectedTeam(workspace);
+                    setSelectedWorkspace(workspace);
                     setOpen(false);
                   }}
                   className="text-sm font-light px-4"
@@ -113,7 +115,7 @@ export default function WorkspacesSwitcher() {
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      selectedTeam?.uuid === workspace.uuid
+                      selectedWorkspace?.uuid === workspace.uuid
                         ? "opacity-100"
                         : "opacity-0"
                     )}
