@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/page.tsx.old"
+    "app/page.tsx.old",
+    "app/(main)/(navigation)/workspaces.tsx.old"
   ],
   "exclude": ["node_modules"]
 }

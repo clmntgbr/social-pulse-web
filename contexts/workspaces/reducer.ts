@@ -61,8 +61,8 @@ export function workspacesReducer(
       return {
         ...state,
         error: true,
-        workspaces: null,
-        workspace: null,
+        workspaces: state.workspaces,
+        workspace: state.workspace,
       };
     }
 

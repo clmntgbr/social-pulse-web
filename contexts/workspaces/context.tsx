@@ -53,13 +53,6 @@ export const WorkspacesProvider: React.FC<PropsWithChildren> = ({
 
       await getWorkspaces(`${token}`, workspacesDispatch);
       await getWorkspace(`${token}`, workspacesDispatch);
-
-      const timer = setInterval(async () => {
-        await getWorkspaces(`${token}`, workspacesDispatch);
-        await getWorkspace(`${token}`, workspacesDispatch);
-      }, 10000);
-
-      return () => clearTimeout(timer);
     };
 
     fetchWorkspaces();

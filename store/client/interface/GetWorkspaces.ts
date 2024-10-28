@@ -1,10 +1,4 @@
-interface Workspace {
-  "@id": string;
-  "@type": string;
-  label: string;
-  logoUrl: string;
-  uuid: string;
-}
+import { Workspace } from "./workspace";
 
 export interface GetWorkspaces {
   "@context": string;

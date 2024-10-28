@@ -1,8 +1,3 @@
-export interface GetWorkspace {
-  "@context": string;
-  "@id": string;
-  "@type": string;
-  label: string;
-  logoUrl: string;
-  uuid: string;
-}
+import { Workspace } from "./workspace";
+
+export interface GetWorkspace extends Workspace {}

@@ -19,6 +19,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { VercelLogo } from "@/components/ui/icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Tooltip,
@@ -26,10 +27,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { NavItem } from "./(navigation)/nav-item";
-import Providers from "./providers";
 import { SearchInput } from "./(navigation)/search";
 import { User } from "./(navigation)/user";
-import { VercelLogo } from "@/components/ui/icons";
+import WorkspacesSwitcher from "./(navigation)/workspaces-switcher";
+import Providers from "./providers";
 
 export default function DashboardLayout({
   children,
@@ -43,6 +44,7 @@ export default function DashboardLayout({
         <div className="flex flex-col sm:pl-14">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 py-4 sm:static sm:h-auto">
             <MobileNav />
+            <WorkspacesSwitcher />
             <SearchInput />
             <User />
           </header>
