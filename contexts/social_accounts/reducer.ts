@@ -14,10 +14,7 @@ export const initialSocialAccountsState: SocialAccountsState = {
   socialAccounts: null,
 };
 
-export function socialAccountsReducer(
-  state: SocialAccountsState,
-  action: SocialAccountsActionTypes
-): SocialAccountsState {
+export function socialAccountsReducer(state: SocialAccountsState, action: SocialAccountsActionTypes): SocialAccountsState {
   switch (action.type) {
     case SocialAccountsAction.SOCIAL_ACCOUNTS_LOADING_START: {
       return {

@@ -7,7 +7,7 @@ import { SocialAccount } from "@/store/client/interface/social-account";
 export default function SocialAccounts() {
   const { socialAccounts } = useSocialAccountsContext();
 
-  if (!socialAccounts || !socialAccounts.socialAccounts || !socialAccounts.socialAccounts.member?.length) {
+  if (!socialAccounts || !socialAccounts.socialAccounts || socialAccounts.loading || !socialAccounts.socialAccounts.member?.length) {
     return null;
   }
 

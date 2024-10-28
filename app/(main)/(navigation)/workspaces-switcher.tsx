@@ -140,7 +140,7 @@ export default function WorkspacesSwitcher() {
               <CommandGroup>
                 <DialogTrigger asChild>
                   <CommandItem
-                    className="text-sm font-semibold text-slate-400 px-4"
+                    className="text-sm font-semibold text-slate-500 px-4"
                     onSelect={() => {
                       setOpen(false);
                       setShowNewWorkspaceDialog(true);
@@ -165,7 +165,7 @@ export default function WorkspacesSwitcher() {
             <div className="space-y-4 py-2 pb-4">
               <div className="space-y-2">
                 <Label htmlFor="name" className={`${formik.touched.name && formik.errors.name ? "text-red-800" : ""}`}>
-                  Workspace name *
+                  Workspace name*
                 </Label>
                 <Input
                   className={`${formik.touched.name && formik.errors.name ? "border-red-500" : ""}`}

@@ -18,10 +18,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <DesktopNav />
         <div className="flex flex-col sm:pl-14">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 py-4 sm:static sm:h-auto">
-            <MobileNav />
-            <WorkspacesSwitcher />
-            <SocialAccounts />
-            <User />
+            <div className="gap-4 hidden md:flex">
+              <WorkspacesSwitcher />
+              <SocialAccounts />
+            </div>
+
+            <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-50">
+              <div className="flex-2 flex items-center justify-center">
+                <p>menu</p>
+              </div>
+            </div>
+
+            <div className="hidden lg:flex items-center space-x-2 ml-auto z-50">
+              <User />
+            </div>
           </header>
           <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">{children}</main>
         </div>
