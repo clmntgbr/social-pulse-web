@@ -57,7 +57,11 @@ export function workspacesReducer(
 
     case WorkspacesAction.GET_WORKSPACE_NOT_FOUND:
     case WorkspacesAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR:
-    case WorkspacesAction.GET_WORKSPACE_ERROR: {
+    case WorkspacesAction.GET_WORKSPACE_ERROR:
+
+    case WorkspacesAction.POST_WORKSPACES_NOT_FOUND:
+    case WorkspacesAction.POST_WORKSPACES_HTTP_INTERNAL_ERROR:
+    case WorkspacesAction.POST_WORKSPACES_ERROR: {
       return {
         ...state,
         error: true,

@@ -3,6 +3,8 @@ import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
+import { PostWorkspaces } from "./interface/PostWorkspaces";
+import { PostWorkspacesBody } from "./interface/PostWorkspacesBody";
 import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
@@ -22,6 +24,19 @@ export default class SocialPulseClient {
   public async getWorkspaces(): Promise<AxiosResponse<GetWorkspaces> | null> {
     try {
       return await this.httpClient.get(WORKSPACES.GET_WORKSPACES);
+    } catch {
+      return null;
+    }
+  }
+
+  public async postWorkspaces(
+    requestBody: PostWorkspacesBody
+  ): Promise<AxiosResponse<PostWorkspaces> | null> {
+    try {
+      return await this.httpClient.post(
+        WORKSPACES.POST_WORKSPACES,
+        requestBody
+      );
     } catch {
       return null;
     }

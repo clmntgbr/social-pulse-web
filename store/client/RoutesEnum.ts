@@ -7,6 +7,7 @@ export enum SOCIAL_ACCOUNTS {
 
 export enum WORKSPACES {
   GET_WORKSPACES = "/workspaces",
+  POST_WORKSPACES = "/workspaces",
   GET_WORKSPACE = "/workspace",
 }
 

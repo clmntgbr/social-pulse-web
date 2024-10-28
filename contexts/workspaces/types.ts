@@ -1,5 +1,6 @@
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
+import { PostWorkspaces } from "@/store/client/interface/PostWorkspaces";
 import {
   SetErrorAction,
   SetHttpInternalServerErrorAction,
@@ -46,6 +47,22 @@ export type GetWorkspaceHttpInternalErrorAction =
 export type GetWorkspaceErrorAction =
   SetErrorAction<WorkspacesAction.GET_WORKSPACE_ERROR>;
 
+/// Post Workspaces
+
+export type PostWorkspacesSuccessAction = {
+  type: WorkspacesAction.POST_WORKSPACES_SUCCESS;
+  payload: PostWorkspaces;
+};
+
+export type PostWorkspacesNotFoundAction =
+  SetNotFoundErrorAction<WorkspacesAction.POST_WORKSPACES_NOT_FOUND>;
+
+export type PostWorkspacesHttpInternalErrorAction =
+  SetHttpInternalServerErrorAction<WorkspacesAction.POST_WORKSPACES_HTTP_INTERNAL_ERROR>;
+
+export type PostWorkspacesErrorAction =
+  SetErrorAction<WorkspacesAction.POST_WORKSPACES_ERROR>;
+
 export type WorkspacesActionTypes =
   | SetWorkspacesLoadingStartAction
   | SetWorkspacesLoadingEndAction
@@ -56,4 +73,8 @@ export type WorkspacesActionTypes =
   | GetWorkspaceSuccessAction
   | GetWorkspaceNotFoundAction
   | GetWorkspaceHttpInternalErrorAction
-  | GetWorkspaceErrorAction;
+  | GetWorkspaceErrorAction
+  | PostWorkspacesSuccessAction
+  | PostWorkspacesNotFoundAction
+  | PostWorkspacesHttpInternalErrorAction
+  | PostWorkspacesErrorAction;
