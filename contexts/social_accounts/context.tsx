@@ -2,18 +2,8 @@
 
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { useAuth } from "@clerk/nextjs";
-import React, {
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  useEffect,
-  useReducer,
-} from "react";
-import {
-  initialSocialAccountsState,
-  socialAccountsReducer,
-  SocialAccountsState,
-} from "./reducer";
+import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
+import { initialSocialAccountsState, socialAccountsReducer, SocialAccountsState } from "./reducer";
 import { SocialAccountsActionTypes } from "./types";
 
 export type SocialAccountsContextType = {
@@ -21,23 +11,13 @@ export type SocialAccountsContextType = {
   socialAccountsDispatch: Dispatch<SocialAccountsActionTypes>;
 };
 
-export const SocialAccountsContext = createContext<
-  SocialAccountsContextType | undefined
->(undefined);
+export const SocialAccountsContext = createContext<SocialAccountsContextType | undefined>(undefined);
 
-export const SocialAccountsProvider: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
-  const [socialAccounts, socialAccountsDispatch] = useReducer(
-    socialAccountsReducer,
-    initialSocialAccountsState
-  );
+export const SocialAccountsProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [socialAccounts, socialAccountsDispatch] = useReducer(socialAccountsReducer, initialSocialAccountsState);
 
   useEffect(() => {
-    if (
-      process.env.NODE_ENV === "development" &&
-      typeof window !== "undefined"
-    ) {
+    if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
       (
         window as {
           socialAccountsDispatch?: Dispatch<SocialAccountsActionTypes>;
@@ -51,24 +31,11 @@ export const SocialAccountsProvider: React.FC<PropsWithChildren> = ({
   useEffect(() => {
     const fetchSocialAccounts = async () => {
       const token = await getToken();
-
       await getSocialAccounts(`${token}`, socialAccountsDispatch);
-
-      const timer = setInterval(async () => {
-        await getSocialAccounts(`${token}`, socialAccountsDispatch);
-      }, 10000);
-
-      return () => clearTimeout(timer);
     };
 
     fetchSocialAccounts();
   }, [getToken]);
 
-  return (
-    <SocialAccountsContext.Provider
-      value={{ socialAccounts, socialAccountsDispatch }}
-    >
-      {children}
-    </SocialAccountsContext.Provider>
-  );
+  return <SocialAccountsContext.Provider value={{ socialAccounts, socialAccountsDispatch }}>{children}</SocialAccountsContext.Provider>;
 };

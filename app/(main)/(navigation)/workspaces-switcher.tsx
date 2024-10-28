@@ -1,7 +1,5 @@
 "use client";
 
-import { CaretSortIcon, CheckIcon, PlusCircledIcon, ReloadIcon } from "@radix-ui/react-icons";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
@@ -10,21 +8,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ToastAction } from "@/components/ui/toast";
+import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useUserContext from "@/contexts/users/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Workspace } from "@/store/client/interface/workspace";
+import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { patchUserWorkspace } from "@/store/users/patchUserWorkspace";
 import { postWorkspaces } from "@/store/workspaces/postWorkspaces";
 import { useAuth } from "@clerk/nextjs";
+import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
+import { DiamondPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
 export default function WorkspacesSwitcher() {
   const { workspaces, workspacesDispatch } = useWorkspacesContext();
   const { userDispatch } = useUserContext();
+  const { socialAccountsDispatch } = useSocialAccountsContext();
   const { getToken } = useAuth();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,14 +74,18 @@ export default function WorkspacesSwitcher() {
     setSelectedWorkspace(workspace);
 
     const token = await getToken();
-    patchUserWorkspace(`${token}`, { workspaceUuid: workspace.uuid }, userDispatch).catch(() => {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
+    patchUserWorkspace(`${token}`, { workspaceUuid: workspace.uuid }, userDispatch)
+      .then(() => {
+        getSocialAccounts(`${token}`, socialAccountsDispatch);
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
       });
-    });
   };
 
   useEffect(() => {
@@ -108,35 +115,38 @@ export default function WorkspacesSwitcher() {
           <Command>
             <CommandList>
               <CommandEmpty>No workspace found.</CommandEmpty>
-              {workspaces.workspaces?.member.map((workspace: Workspace) => (
-                <CommandItem
-                  value={workspace.uuid}
-                  key={workspace.uuid}
-                  onSelect={() => {
-                    onPatchUserWorkspace(workspace);
-                  }}
-                  className="text-sm font-light px-4"
-                >
-                  <Avatar className="mr-2 h-5 w-5">
-                    <AvatarImage src={`https://avatar.vercel.sh/${workspace.uuid}.png`} alt={workspace.label} />
-                    <AvatarFallback>{workspace.label}</AvatarFallback>
-                  </Avatar>
-                  {workspace.label}
-                  <CheckIcon className={cn("ml-auto h-4 w-4", selectedWorkspace?.uuid === workspace.uuid ? "opacity-100" : "opacity-0")} />
-                </CommandItem>
-              ))}
+              <CommandGroup heading="Workspaces">
+                {workspaces.workspaces?.member.map((workspace: Workspace) => (
+                  <CommandItem
+                    value={workspace.uuid}
+                    key={workspace.uuid}
+                    onSelect={() => {
+                      onPatchUserWorkspace(workspace);
+                    }}
+                    className="text-sm font-light px-4"
+                  >
+                    <Avatar className="mr-2 h-5 w-5">
+                      <AvatarImage src={`https://avatar.vercel.sh/${workspace.uuid}.png`} alt={workspace.label} />
+                      <AvatarFallback>{workspace.label}</AvatarFallback>
+                    </Avatar>
+                    {workspace.label}
+                    <CheckIcon className={cn("ml-auto h-4 w-4", selectedWorkspace?.uuid === workspace.uuid ? "opacity-100" : "opacity-0")} />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
             </CommandList>
             <CommandSeparator />
             <CommandList>
               <CommandGroup>
                 <DialogTrigger asChild>
                   <CommandItem
+                    className="text-sm font-semibold text-slate-400 px-4"
                     onSelect={() => {
                       setOpen(false);
                       setShowNewWorkspaceDialog(true);
                     }}
                   >
-                    <PlusCircledIcon className="mr-2 h-5 w-5" />
+                    <DiamondPlus className="h-8 w-8" />
                     Create a workspace
                   </CommandItem>
                 </DialogTrigger>
