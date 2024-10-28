@@ -1,56 +1,56 @@
-import { WorkspacesAction } from "@/contexts/workspaces/actions";
-import { WorkspacesActionTypes } from "@/contexts/workspaces/types";
+import { UserAction } from "@/contexts/users/actions";
+import { UserActionTypes } from "@/contexts/users/types";
 import { Dispatch } from "react";
-import { PostWorkspaces } from "../client/interface/body/PostWorkspaces";
-import { GetWorkspaces } from "../client/interface/GetWorkspaces";
+import { PatchUserWorkspace } from "../client/interface/body/PatchUserWorkspace";
+import { GetWorkspace } from "../client/interface/GetWorkspace";
 import SocialPulseClient from "../client/SocialPulseClient";
 import { HTTP_STATUS } from "../enums/HTTP_STATUS";
 import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
-export async function postWorkspaces(token: string, body: PostWorkspaces, dispatch: Dispatch<WorkspacesActionTypes>): Promise<boolean> {
+export async function patchUserWorkspace(token: string, body: PatchUserWorkspace, dispatch: Dispatch<UserActionTypes>): Promise<boolean> {
   try {
-    dispatch({ type: WorkspacesAction.WORKSPACES_LOADING_START });
+    dispatch({ type: UserAction.USER_LOADING_START });
 
     const client = new SocialPulseClient(token);
-    const response = await client.postWorkspaces(body);
+    const response = await client.patchUserWorkspace(body);
 
     if (response === null) {
       dispatch({
-        type: WorkspacesAction.POST_WORKSPACES_HTTP_INTERNAL_ERROR,
+        type: UserAction.PATCH_USER_WORKSPACE_HTTP_INTERNAL_ERROR,
         payload: new HttpInternalServerError("Get plans failed"),
       });
       return Promise.reject(false);
     }
 
     switch (response.status) {
-      case HTTP_STATUS.CREATED:
+      case HTTP_STATUS.OK:
         dispatch({
-          type: WorkspacesAction.POST_WORKSPACES_SUCCESS,
-          payload: response.data as GetWorkspaces,
+          type: UserAction.PATCH_USER_WORKSPACE_SUCCESS,
+          payload: response.data as GetWorkspace,
         });
         return Promise.resolve(true);
 
       case HTTP_STATUS.NOT_FOUND:
         dispatch({
-          type: WorkspacesAction.POST_WORKSPACES_NOT_FOUND,
+          type: UserAction.PATCH_USER_WORKSPACE_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
         return Promise.reject(false);
 
       default:
         dispatch({
-          type: WorkspacesAction.POST_WORKSPACES_HTTP_INTERNAL_ERROR,
+          type: UserAction.PATCH_USER_WORKSPACE_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
         return Promise.reject(false);
     }
   } catch (error) {
     dispatch({
-      type: WorkspacesAction.POST_WORKSPACES_ERROR,
+      type: UserAction.PATCH_USER_WORKSPACE_ERROR,
       payload: error instanceof Error ? error : new Error("Get plans failed"),
     });
     return Promise.reject(false);
   } finally {
-    dispatch({ type: WorkspacesAction.WORKSPACES_LOADING_END });
+    dispatch({ type: UserAction.USER_LOADING_END });
   }
 }

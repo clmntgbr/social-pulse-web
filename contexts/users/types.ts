@@ -1,12 +1,7 @@
 import { GetUser } from "@/store/client/interface/GetUser";
-import {
-  SetErrorAction,
-  SetHttpInternalServerErrorAction,
-  SetNotFoundErrorAction,
-} from "../ActionErrorTypes";
+import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
+import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
 import { UserAction } from "./actions";
-
-// Get Workspaces
 
 export type SetWorkspacesLoadingStartAction = {
   type: UserAction.USER_LOADING_START;
@@ -22,13 +17,24 @@ export type GetUserSuccessAction = {
   payload: GetUser;
 };
 
-export type GetUserNotFoundAction =
-  SetNotFoundErrorAction<UserAction.GET_USER_NOT_FOUND>;
+export type GetUserNotFoundAction = SetNotFoundErrorAction<UserAction.GET_USER_NOT_FOUND>;
 
-export type GetUserHttpInternalErrorAction =
-  SetHttpInternalServerErrorAction<UserAction.GET_USER_HTTP_INTERNAL_ERROR>;
+export type GetUserHttpInternalErrorAction = SetHttpInternalServerErrorAction<UserAction.GET_USER_HTTP_INTERNAL_ERROR>;
 
 export type GetUserErrorAction = SetErrorAction<UserAction.GET_USER_ERROR>;
+
+/// Post User Workspace
+
+export type PatchUserWorkspaceSuccessAction = {
+  type: UserAction.PATCH_USER_WORKSPACE_SUCCESS;
+  payload: GetWorkspace;
+};
+
+export type PatchUserWorkspaceNotFoundAction = SetNotFoundErrorAction<UserAction.PATCH_USER_WORKSPACE_NOT_FOUND>;
+
+export type PatchUserWorkspaceHttpInternalErrorAction = SetHttpInternalServerErrorAction<UserAction.PATCH_USER_WORKSPACE_HTTP_INTERNAL_ERROR>;
+
+export type PatchUserWorkspaceErrorAction = SetErrorAction<UserAction.PATCH_USER_WORKSPACE_ERROR>;
 
 export type UserActionTypes =
   | SetWorkspacesLoadingStartAction
@@ -36,4 +42,8 @@ export type UserActionTypes =
   | GetUserSuccessAction
   | GetUserNotFoundAction
   | GetUserHttpInternalErrorAction
-  | GetUserErrorAction;
+  | GetUserErrorAction
+  | PatchUserWorkspaceSuccessAction
+  | PatchUserWorkspaceNotFoundAction
+  | PatchUserWorkspaceHttpInternalErrorAction
+  | PatchUserWorkspaceErrorAction;

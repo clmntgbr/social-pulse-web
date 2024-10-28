@@ -17,10 +17,7 @@ export const initialWorkspacesState: WorkspacesState = {
   workspace: null,
 };
 
-export function workspacesReducer(
-  state: WorkspacesState,
-  action: WorkspacesActionTypes
-): WorkspacesState {
+export function workspacesReducer(state: WorkspacesState, action: WorkspacesActionTypes): WorkspacesState {
   switch (action.type) {
     case WorkspacesAction.WORKSPACES_LOADING_START: {
       return {
@@ -48,6 +45,13 @@ export function workspacesReducer(
       return {
         ...state,
         workspace: action.payload,
+      };
+    }
+
+    case WorkspacesAction.POST_WORKSPACES_SUCCESS: {
+      return {
+        ...state,
+        workspaces: action.payload,
       };
     }
 

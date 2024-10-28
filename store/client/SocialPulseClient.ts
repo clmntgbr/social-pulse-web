@@ -1,10 +1,10 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
+import { PatchUserWorkspace } from "./interface/body/PatchUserWorkspace";
+import { PostWorkspaces } from "./interface/body/PostWorkspaces";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
-import { PostWorkspaces } from "./interface/PostWorkspaces";
-import { PostWorkspacesBody } from "./interface/PostWorkspacesBody";
 import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
@@ -29,14 +29,9 @@ export default class SocialPulseClient {
     }
   }
 
-  public async postWorkspaces(
-    requestBody: PostWorkspacesBody
-  ): Promise<AxiosResponse<PostWorkspaces> | null> {
+  public async postWorkspaces(requestBody: PostWorkspaces): Promise<AxiosResponse<GetWorkspaces> | null> {
     try {
-      return await this.httpClient.post(
-        WORKSPACES.POST_WORKSPACES,
-        requestBody
-      );
+      return await this.httpClient.post(WORKSPACES.POST_WORKSPACES, requestBody);
     } catch {
       return null;
     }
@@ -61,6 +56,14 @@ export default class SocialPulseClient {
   public async getUser(): Promise<AxiosResponse<GetUser> | null> {
     try {
       return await this.httpClient.get(USERS.GET_USER);
+    } catch {
+      return null;
+    }
+  }
+
+  public async patchUserWorkspace(requestBody: PatchUserWorkspace): Promise<AxiosResponse<GetWorkspace> | null> {
+    try {
+      return await this.httpClient.patch(USERS.PATCH_USER_WORKSPACE, requestBody);
     } catch {
       return null;
     }

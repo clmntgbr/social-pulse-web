@@ -18,9 +18,6 @@ const nextConfig: NextConfig = {
     ],
     domains: ["*"],
   },
-  security: {
-    referrerPolicy: "strict-origin-when-cross-origin",
-  },
 };
 
 export default nextConfig;

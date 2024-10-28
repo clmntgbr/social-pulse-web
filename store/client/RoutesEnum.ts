@@ -15,4 +15,5 @@ export enum WORKSPACES {
 
 export enum USERS {
   GET_USER = "/me",
+  PATCH_USER_WORKSPACE = "/users/workspace",
 }

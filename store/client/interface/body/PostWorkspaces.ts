@@ -1,4 +1,4 @@
-export interface PostWorkspacesBody {
+export interface PostWorkspaces {
   label: string;
   logoUrl: string;
 }

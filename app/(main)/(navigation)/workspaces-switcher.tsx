@@ -10,11 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ToastAction } from "@/components/ui/toast";
+import useUserContext from "@/contexts/users/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Workspace } from "@/store/client/interface/workspace";
-import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
+import { patchUserWorkspace } from "@/store/users/patchUserWorkspace";
 import { postWorkspaces } from "@/store/workspaces/postWorkspaces";
 import { useAuth } from "@clerk/nextjs";
 import { useFormik } from "formik";
@@ -23,6 +24,7 @@ import * as Yup from "yup";
 
 export default function WorkspacesSwitcher() {
   const { workspaces, workspacesDispatch } = useWorkspacesContext();
+  const { userDispatch } = useUserContext();
   const { getToken } = useAuth();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,10 +43,16 @@ export default function WorkspacesSwitcher() {
       const token = await getToken();
       postWorkspaces(`${token}`, { label: values.name, logoUrl: "https://avatar.vercel.sh/rauchg.png" }, workspacesDispatch)
         .then(() => {
-          getWorkspaces(`${token}`, workspacesDispatch);
           setTimeout(() => {
             setIsLoading(false);
             setShowNewWorkspaceDialog(false);
+            formik.resetForm();
+            toast({
+              variant: "destructive",
+              title: "Success!",
+              description: "Your request was completed successfully.",
+              className: "bg-green-700 border-green-700",
+            });
           }, 2000);
         })
         .catch(() => {
@@ -57,6 +65,21 @@ export default function WorkspacesSwitcher() {
         });
     },
   });
+
+  const onPatchUserWorkspace = async (workspace: Workspace) => {
+    setOpen(false);
+    setSelectedWorkspace(workspace);
+
+    const token = await getToken();
+    patchUserWorkspace(`${token}`, { workspaceUuid: workspace.uuid }, userDispatch).catch(() => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    });
+  };
 
   useEffect(() => {
     if (!selectedWorkspace) {
@@ -90,8 +113,7 @@ export default function WorkspacesSwitcher() {
                   value={workspace.uuid}
                   key={workspace.uuid}
                   onSelect={() => {
-                    setSelectedWorkspace(workspace);
-                    setOpen(false);
+                    onPatchUserWorkspace(workspace);
                   }}
                   className="text-sm font-light px-4"
                 >
