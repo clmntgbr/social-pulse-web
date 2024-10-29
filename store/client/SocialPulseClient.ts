@@ -1,6 +1,8 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
 import { PatchUserWorkspace } from "./interface/body/PatchUserWorkspace";
+import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaces } from "./interface/body/PostWorkspaces";
+import { GetLogin } from "./interface/GetLogin";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
@@ -10,14 +12,19 @@ import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 export default class SocialPulseClient {
   private httpClient: AxiosInstance;
 
-  constructor(token: string) {
+  constructor(token?: string | null) {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     this.httpClient = axios.create({
       baseURL: "http://localhost:9000/api",
       timeout: 1000,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
   }
 
@@ -59,6 +66,10 @@ export default class SocialPulseClient {
     } catch {
       return null;
     }
+  }
+
+  public async postLogin(requestBody: PostLogin): Promise<AxiosResponse<GetLogin> | null> {
+    return await this.httpClient.post(USERS.POST_LOGIN, requestBody);
   }
 
   public async patchUserWorkspace(requestBody: PatchUserWorkspace): Promise<AxiosResponse<GetWorkspace> | null> {
