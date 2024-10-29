@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <main className="flex min-h-screen w-full flex-col bg-muted/40">
             <DesktopNav />
             <div className="flex flex-col sm:pl-14">
-              <header className="sticky top-0 z-30 flex h-20 items-center gap-4 border-b bg-background px-4 py-4">
+              <header className="sticky top-0 z-30 flex h-20 items-center gap-4 border-b bg-background px-4 py-3">
                 <MobileNav />
                 <div className="gap-4 hidden md:flex">
                   <WorkspacesSwitcher />
