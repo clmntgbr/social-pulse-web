@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthSession } from "@/app/api/auth/session/route";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { useSession } from "next-auth/react";
 import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
@@ -31,7 +30,7 @@ export const SocialAccountsProvider: React.FC<PropsWithChildren> = ({ children }
   useEffect(() => {
     const fetchSocialAccounts = async () => {
       if (session !== undefined && session !== null) {
-        await getSocialAccounts((session as AuthSession).token, socialAccountsDispatch);
+        await getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
       }
     };
 

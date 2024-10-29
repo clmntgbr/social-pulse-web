@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthSession } from "@/app/api/auth/session/route";
 import { getWorkspace } from "@/store/workspaces/getWorkspace";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { useSession } from "next-auth/react";
@@ -28,8 +27,8 @@ export const WorkspacesProvider: React.FC<PropsWithChildren> = ({ children }) =>
   useEffect(() => {
     const fetchWorkspaces = async () => {
       if (session !== undefined && session !== null) {
-        await getWorkspaces((session as AuthSession).token, workspacesDispatch);
-        await getWorkspace((session as AuthSession).token, workspacesDispatch);
+        await getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+        await getWorkspace(session?.accessToken ?? "", workspacesDispatch);
       }
     };
 

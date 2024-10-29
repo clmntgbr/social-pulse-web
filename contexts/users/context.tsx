@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthSession } from "@/app/api/auth/session/route";
 import { getUser } from "@/store/users/getUser";
 import { useSession } from "next-auth/react";
 import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
@@ -27,7 +26,7 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       if (session !== undefined && session !== null) {
-        await getUser((session as AuthSession).token, userDispatch);
+        await getUser(session?.accessToken ?? "", userDispatch);
       }
     };
 

@@ -40,8 +40,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session?.user && typeof token.data === "object" && token.data !== null) {
         session.user = {
           ...session.user,
-          token: (token.data as AuthUser).token,
         };
+        session.accessToken = (token.data as AuthUser).token;
       }
       return session;
     },

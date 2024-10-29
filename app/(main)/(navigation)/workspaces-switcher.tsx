@@ -43,7 +43,7 @@ export default function WorkspacesSwitcher() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      postWorkspaces(session?.token, { label: values.name, logoUrl: "https://avatar.vercel.sh/rauchg.png" }, workspacesDispatch)
+      postWorkspaces(session?.accessToken ?? "", { label: values.name, logoUrl: "https://avatar.vercel.sh/rauchg.png" }, workspacesDispatch)
         .then(() => {
           setTimeout(() => {
             setIsLoading(false);
@@ -71,9 +71,9 @@ export default function WorkspacesSwitcher() {
   const onPatchUserWorkspace = async (workspace: Workspace) => {
     setOpen(false);
     setSelectedWorkspace(workspace);
-    patchUserWorkspace(session?.token, { workspaceUuid: workspace.uuid }, userDispatch)
+    patchUserWorkspace(session?.accessToken ?? "", { workspaceUuid: workspace.uuid }, userDispatch)
       .then(() => {
-        getSocialAccounts(session?.token, socialAccountsDispatch);
+        getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
       })
       .catch(() => {
         toast({

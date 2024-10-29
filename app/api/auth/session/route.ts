@@ -5,10 +5,15 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const data = await auth();
-  const token = (data?.user as AuthUser)?.token;
-  const client = new SocialPulseClient(token);
+  const client = new SocialPulseClient(data?.accessToken);
   const response = await client.getUser();
-  return NextResponse.json({ user: response?.data, token: token } as unknown as AuthSession, { status: 200 });
+  const user = response?.data;
+
+  if (user !== undefined) {
+    user.token = data?.accessToken ?? null;
+  }
+
+  return NextResponse.json({ user: user, accessToken: data?.accessToken }, { status: 200 });
 }
 
 export interface AuthSession extends Session {
