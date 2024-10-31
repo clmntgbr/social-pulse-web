@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <main className="flex min-h-screen w-full flex-col bg-muted/40">
             <DesktopNav />
             <div className="flex flex-col sm:pl-14">
-              <header className="sticky top-0 z-30 flex h-20 items-center gap-4 border-b bg-background px-4 py-3">
+              <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 py-3">
                 <MobileNav />
                 <div className="gap-4 hidden md:flex">
                   <WorkspacesSwitcher />
@@ -59,15 +59,15 @@ function DesktopNav() {
           <span className="sr-only">Acme Inc</span>
         </Link>
 
-        <NavItem href="#" label="Dashboard">
+        <NavItem href="/" label="Dashboard">
           <Home className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="#" label="Orders">
+        <NavItem href="/workspaces" label="Workspaces">
           <ShoppingCart className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="/" label="Products">
+        <NavItem href="/social-accounts" label="Social Accounts">
           <Package className="h-5 w-5" />
         </NavItem>
 

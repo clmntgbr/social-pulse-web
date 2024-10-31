@@ -3,6 +3,7 @@ import { PatchUserWorkspace } from "./interface/body/PatchUserWorkspace";
 import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaces } from "./interface/body/PostWorkspaces";
 import { GetLogin } from "./interface/GetLogin";
+import { GetLoginUrl } from "./interface/GetLoginUrl";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
@@ -55,6 +56,30 @@ export default class SocialPulseClient {
   public async getSocialAccounts(): Promise<AxiosResponse<GetSocialAccounts> | null> {
     try {
       return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_SOCIAL_ACCOUNTS);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getFacebookLoginUrl(): Promise<AxiosResponse<GetLoginUrl> | null> {
+    try {
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_FACEBOOK_LOGIN_URL);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getTwitterLoginUrl(): Promise<AxiosResponse<GetLoginUrl> | null> {
+    try {
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_TWITTER_LOGIN_URL);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getLinkedinLoginUrl(): Promise<AxiosResponse<GetLoginUrl> | null> {
+    try {
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_LINKEDIN_LOGIN_URL);
     } catch {
       return null;
     }
