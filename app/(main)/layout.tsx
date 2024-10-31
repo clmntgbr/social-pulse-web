@@ -6,11 +6,11 @@ import { AppContextProviders } from "@/contexts";
 import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
-import { Menu } from "./(navigation)/menu";
-import { NavItem } from "./(navigation)/nav-item";
-import SocialAccounts from "./(navigation)/social-accounts";
-import { User } from "./(navigation)/user";
-import WorkspacesSwitcher from "./(navigation)/workspaces-switcher";
+import { Menu } from "../../components/library/(navigation)/menu";
+import { NavItem } from "../../components/library/(navigation)/nav-item";
+import SocialAccounts from "../../components/library/(navigation)/social-accounts";
+import { User } from "../../components/library/(navigation)/user";
+import WorkspacesSwitcher from "../../components/library/(navigation)/workspaces-switcher";
 import Providers from "./providers";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <Providers>
           <main className="flex min-h-screen w-full flex-col bg-muted/40">
             <DesktopNav />
-            <div className="flex flex-col sm:pl-14">
+            <div className="flex flex-col sm:pl-14 h-screen">
               <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 py-3">
                 <MobileNav />
                 <div className="gap-4 hidden md:flex">
@@ -38,7 +38,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <User />
                 </div>
               </header>
-              <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">{children}</main>
+              <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40 overflow-y-auto bg-white">{children}</main>
             </div>
           </main>
         </Providers>

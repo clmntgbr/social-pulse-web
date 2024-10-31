@@ -1,3 +1,4 @@
+import { GetFullWorkspaces } from "@/store/client/interface/GetFullWorkspaces";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
 import { WorkspacesAction } from "./actions";
@@ -8,12 +9,14 @@ export type WorkspacesState = {
   loading: boolean;
   workspaces: GetWorkspaces | null;
   workspace: GetWorkspace | null;
+  fullWorkspaces: GetFullWorkspaces | null;
 };
 
 export const initialWorkspacesState: WorkspacesState = {
   error: false,
   loading: false,
   workspaces: null,
+  fullWorkspaces: null,
   workspace: null,
 };
 
@@ -55,9 +58,20 @@ export function workspacesReducer(state: WorkspacesState, action: WorkspacesActi
       };
     }
 
+    case WorkspacesAction.GET_WORKSPACES_FULL_SUCCESS: {
+      return {
+        ...state,
+        fullWorkspaces: action.payload,
+      };
+    }
+
     case WorkspacesAction.GET_WORKSPACES_NOT_FOUND:
     case WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR:
     case WorkspacesAction.GET_WORKSPACES_ERROR:
+
+    case WorkspacesAction.GET_WORKSPACES_FULL_NOT_FOUND:
+    case WorkspacesAction.GET_WORKSPACES_FULL_ERROR:
+    case WorkspacesAction.GET_WORKSPACES_FULL_HTTP_INTERNAL_ERROR:
 
     case WorkspacesAction.GET_WORKSPACE_NOT_FOUND:
     case WorkspacesAction.GET_WORKSPACE_HTTP_INTERNAL_ERROR:
@@ -71,6 +85,7 @@ export function workspacesReducer(state: WorkspacesState, action: WorkspacesActi
         error: true,
         workspaces: state.workspaces,
         workspace: state.workspace,
+        fullWorkspaces: state.fullWorkspaces,
       };
     }
 

@@ -1,6 +1,4 @@
 export interface SocialAccount {
-  "@id": string;
-  "@type": string;
   socialAccountId: string;
   isVerified: boolean;
   username: string;

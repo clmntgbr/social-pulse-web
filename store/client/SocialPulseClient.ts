@@ -37,6 +37,14 @@ export default class SocialPulseClient {
     }
   }
 
+  public async getFullWorkspaces(): Promise<AxiosResponse<GetWorkspaces> | null> {
+    try {
+      return await this.httpClient.get(WORKSPACES.GET_WORKSPACES.concat("?groups=workspaces:full"));
+    } catch {
+      return null;
+    }
+  }
+
   public async postWorkspaces(requestBody: PostWorkspaces): Promise<AxiosResponse<GetWorkspaces> | null> {
     try {
       return await this.httpClient.post(WORKSPACES.POST_WORKSPACES, requestBody);
@@ -61,25 +69,25 @@ export default class SocialPulseClient {
     }
   }
 
-  public async getFacebookLoginUrl(): Promise<AxiosResponse<GetLoginUrl> | null> {
+  public async getFacebookLoginUrl(callback: string): Promise<AxiosResponse<GetLoginUrl> | null> {
     try {
-      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_FACEBOOK_LOGIN_URL);
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_FACEBOOK_LOGIN_URL.replace("%s", callback));
     } catch {
       return null;
     }
   }
 
-  public async getTwitterLoginUrl(): Promise<AxiosResponse<GetLoginUrl> | null> {
+  public async getTwitterLoginUrl(callback: string): Promise<AxiosResponse<GetLoginUrl> | null> {
     try {
-      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_TWITTER_LOGIN_URL);
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_TWITTER_LOGIN_URL.replace("%s", callback));
     } catch {
       return null;
     }
   }
 
-  public async getLinkedinLoginUrl(): Promise<AxiosResponse<GetLoginUrl> | null> {
+  public async getLinkedinLoginUrl(callback: string): Promise<AxiosResponse<GetLoginUrl> | null> {
     try {
-      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_LINKEDIN_LOGIN_URL);
+      return await this.httpClient.get(SOCIAL_ACCOUNTS.GET_LINKEDIN_LOGIN_URL.replace("%s", callback));
     } catch {
       return null;
     }

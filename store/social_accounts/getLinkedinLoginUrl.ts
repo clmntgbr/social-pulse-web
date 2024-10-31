@@ -6,12 +6,12 @@ import SocialPulseClient from "../client/SocialPulseClient";
 import { HTTP_STATUS } from "../enums/HTTP_STATUS";
 import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
-export async function getLinkedinLoginUrl(token: string, dispatch: Dispatch<SocialAccountsActionTypes>): Promise<GetLoginUrl | null> {
+export async function getLinkedinLoginUrl(token: string, callback: string, dispatch: Dispatch<SocialAccountsActionTypes>): Promise<GetLoginUrl | null> {
   try {
     dispatch({ type: SocialAccountsAction.LOGIN_URL_LOADING_START });
 
     const client = new SocialPulseClient(token);
-    const response = await client.getLinkedinLoginUrl();
+    const response = await client.getLinkedinLoginUrl(callback);
 
     if (response === null) {
       dispatch({

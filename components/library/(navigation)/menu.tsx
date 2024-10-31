@@ -11,7 +11,7 @@ import { getTwitterLoginUrl } from "@/store/social_accounts/getTwitterLoginUrl";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 
 const components: { title: string; href: string; description: string }[] = [
@@ -50,10 +50,11 @@ const components: { title: string; href: string; description: string }[] = [
 export function Menu() {
   const { data: session } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const { socialAccountsDispatch } = useSocialAccountsContext();
 
   const onFacebookLoginUrl = async () => {
-    getFacebookLoginUrl(session?.accessToken ?? "", socialAccountsDispatch)
+    getFacebookLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
       .then((response) => {
         router.push(response?.value ?? "");
       })
@@ -68,7 +69,8 @@ export function Menu() {
   };
 
   const onLinkedinLoginUrl = async () => {
-    getLinkedinLoginUrl(session?.accessToken ?? "", socialAccountsDispatch)
+    console.log(pathname);
+    getLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
       .then((response) => {
         router.push(response?.value ?? "");
       })
@@ -83,7 +85,7 @@ export function Menu() {
   };
 
   const onTwitterLoginUrl = async () => {
-    getTwitterLoginUrl(session?.accessToken ?? "", socialAccountsDispatch)
+    getTwitterLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
       .then((response) => {
         router.push(response?.value ?? "");
       })

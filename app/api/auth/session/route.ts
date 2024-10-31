@@ -7,6 +7,10 @@ export async function GET() {
   const data = await auth();
   const client = new SocialPulseClient(data?.accessToken);
   const response = await client.getUser();
+  const user = response?.data;
+  if (user) {
+    user.id = user?.uuid;
+  }
   return NextResponse.json({ user: response?.data, accessToken: data?.accessToken }, { status: 200 });
 }
 

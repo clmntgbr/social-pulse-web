@@ -22,13 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "app/page.tsx.old",
-    "app/(main)/(navigation)/workspaces.tsx.old"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.tsx.old", "components/library/(navigation)/workspaces.tsx.old"],
   "exclude": ["node_modules"]
 }
