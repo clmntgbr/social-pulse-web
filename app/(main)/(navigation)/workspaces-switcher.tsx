@@ -17,10 +17,10 @@ import { Workspace } from "@/store/client/interface/workspace";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { patchUserWorkspace } from "@/store/users/patchUserWorkspace";
 import { postWorkspaces } from "@/store/workspaces/postWorkspaces";
-import { useAuth } from "@clerk/nextjs";
 import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
 import { DiamondPlus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
@@ -28,8 +28,8 @@ export default function WorkspacesSwitcher() {
   const { workspaces, workspacesDispatch } = useWorkspacesContext();
   const { userDispatch } = useUserContext();
   const { socialAccountsDispatch } = useSocialAccountsContext();
-  const { getToken } = useAuth();
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(null);
@@ -43,8 +43,7 @@ export default function WorkspacesSwitcher() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      const token = await getToken();
-      postWorkspaces(`${token}`, { label: values.name, logoUrl: "https://avatar.vercel.sh/rauchg.png" }, workspacesDispatch)
+      postWorkspaces(session?.accessToken ?? "", { label: values.name, logoUrl: "https://avatar.vercel.sh/rauchg.png" }, workspacesDispatch)
         .then(() => {
           setTimeout(() => {
             setIsLoading(false);
@@ -72,11 +71,9 @@ export default function WorkspacesSwitcher() {
   const onPatchUserWorkspace = async (workspace: Workspace) => {
     setOpen(false);
     setSelectedWorkspace(workspace);
-
-    const token = await getToken();
-    patchUserWorkspace(`${token}`, { workspaceUuid: workspace.uuid }, userDispatch)
+    patchUserWorkspace(session?.accessToken ?? "", { workspaceUuid: workspace.uuid }, userDispatch)
       .then(() => {
-        getSocialAccounts(`${token}`, socialAccountsDispatch);
+        getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
       })
       .catch(() => {
         toast({
@@ -94,7 +91,7 @@ export default function WorkspacesSwitcher() {
     }
   }, [selectedWorkspace, workspaces.workspace]);
 
-  if (!workspaces || !workspaces.workspace || !workspaces.workspaces || !workspaces.workspaces.member?.length) {
+  if (!workspaces || !workspaces.workspace || !workspaces.workspaces) {
     return null;
   }
 

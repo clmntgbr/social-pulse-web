@@ -15,5 +15,6 @@ export enum WORKSPACES {
 
 export enum USERS {
   GET_USER = "/me",
+  POST_LOGIN = "/auth/token",
   PATCH_USER_WORKSPACE = "/users/workspace",
 }

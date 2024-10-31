@@ -1,9 +1,10 @@
-import { ModeToggle } from "@/components/library/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { VercelLogo } from "@/components/ui/icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { AppContextProviders } from "@/contexts";
 import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
+import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import { Menu } from "./(navigation)/menu";
 import { NavItem } from "./(navigation)/nav-item";
@@ -14,32 +15,35 @@ import Providers from "./providers";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Providers>
-      <main className="flex min-h-screen w-full flex-col bg-muted/40">
-        <DesktopNav />
-        <div className="flex flex-col sm:pl-14">
-          <header className="sticky top-0 z-30 flex h-20 items-center gap-4 border-b bg-background px-4 py-4 sm:static">
-            <MobileNav />
-            <div className="gap-4 hidden md:flex">
-              <WorkspacesSwitcher />
-              <SocialAccounts />
-            </div>
+    <SessionProvider>
+      <AppContextProviders>
+        <Providers>
+          <main className="flex min-h-screen w-full flex-col bg-muted/40">
+            <DesktopNav />
+            <div className="flex flex-col sm:pl-14">
+              <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 py-3">
+                <MobileNav />
+                <div className="gap-4 hidden md:flex">
+                  <WorkspacesSwitcher />
+                  <SocialAccounts />
+                </div>
 
-            <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-50">
-              <div className="flex-2 flex items-center justify-center">
-                <Menu />
-              </div>
-            </div>
+                <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-50">
+                  <div className="flex-2 flex items-center justify-center">
+                    <Menu />
+                  </div>
+                </div>
 
-            <div className="hidden lg:flex items-center space-x-2 ml-auto z-50 gap-2">
-              <ModeToggle />
-              <User />
+                <div className="hidden lg:flex items-center space-x-2 ml-auto z-50 gap-2">
+                  <User />
+                </div>
+              </header>
+              <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">{children}</main>
             </div>
-          </header>
-          <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">{children}</main>
-        </div>
-      </main>
-    </Providers>
+          </main>
+        </Providers>
+      </AppContextProviders>
+    </SessionProvider>
   );
 }
 
@@ -55,15 +59,15 @@ function DesktopNav() {
           <span className="sr-only">Acme Inc</span>
         </Link>
 
-        <NavItem href="#" label="Dashboard">
+        <NavItem href="/" label="Dashboard">
           <Home className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="#" label="Orders">
+        <NavItem href="/workspaces" label="Workspaces">
           <ShoppingCart className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="/" label="Products">
+        <NavItem href="/social-accounts" label="Social Accounts">
           <Package className="h-5 w-5" />
         </NavItem>
 

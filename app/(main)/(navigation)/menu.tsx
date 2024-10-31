@@ -1,8 +1,17 @@
 "use client";
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { ToastAction } from "@/components/ui/toast";
+import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { getFacebookLoginUrl } from "@/store/social_accounts/getFacebookLoginUrl";
+import { getLinkedinLoginUrl } from "@/store/social_accounts/getLinkedinLoginUrl";
+import { getTwitterLoginUrl } from "@/store/social_accounts/getTwitterLoginUrl";
+import { Facebook, Linkedin, Twitter } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 
 const components: { title: string; href: string; description: string }[] = [
@@ -39,30 +48,77 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Menu() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { socialAccountsDispatch } = useSocialAccountsContext();
+
+  const onFacebookLoginUrl = async () => {
+    getFacebookLoginUrl(session?.accessToken ?? "", socialAccountsDispatch)
+      .then((response) => {
+        router.push(response?.value ?? "");
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+      });
+  };
+
+  const onLinkedinLoginUrl = async () => {
+    getLinkedinLoginUrl(session?.accessToken ?? "", socialAccountsDispatch)
+      .then((response) => {
+        router.push(response?.value ?? "");
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+      });
+  };
+
+  const onTwitterLoginUrl = async () => {
+    getTwitterLoginUrl(session?.accessToken ?? "", socialAccountsDispatch)
+      .then((response) => {
+        router.push(response?.value ?? "");
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+      });
+  };
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Réseaux sociaux</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <a className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md" href="/">
-                    <div className="mb-2 mt-4 text-lg font-medium">shadcn/ui</div>
-                    <p className="text-sm leading-tight text-muted-foreground">Beautifully designed components built with Radix UI and Tailwind CSS.</p>
-                  </a>
-                </NavigationMenuLink>
+            <ul className="grid grid-cols-2 gap-2 p-2 w-[230px]">
+              <li className="col-span-1">
+                <button onClick={onFacebookLoginUrl} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton">
+                  <Facebook size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                </button>
               </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
+              <li className="col-span-1">
+                <button onClick={onTwitterLoginUrl} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton">
+                  <Twitter size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                </button>
+              </li>
+              <li className="col-span-2">
+                <button onClick={onLinkedinLoginUrl} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton">
+                  <Linkedin size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                </button>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

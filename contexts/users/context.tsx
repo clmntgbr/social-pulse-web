@@ -1,7 +1,7 @@
 "use client";
 
 import { getUser } from "@/store/users/getUser";
-import { useAuth } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
 import { initialUserState, userReducer, UserState } from "./reducer";
 import { UserActionTypes } from "./types";
@@ -15,6 +15,7 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, userDispatch] = useReducer(userReducer, initialUserState);
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
@@ -22,16 +23,15 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [userDispatch]);
 
-  const { getToken } = useAuth();
-
   useEffect(() => {
     const fetchUser = async () => {
-      const token = await getToken();
-      await getUser(`${token}`, userDispatch);
+      if (session !== undefined && session !== null) {
+        await getUser(session?.accessToken ?? "", userDispatch);
+      }
     };
 
     fetchUser();
-  }, [getToken]);
+  }, [session]);
 
   return <UserContext.Provider value={{ user, userDispatch }}>{children}</UserContext.Provider>;
 };

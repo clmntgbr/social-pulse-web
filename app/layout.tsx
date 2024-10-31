@@ -1,7 +1,4 @@
-import { ThemeProvider } from "@/components/library/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { AppContextProviders } from "@/contexts";
-import { ClerkProvider } from "@clerk/nextjs";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
@@ -18,17 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${GeistSans.className} ${GeistMono.className} antialiased`}>
-          <AppContextProviders>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              {children}
-            </ThemeProvider>
-          </AppContextProviders>
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${GeistSans.className} ${GeistMono.className} antialiased`}>
+        {children}
+        <Toaster />
+      </body>
+    </html>
   );
 }

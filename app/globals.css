@@ -6,6 +6,30 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.facebookButton {
+  width: 101px;
+  height: 101px;
+  background-color: #1877f2;
+}
+.facebookButton:hover {
+  cursor: pointer;
+}
+.twitterButton {
+  width: 101px;
+  height: 101px;
+  background-color: #1da1f2;
+}
+.twitterButton:hover {
+  cursor: pointer;
+}
+.linkedinButton {
+  height: 101px;
+  background-color: #0e76a8;
+}
+.linkedinButton:hover {
+  cursor: pointer;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

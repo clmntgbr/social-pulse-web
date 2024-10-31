@@ -1,0 +1,79 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToastAction } from "@/components/ui/toast";
+import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import * as Yup from "yup";
+
+export default function Page() {
+  const router = useRouter();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "clement@gmail.com",
+      password: "clement",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string(),
+      password: Yup.string(),
+    }),
+    onSubmit: async (values) => {
+      axios
+        .post("/api/signin", values)
+        .then(() => {
+          router.push("/");
+          router.refresh();
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "There was a problem with your request.",
+            action: <ToastAction altText="Try again">Try again</ToastAction>,
+          });
+        });
+    },
+  });
+
+  return (
+    <>
+      <form className="sign-in" onSubmit={formik.handleSubmit}>
+        <div className="space-y-4 py-2 pb-4">
+          <div className="space-y-2">
+            <Label htmlFor="name" className={`${formik.touched.email && formik.errors.email ? "text-red-800" : ""}`}>
+              Email*
+            </Label>
+            <Input
+              className={`${formik.touched.email && formik.errors.email ? "border-red-500" : ""}`}
+              id="email"
+              name="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              placeholder="email"
+            />
+
+            <Label htmlFor="password" className={`${formik.touched.password && formik.errors.password ? "text-red-800" : ""}`}>
+              Password*
+            </Label>
+            <Input
+              className={`${formik.touched.password && formik.errors.password ? "border-red-500" : ""}`}
+              id="password"
+              name="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              placeholder="password"
+            />
+          </div>
+        </div>
+        <Button type="submit">Login</Button>
+      </form>
+    </>
+  );
+}

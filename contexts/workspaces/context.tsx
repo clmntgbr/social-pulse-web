@@ -2,7 +2,7 @@
 
 import { getWorkspace } from "@/store/workspaces/getWorkspace";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
-import { useAuth } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
 import { initialWorkspacesState, workspacesReducer, WorkspacesState } from "./reducer";
 import { WorkspacesActionTypes } from "./types";
@@ -16,6 +16,7 @@ export const WorkspacesContext = createContext<WorkspacesContextType | undefined
 
 export const WorkspacesProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [workspaces, workspacesDispatch] = useReducer(workspacesReducer, initialWorkspacesState);
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
@@ -23,17 +24,16 @@ export const WorkspacesProvider: React.FC<PropsWithChildren> = ({ children }) =>
     }
   }, [workspacesDispatch]);
 
-  const { getToken } = useAuth();
-
   useEffect(() => {
     const fetchWorkspaces = async () => {
-      const token = await getToken();
-      await getWorkspaces(`${token}`, workspacesDispatch);
-      await getWorkspace(`${token}`, workspacesDispatch);
+      if (session !== undefined && session !== null) {
+        await getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+        await getWorkspace(session?.accessToken ?? "", workspacesDispatch);
+      }
     };
 
     fetchWorkspaces();
-  }, [getToken]);
+  }, [session]);
 
   return <WorkspacesContext.Provider value={{ workspaces, workspacesDispatch }}>{children}</WorkspacesContext.Provider>;
 };

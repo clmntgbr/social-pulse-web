@@ -7,4 +7,5 @@ export interface GetUser {
   givenName: string | null;
   familyName: string | null;
   avatarUrl: string | null;
+  token: string | null;
 }

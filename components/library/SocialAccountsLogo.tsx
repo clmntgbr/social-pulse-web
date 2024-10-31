@@ -11,16 +11,16 @@ type SocialAccountsLogoProps = {
 export const SocialAccountsLogo: React.FC<SocialAccountsLogoProps> = ({ avatarUrl, username, logo }) => {
   return (
     <>
-      <div className="relative">
+      <div className="relative flex">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger>
               <>
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-9 w-9">
                   <AvatarImage src={avatarUrl} />
                   <AvatarFallback>{username}</AvatarFallback>
                 </Avatar>
-                <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-primary border-2 border-background z-50">
+                <div className="absolute -bottom-1 right-0 w-4 h-4 rounded-full bg-primary border-2 border-background z-50">
                   <img src={logo} alt="Logo" className="w-full h-full rounded-full" />
                 </div>
               </>
