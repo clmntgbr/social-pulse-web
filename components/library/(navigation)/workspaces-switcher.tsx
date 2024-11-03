@@ -62,7 +62,7 @@ export default function WorkspacesSwitcher() {
         .catch(() => {
           toast({
             variant: "destructive",
-            title: "Uh oh! Something went wrong.",
+            title: "Something went wrong.",
             description: "There was a problem with your request.",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           });
@@ -80,7 +80,7 @@ export default function WorkspacesSwitcher() {
       .catch(() => {
         toast({
           variant: "destructive",
-          title: "Uh oh! Something went wrong.",
+          title: "Something went wrong.",
           description: "There was a problem with your request.",
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         });

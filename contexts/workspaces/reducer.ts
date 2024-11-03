@@ -93,7 +93,11 @@ export function workspacesReducer(state: WorkspacesState, action: WorkspacesActi
 
     case WorkspacesAction.GET_WORKSPACE_INVITATIONS_NOT_FOUND:
     case WorkspacesAction.GET_WORKSPACE_INVITATIONS_ERROR:
-    case WorkspacesAction.GET_WORKSPACE_INVITATIONS_HTTP_INTERNAL_ERROR: {
+    case WorkspacesAction.GET_WORKSPACE_INVITATIONS_HTTP_INTERNAL_ERROR:
+
+    case WorkspacesAction.DELETE_WORKSPACE_USER_ERROR:
+    case WorkspacesAction.DELETE_WORKSPACE_USER_HTTP_INTERNAL_ERROR:
+    case WorkspacesAction.DELETE_WORKSPACE_USER_NOT_FOUND: {
       return {
         ...state,
         error: true,

@@ -45,7 +45,7 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
           setIsLoadingAccept(false);
           toast({
             variant: "destructive",
-            title: "Uh oh! Something went wrong.",
+            title: "Something went wrong.",
             description: "There was a problem with your request.",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           });
@@ -54,7 +54,6 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
   };
 
   const declineWorkspaceInvitation = async () => {
-    console.log(workspaceInvitation.workspace);
     setIsLoadingDecline(true);
     patchWorkspaceInvitation(session?.accessToken ?? "", workspaceInvitation.uuid, { status: "denied" }, workspacesDispatch)
       .then(() => {
@@ -75,7 +74,7 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
           setIsLoadingAccept(false);
           toast({
             variant: "destructive",
-            title: "Uh oh! Something went wrong.",
+            title: "Something went wrong.",
             description: "There was a problem with your request.",
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           });

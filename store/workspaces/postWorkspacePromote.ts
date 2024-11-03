@@ -1,53 +1,52 @@
 import { WorkspacesAction } from "@/contexts/workspaces/actions";
 import { WorkspacesActionTypes } from "@/contexts/workspaces/types";
 import { Dispatch } from "react";
-import { PostWorkspaceInvitationBody } from "../client/interface/body/PostWorkspaceInvitation";
-import { PostWorkspaceInvitation } from "../client/interface/PostWorkspaceInvitation";
+import { Default } from "../client/interface/Default";
 import { PromiseResponse } from "../client/interface/PromiseResponse";
 import SocialPulseClient from "../client/SocialPulseClient";
 import { HTTP_STATUS } from "../enums/HTTP_STATUS";
 import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
-export async function postWorkspaceInvitation(token: string, body: PostWorkspaceInvitationBody, dispatch: Dispatch<WorkspacesActionTypes>): Promise<PromiseResponse> {
+export async function postWorkspacePromote(token: string, workspaceUuid: string, userUuid: string, dispatch: Dispatch<WorkspacesActionTypes>): Promise<PromiseResponse> {
   try {
     dispatch({ type: WorkspacesAction.LOADING_START });
 
     const client = new SocialPulseClient(token);
-    const response = await client.postWorkspaceInvitation(body);
+    const response = await client.postWorkspacePromote(workspaceUuid, userUuid);
 
     if (response === null) {
       dispatch({
-        type: WorkspacesAction.POST_WORKSPACE_INVITATION_ERROR,
+        type: WorkspacesAction.POST_WORKSPACE_PROMOTE_HTTP_INTERNAL_ERROR,
         payload: new HttpInternalServerError("Get plans failed"),
       });
       return Promise.reject({ status: false, message: null, data: null });
     }
 
     switch (response.status) {
-      case HTTP_STATUS.OK:
+      case HTTP_STATUS.CREATED:
         dispatch({
-          type: WorkspacesAction.POST_WORKSPACE_INVITATION_SUCCESS,
-          payload: response.data as PostWorkspaceInvitation,
+          type: WorkspacesAction.POST_WORKSPACE_PROMOTE_SUCCESS,
+          payload: response.data as Default,
         });
         return Promise.resolve({ status: true, message: null, data: response.data });
 
       case HTTP_STATUS.NOT_FOUND:
         dispatch({
-          type: WorkspacesAction.POST_WORKSPACE_INVITATION_NOT_FOUND,
+          type: WorkspacesAction.POST_WORKSPACE_PROMOTE_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
         return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
 
       default:
         dispatch({
-          type: WorkspacesAction.POST_WORKSPACE_INVITATION_HTTP_INTERNAL_ERROR,
+          type: WorkspacesAction.POST_WORKSPACE_PROMOTE_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
         return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
     }
   } catch (error) {
     dispatch({
-      type: WorkspacesAction.POST_WORKSPACE_INVITATION_ERROR,
+      type: WorkspacesAction.POST_WORKSPACE_PROMOTE_ERROR,
       payload: error instanceof Error ? error : new Error("Get plans failed"),
     });
     return Promise.reject({ status: false, message: null, data: null });

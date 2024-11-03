@@ -1,3 +1,4 @@
+import { Default } from "@/store/client/interface/Default";
 import { GetFullWorkspaces } from "@/store/client/interface/GetFullWorkspaces";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaceInvitation } from "@/store/client/interface/GetWorkspaceInvitation";
@@ -75,6 +76,26 @@ export type PostWorkspacesHttpInternalErrorAction = SetHttpInternalServerErrorAc
 
 export type PostWorkspacesErrorAction = SetErrorAction<WorkspacesAction.POST_WORKSPACES_ERROR>;
 
+/// Delete Workspace User
+
+export type DeleteWorkspaceUserSuccessAction = {
+  type: WorkspacesAction.DELETE_WORKSPACE_USER_SUCCESS;
+  payload: Default;
+};
+export type DeleteWorkspaceUserNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.DELETE_WORKSPACE_USER_NOT_FOUND>;
+export type DeleteWorkspaceUserHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.DELETE_WORKSPACE_USER_HTTP_INTERNAL_ERROR>;
+export type DeleteWorkspaceUserErrorAction = SetErrorAction<WorkspacesAction.DELETE_WORKSPACE_USER_ERROR>;
+
+/// Post Workspace Promote
+
+export type PostWorkspacePromoteSuccessAction = {
+  type: WorkspacesAction.POST_WORKSPACE_PROMOTE_SUCCESS;
+  payload: Default;
+};
+export type PostWorkspacePromoteNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.POST_WORKSPACE_PROMOTE_NOT_FOUND>;
+export type PostWorkspacePromoteHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.POST_WORKSPACE_PROMOTE_HTTP_INTERNAL_ERROR>;
+export type PostWorkspacePromoteErrorAction = SetErrorAction<WorkspacesAction.POST_WORKSPACE_PROMOTE_ERROR>;
+
 /// Post Workspace Invitation
 
 export type PostWorkspaceInvitationSuccessAction = {
@@ -128,6 +149,14 @@ export type WorkspacesActionTypes =
   | GetWorkspaceNotFoundAction
   | GetWorkspaceHttpInternalErrorAction
   | GetWorkspaceErrorAction
+  | DeleteWorkspaceUserSuccessAction
+  | DeleteWorkspaceUserNotFoundAction
+  | DeleteWorkspaceUserHttpInternalErrorAction
+  | DeleteWorkspaceUserErrorAction
+  | PostWorkspacePromoteSuccessAction
+  | PostWorkspacePromoteNotFoundAction
+  | PostWorkspacePromoteHttpInternalErrorAction
+  | PostWorkspacePromoteErrorAction
   | PostWorkspacesSuccessAction
   | PostWorkspacesNotFoundAction
   | PostWorkspacesHttpInternalErrorAction

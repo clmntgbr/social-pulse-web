@@ -4,6 +4,7 @@ import { PatchWorkspaceInvitation } from "./interface/body/PatchWorkspaceInvitat
 import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaceInvitationBody } from "./interface/body/PostWorkspaceInvitation";
 import { PostWorkspaces } from "./interface/body/PostWorkspaces";
+import { Default } from "./interface/Default";
 import { GetLogin } from "./interface/GetLogin";
 import { GetLoginUrl } from "./interface/GetLoginUrl";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
@@ -55,6 +56,22 @@ export default class SocialPulseClient {
       return await this.httpClient.post(WORKSPACES.POST_WORKSPACES, requestBody);
     } catch {
       return null;
+    }
+  }
+
+  public async deleteWorkspaceUser(workspaceUuid: string, userUuid: string): Promise<AxiosResponse<Default> | any> {
+    try {
+      return await this.httpClient.delete(WORKSPACES.DELETE_WORKSPACE_USER.replace("%workspaceUuid%", workspaceUuid).replace("%userUuid%", userUuid));
+    } catch (response: any) {
+      return response;
+    }
+  }
+
+  public async postWorkspacePromote(workspaceUuid: string, userUuid: string): Promise<AxiosResponse<Default> | any> {
+    try {
+      return await this.httpClient.post(WORKSPACES.POST_WORKSPACE_PROMOTE.replace("%workspaceUuid%", workspaceUuid).replace("%userUuid%", userUuid));
+    } catch (response: any) {
+      return response;
     }
   }
 
@@ -118,11 +135,11 @@ export default class SocialPulseClient {
     }
   }
 
-  public async postWorkspaceInvitation(requestBody: PostWorkspaceInvitationBody): Promise<AxiosResponse<PostWorkspaceInvitation> | null> {
+  public async postWorkspaceInvitation(requestBody: PostWorkspaceInvitationBody): Promise<AxiosResponse<PostWorkspaceInvitation> | any> {
     try {
       return await this.httpClient.post(WORKSPACES.WORKSPACE_INVITATION, requestBody);
-    } catch {
-      return null;
+    } catch (response: any) {
+      return response;
     }
   }
 
