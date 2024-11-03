@@ -1,13 +1,18 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
 import { PatchUserWorkspace } from "./interface/body/PatchUserWorkspace";
+import { PatchWorkspaceInvitation } from "./interface/body/PatchWorkspaceInvitation";
 import { PostLogin } from "./interface/body/PostLogin";
+import { PostWorkspaceInvitationBody } from "./interface/body/PostWorkspaceInvitation";
 import { PostWorkspaces } from "./interface/body/PostWorkspaces";
 import { GetLogin } from "./interface/GetLogin";
 import { GetLoginUrl } from "./interface/GetLoginUrl";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
+import { GetWorkspaceInvitation } from "./interface/GetWorkspaceInvitation";
+import { GetWorkspaceInvitations } from "./interface/GetWorkspaceInvitations";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
+import { PostWorkspaceInvitation } from "./interface/PostWorkspaceInvitation";
 import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
@@ -108,6 +113,30 @@ export default class SocialPulseClient {
   public async patchUserWorkspace(requestBody: PatchUserWorkspace): Promise<AxiosResponse<GetWorkspace> | null> {
     try {
       return await this.httpClient.patch(USERS.PATCH_USER_WORKSPACE, requestBody);
+    } catch {
+      return null;
+    }
+  }
+
+  public async postWorkspaceInvitation(requestBody: PostWorkspaceInvitationBody): Promise<AxiosResponse<PostWorkspaceInvitation> | null> {
+    try {
+      return await this.httpClient.post(WORKSPACES.WORKSPACE_INVITATION, requestBody);
+    } catch {
+      return null;
+    }
+  }
+
+  public async patchWorkspaceInvitation(workspaceInvitationUuid: string, requestBody: PatchWorkspaceInvitation): Promise<AxiosResponse<GetWorkspaceInvitation> | null> {
+    try {
+      return await this.httpClient.patch(WORKSPACES.WORKSPACE_INVITATION.concat("/", workspaceInvitationUuid), requestBody);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getWorkspaceInvitations(): Promise<AxiosResponse<GetWorkspaceInvitations> | null> {
+    try {
+      return await this.httpClient.get(WORKSPACES.WORKSPACE_INVITATION);
     } catch {
       return null;
     }

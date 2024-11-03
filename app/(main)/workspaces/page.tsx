@@ -1,11 +1,14 @@
 "use client";
 
+import { WorkspacesInvitations } from "@/components/library/(workspaces)/invitations";
 import { WorkspacesMembers } from "@/components/library/(workspaces)/members";
 import { WorkspacesSidebarNav } from "@/components/library/(workspaces)/sidebar-nav.";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { WorkspaceFull } from "@/store/client/interface/workspace-full";
 import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
+import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -39,7 +42,15 @@ export default function Page() {
     if (selectedWorkspace && !currentUuid) {
       router.push(`?uuid=${selectedWorkspace.uuid}`);
     }
-  }, [selectedWorkspace, currentUuid, router]);
+
+    const workspaceInvitations = async () => {
+      if (session?.accessToken) {
+        getWorkspaceInvitations(session?.accessToken, workspacesDispatch);
+      }
+    };
+
+    workspaceInvitations();
+  }, [selectedWorkspace, currentUuid, router, session?.accessToken, workspacesDispatch]);
 
   return (
     <>
@@ -53,12 +64,25 @@ export default function Page() {
         <Separator className="my-6" />
 
         {workspaces.fullWorkspaces && (
-          <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside className="-mx-4 lg:w-1/5">
-              <WorkspacesSidebarNav items={workspaceNavItems} />
-            </aside>
-            <div className="flex-1 lg:max-w-2xl">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
-          </div>
+          <>
+            {workspaces.workspaceInvitations && workspaces.workspaceInvitations.length > 0 && (
+              <div className="flex-1 lg:max-w-2xl">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Invitations</CardTitle>
+                  </CardHeader>
+                  {workspaces && workspaces.workspaceInvitations.map((workspaceInvitation) => <WorkspacesInvitations key={workspaceInvitation.uuid} workspaceInvitation={workspaceInvitation} />)}
+                </Card>
+              </div>
+            )}
+
+            <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+              <aside className="lg:w-1/5">
+                <WorkspacesSidebarNav items={workspaceNavItems} />
+              </aside>
+              <div className="flex-1 lg:max-w-2xl">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
+            </div>
+          </>
         )}
       </div>
     </>

@@ -11,6 +11,7 @@ export enum WORKSPACES {
   GET_WORKSPACES = "/workspaces",
   POST_WORKSPACES = "/workspaces",
   GET_WORKSPACE = "/workspace",
+  WORKSPACE_INVITATION = "/workspace_invitations",
 }
 
 export enum USERS {

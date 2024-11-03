@@ -1,5 +1,6 @@
 import { SocialAccount } from "./social-account";
 import { User } from "./user";
+import { WorkspaceInvitation } from "./workspace-invitation";
 
 export interface WorkspaceFull {
   label: string;
@@ -7,5 +8,6 @@ export interface WorkspaceFull {
   uuid: string;
   admin: User;
   users: User[];
+  workspaceInvitations: WorkspaceInvitation[];
   socialAccounts: SocialAccount[];
 }

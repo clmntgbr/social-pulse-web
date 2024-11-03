@@ -1,5 +1,6 @@
 import { GetFullWorkspaces } from "@/store/client/interface/GetFullWorkspaces";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
+import { GetWorkspaceInvitations } from "@/store/client/interface/GetWorkspaceInvitations";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
 import { WorkspacesAction } from "./actions";
 import { WorkspacesActionTypes } from "./types";
@@ -10,6 +11,7 @@ export type WorkspacesState = {
   workspaces: GetWorkspaces | null;
   workspace: GetWorkspace | null;
   fullWorkspaces: GetFullWorkspaces | null;
+  workspaceInvitations: GetWorkspaceInvitations | [];
 };
 
 export const initialWorkspacesState: WorkspacesState = {
@@ -18,6 +20,7 @@ export const initialWorkspacesState: WorkspacesState = {
   workspaces: null,
   fullWorkspaces: null,
   workspace: null,
+  workspaceInvitations: [],
 };
 
 export function workspacesReducer(state: WorkspacesState, action: WorkspacesActionTypes): WorkspacesState {
@@ -65,6 +68,13 @@ export function workspacesReducer(state: WorkspacesState, action: WorkspacesActi
       };
     }
 
+    case WorkspacesAction.GET_WORKSPACE_INVITATIONS_SUCCESS: {
+      return {
+        ...state,
+        workspaceInvitations: action.payload,
+      };
+    }
+
     case WorkspacesAction.GET_WORKSPACES_NOT_FOUND:
     case WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR:
     case WorkspacesAction.GET_WORKSPACES_ERROR:
@@ -79,13 +89,18 @@ export function workspacesReducer(state: WorkspacesState, action: WorkspacesActi
 
     case WorkspacesAction.POST_WORKSPACES_NOT_FOUND:
     case WorkspacesAction.POST_WORKSPACES_HTTP_INTERNAL_ERROR:
-    case WorkspacesAction.POST_WORKSPACES_ERROR: {
+    case WorkspacesAction.POST_WORKSPACES_ERROR:
+
+    case WorkspacesAction.GET_WORKSPACE_INVITATIONS_NOT_FOUND:
+    case WorkspacesAction.GET_WORKSPACE_INVITATIONS_ERROR:
+    case WorkspacesAction.GET_WORKSPACE_INVITATIONS_HTTP_INTERNAL_ERROR: {
       return {
         ...state,
         error: true,
         workspaces: state.workspaces,
         workspace: state.workspace,
         fullWorkspaces: state.fullWorkspaces,
+        workspaceInvitations: state.workspaceInvitations,
       };
     }
 

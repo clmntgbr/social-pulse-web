@@ -1,6 +1,9 @@
 import { GetFullWorkspaces } from "@/store/client/interface/GetFullWorkspaces";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
+import { GetWorkspaceInvitation } from "@/store/client/interface/GetWorkspaceInvitation";
+import { GetWorkspaceInvitations } from "@/store/client/interface/GetWorkspaceInvitations";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
+import { WorkspaceInvitationFull } from "@/store/client/interface/workspace-invitation-full";
 import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
 import { WorkspacesAction } from "./actions";
 
@@ -11,6 +14,13 @@ export type SetWorkspacesLoadingStartAction = {
 };
 export type SetWorkspacesLoadingEndAction = {
   type: WorkspacesAction.WORKSPACES_LOADING_END;
+};
+
+export type SetLoadingStartAction = {
+  type: WorkspacesAction.LOADING_START;
+};
+export type SetLoadingEndAction = {
+  type: WorkspacesAction.LOADING_END;
 };
 
 /// Get Workspaces
@@ -65,7 +75,45 @@ export type PostWorkspacesHttpInternalErrorAction = SetHttpInternalServerErrorAc
 
 export type PostWorkspacesErrorAction = SetErrorAction<WorkspacesAction.POST_WORKSPACES_ERROR>;
 
+/// Post Workspace Invitation
+
+export type PostWorkspaceInvitationSuccessAction = {
+  type: WorkspacesAction.POST_WORKSPACE_INVITATION_SUCCESS;
+  payload: WorkspaceInvitationFull;
+};
+
+export type PostWorkspaceInvitationNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.POST_WORKSPACE_INVITATION_NOT_FOUND>;
+
+export type PostWorkspaceInvitationHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.POST_WORKSPACE_INVITATION_HTTP_INTERNAL_ERROR>;
+
+export type PostWorkspaceInvitationErrorAction = SetErrorAction<WorkspacesAction.POST_WORKSPACE_INVITATION_ERROR>;
+
+/// Patch Workspace Invitation
+
+export type PatchWorkspaceInvitationSuccessAction = {
+  type: WorkspacesAction.PATCH_WORKSPACE_INVITATION_SUCCESS;
+  payload: GetWorkspaceInvitation;
+};
+export type PatchWorkspaceInvitationNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.PATCH_WORKSPACE_INVITATION_NOT_FOUND>;
+export type PatchWorkspaceInvitationHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.PATCH_WORKSPACE_INVITATION_HTTP_INTERNAL_ERROR>;
+export type PatchWorkspaceInvitationErrorAction = SetErrorAction<WorkspacesAction.PATCH_WORKSPACE_INVITATION_ERROR>;
+
+/// Get Workspace Invitations
+
+export type GetWorkspaceInvitationsSuccessAction = {
+  type: WorkspacesAction.GET_WORKSPACE_INVITATIONS_SUCCESS;
+  payload: GetWorkspaceInvitations;
+};
+
+export type GetWorkspaceInvitationsNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.GET_WORKSPACE_INVITATIONS_NOT_FOUND>;
+
+export type GetWorkspaceInvitationsHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.GET_WORKSPACE_INVITATIONS_HTTP_INTERNAL_ERROR>;
+
+export type GetWorkspaceInvitationsErrorAction = SetErrorAction<WorkspacesAction.GET_WORKSPACE_INVITATIONS_ERROR>;
+
 export type WorkspacesActionTypes =
+  | SetLoadingStartAction
+  | SetLoadingEndAction
   | SetWorkspacesLoadingStartAction
   | SetWorkspacesLoadingEndAction
   | GetFullWorkspacesSuccessAction
@@ -83,4 +131,16 @@ export type WorkspacesActionTypes =
   | PostWorkspacesSuccessAction
   | PostWorkspacesNotFoundAction
   | PostWorkspacesHttpInternalErrorAction
-  | PostWorkspacesErrorAction;
+  | PostWorkspacesErrorAction
+  | PostWorkspaceInvitationSuccessAction
+  | PostWorkspaceInvitationNotFoundAction
+  | PostWorkspaceInvitationHttpInternalErrorAction
+  | PostWorkspaceInvitationErrorAction
+  | PatchWorkspaceInvitationSuccessAction
+  | PatchWorkspaceInvitationNotFoundAction
+  | PatchWorkspaceInvitationHttpInternalErrorAction
+  | PatchWorkspaceInvitationErrorAction
+  | GetWorkspaceInvitationsSuccessAction
+  | GetWorkspaceInvitationsNotFoundAction
+  | GetWorkspaceInvitationsHttpInternalErrorAction
+  | GetWorkspaceInvitationsErrorAction;
