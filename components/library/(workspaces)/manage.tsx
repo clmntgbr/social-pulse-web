@@ -25,11 +25,10 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   const { data: session } = useSession();
   const { workspacesDispatch } = useWorkspacesContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [workspaceLabel, setWorkspaceLabel] = useState("");
 
   const formik = useFormik({
     initialValues: {
-      label: workspaceLabel,
+      label: "",
     },
     validationSchema: Yup.object({
       label: Yup.string().required(),
@@ -66,7 +65,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
 
   useEffect(() => {
     formik.setFieldValue("label", workspace.label);
-  }, [workspace]);
+  }, [formik, workspace]);
 
   return (
     <>

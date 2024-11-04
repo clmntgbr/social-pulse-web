@@ -97,7 +97,7 @@ export default function WorkspacesSwitcher() {
     if (!selectedWorkspace) {
       setSelectedWorkspace(workspaces.workspace);
     }
-  }, [selectedWorkspace]);
+  }, [selectedWorkspace, workspaces.workspace]);
 
   if (!workspaces || !workspaces.workspace || !workspaces.workspaces) {
     return null;
