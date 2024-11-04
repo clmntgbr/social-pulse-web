@@ -6,7 +6,6 @@ import { AppContextProviders } from "@/contexts";
 import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
-import { Suspense } from "react";
 import { Menu } from "../../components/library/(navigation)/menu";
 import { NavItem } from "../../components/library/(navigation)/nav-item";
 import SocialAccounts from "../../components/library/(navigation)/social-accounts";
@@ -39,9 +38,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <User />
                 </div>
               </header>
-              <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40 overflow-y-auto bg-white">
-                <Suspense>{children}</Suspense>
-              </main>
+              <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40 overflow-y-auto bg-white">{children}</main>
             </div>
           </main>
         </Providers>

@@ -69,7 +69,6 @@ export function Menu() {
   };
 
   const onLinkedinLoginUrl = async () => {
-    console.log(pathname);
     getLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
       .then((response) => {
         router.push(response?.value ?? "");

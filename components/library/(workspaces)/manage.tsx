@@ -65,7 +65,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
 
   useEffect(() => {
     formik.setFieldValue("label", workspace.label);
-  }, [formik, workspace]);
+  }, [workspace]);
 
   return (
     <>

@@ -103,8 +103,6 @@ export default function WorkspacesSwitcher() {
     return null;
   }
 
-  console.log(selectedWorkspace?.label);
-
   return (
     <Dialog open={showNewWorkspaceDialog} onOpenChange={setShowNewWorkspaceDialog}>
       <Popover open={open} onOpenChange={setOpen}>
