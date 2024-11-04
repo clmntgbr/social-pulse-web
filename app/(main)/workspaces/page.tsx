@@ -1,6 +1,7 @@
 "use client";
 
 import { WorkspacesInvitations } from "@/components/library/(workspaces)/invitations";
+import { WorkspacesManage } from "@/components/library/(workspaces)/manage";
 import { WorkspacesMembers } from "@/components/library/(workspaces)/members";
 import { WorkspacesSidebarNav } from "@/components/library/(workspaces)/sidebar-nav.";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -77,10 +78,13 @@ export default function Page() {
             )}
 
             <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-              <aside className="lg:w-1/5">
+              <aside>
                 <WorkspacesSidebarNav items={workspaceNavItems} />
               </aside>
-              <div className="flex-1 lg:max-w-2xl">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
+              <div className="flex flex-row gap-4">
+                <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}</div>
+                <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
+              </div>
             </div>
           </>
         )}

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
 import { PatchUserWorkspace } from "./interface/body/PatchUserWorkspace";
+import { PatchWorkspaceBody } from "./interface/body/PatchWorkspace";
 import { PatchWorkspaceInvitation } from "./interface/body/PatchWorkspaceInvitation";
 import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaceInvitationBody } from "./interface/body/PostWorkspaceInvitation";
@@ -138,6 +139,14 @@ export default class SocialPulseClient {
   public async postWorkspaceInvitation(requestBody: PostWorkspaceInvitationBody): Promise<AxiosResponse<PostWorkspaceInvitation> | any> {
     try {
       return await this.httpClient.post(WORKSPACES.WORKSPACE_INVITATION, requestBody);
+    } catch (response: any) {
+      return response;
+    }
+  }
+
+  public async patchWorkspace(workspaceUuid: string, requestBody: PatchWorkspaceBody): Promise<AxiosResponse<Default> | any> {
+    try {
+      return await this.httpClient.patch(WORKSPACES.PATCH_WORKSPACE.concat("/", workspaceUuid), requestBody);
     } catch (response: any) {
       return response;
     }

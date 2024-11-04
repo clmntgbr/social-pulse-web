@@ -250,7 +250,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button type="submit" variant="destructive" disabled={isLoadingOnPromote} onClick={() => promoteUserCancel}>
+            <Button type="submit" variant="destructive" disabled={isLoadingOnPromote} onClick={() => promoteUserCancel()}>
               Cancel
             </Button>
             <Button type="submit" disabled={isLoadingOnPromote} onClick={promoteUser}>

@@ -96,6 +96,16 @@ export type PostWorkspacePromoteNotFoundAction = SetNotFoundErrorAction<Workspac
 export type PostWorkspacePromoteHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.POST_WORKSPACE_PROMOTE_HTTP_INTERNAL_ERROR>;
 export type PostWorkspacePromoteErrorAction = SetErrorAction<WorkspacesAction.POST_WORKSPACE_PROMOTE_ERROR>;
 
+/// Patch Workspace
+
+export type PatchWorkspaceSuccessAction = {
+  type: WorkspacesAction.PATCH_WORKSPACE_SUCCESS;
+  payload: Default;
+};
+export type PatchWorkspaceNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.PATCH_WORKSPACE_NOT_FOUND>;
+export type PatchWorkspaceHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.PATCH_WORKSPACE_HTTP_INTERNAL_ERROR>;
+export type PatchWorkspaceErrorAction = SetErrorAction<WorkspacesAction.PATCH_WORKSPACE_ERROR>;
+
 /// Post Workspace Invitation
 
 export type PostWorkspaceInvitationSuccessAction = {
@@ -169,6 +179,10 @@ export type WorkspacesActionTypes =
   | PatchWorkspaceInvitationNotFoundAction
   | PatchWorkspaceInvitationHttpInternalErrorAction
   | PatchWorkspaceInvitationErrorAction
+  | PatchWorkspaceSuccessAction
+  | PatchWorkspaceNotFoundAction
+  | PatchWorkspaceHttpInternalErrorAction
+  | PatchWorkspaceErrorAction
   | GetWorkspaceInvitationsSuccessAction
   | GetWorkspaceInvitationsNotFoundAction
   | GetWorkspaceInvitationsHttpInternalErrorAction

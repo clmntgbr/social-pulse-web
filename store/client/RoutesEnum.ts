@@ -14,6 +14,7 @@ export enum WORKSPACES {
   POST_WORKSPACE_PROMOTE = "/workspaces/%workspaceUuid%/promote/%userUuid%",
   GET_WORKSPACE = "/workspace",
   WORKSPACE_INVITATION = "/workspace_invitations",
+  PATCH_WORKSPACE = "/workspaces",
 }
 
 export enum USERS {

@@ -33,7 +33,7 @@ export default function WorkspacesSwitcher() {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] = useState(false);
-  const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(null);
+  const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>();
 
   const formik = useFormik({
     initialValues: {
@@ -88,14 +88,22 @@ export default function WorkspacesSwitcher() {
   };
 
   useEffect(() => {
+    if (workspaces.workspace) {
+      setSelectedWorkspace(workspaces.workspace);
+    }
+  }, [workspaces.workspace]);
+
+  useEffect(() => {
     if (!selectedWorkspace) {
       setSelectedWorkspace(workspaces.workspace);
     }
-  }, [selectedWorkspace, workspaces.workspace]);
+  }, [selectedWorkspace]);
 
   if (!workspaces || !workspaces.workspace || !workspaces.workspaces) {
     return null;
   }
+
+  console.log(selectedWorkspace?.label);
 
   return (
     <Dialog open={showNewWorkspaceDialog} onOpenChange={setShowNewWorkspaceDialog}>
@@ -164,7 +172,7 @@ export default function WorkspacesSwitcher() {
             <div className="space-y-4 py-2 pb-4">
               <div className="space-y-2">
                 <Label htmlFor="name" className={`${formik.touched.name && formik.errors.name ? "text-red-800" : ""}`}>
-                  Workspace name*
+                  Name
                 </Label>
                 <Input
                   className={`${formik.touched.name && formik.errors.name ? "border-red-500" : ""}`}
