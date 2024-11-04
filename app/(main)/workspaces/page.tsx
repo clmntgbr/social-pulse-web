@@ -12,7 +12,7 @@ import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
 import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Page() {
   const { workspaces, workspacesDispatch } = useWorkspacesContext();
@@ -54,41 +54,39 @@ export default function Page() {
   }, [selectedWorkspace, currentUuid, router, session?.accessToken, workspacesDispatch]);
 
   return (
-    <Suspense fallback={<></>}>
-      <div className="hidden space-y-6 p-10 pb-16 md:block">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Workspaces</h2>
-          <p className="text-muted-foreground">
-            Manage and organize your workspaces. Create new collaborative environments, configure access permissions, and streamline your social accounts workflow all in one place.
-          </p>
-        </div>
-        <Separator className="my-6" />
-
-        {workspaces.fullWorkspaces && (
-          <>
-            {workspaces.workspaceInvitations && workspaces.workspaceInvitations.length > 0 && (
-              <div className="flex-1 lg:max-w-2xl">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Invitations</CardTitle>
-                  </CardHeader>
-                  {workspaces && workspaces.workspaceInvitations.map((workspaceInvitation) => <WorkspacesInvitations key={workspaceInvitation.uuid} workspaceInvitation={workspaceInvitation} />)}
-                </Card>
-              </div>
-            )}
-
-            <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-              <aside>
-                <WorkspacesSidebarNav items={workspaceNavItems} />
-              </aside>
-              <div className="flex flex-row gap-4">
-                <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}</div>
-                <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
-              </div>
-            </div>
-          </>
-        )}
+    <div className="hidden space-y-6 p-10 pb-16 md:block">
+      <div className="space-y-0.5">
+        <h2 className="text-2xl font-bold tracking-tight">Workspaces</h2>
+        <p className="text-muted-foreground">
+          Manage and organize your workspaces. Create new collaborative environments, configure access permissions, and streamline your social accounts workflow all in one place.
+        </p>
       </div>
-    </Suspense>
+      <Separator className="my-6" />
+
+      {workspaces.fullWorkspaces && (
+        <>
+          {workspaces.workspaceInvitations && workspaces.workspaceInvitations.length > 0 && (
+            <div className="flex-1 lg:max-w-2xl">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Invitations</CardTitle>
+                </CardHeader>
+                {workspaces && workspaces.workspaceInvitations.map((workspaceInvitation) => <WorkspacesInvitations key={workspaceInvitation.uuid} workspaceInvitation={workspaceInvitation} />)}
+              </Card>
+            </div>
+          )}
+
+          <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+            <aside>
+              <WorkspacesSidebarNav items={workspaceNavItems} />
+            </aside>
+            <div className="flex flex-row gap-4">
+              <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}</div>
+              <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
