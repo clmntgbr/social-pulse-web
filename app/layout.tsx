@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { LoaderIcon } from "lucide-react";
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={`${GeistSans.className} ${GeistMono.className} antialiased`}>
         <Suspense fallback={<LoaderIcon></LoaderIcon>}>{children}</Suspense>
         <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
