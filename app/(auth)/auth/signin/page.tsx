@@ -1,10 +1,9 @@
 "use client";
 
+import { ToastFail } from "@/components/library/Toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -30,12 +29,7 @@ export default function Page() {
           router.refresh();
         })
         .catch(() => {
-          toast({
-            variant: "destructive",
-            title: "Something went wrong.",
-            description: "There was a problem with your request.",
-            action: <ToastAction altText="Try again">Try again</ToastAction>,
-          });
+          ToastFail("Something went wrong.", "There was a problem with your request.");
         });
     },
   });

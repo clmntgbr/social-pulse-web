@@ -81,8 +81,8 @@ export default function Page() {
               <WorkspacesSidebarNav items={workspaceNavItems} />
             </aside>
             <div className="flex flex-row gap-4">
-              <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}</div>
-              <div className="flex-1 max-w-[600px]">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
+              <div className="flex-1">{selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}</div>
+              <div className="flex-1">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
             </div>
           </div>
         </>

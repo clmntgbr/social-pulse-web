@@ -1,9 +1,7 @@
 "use client";
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { ToastAction } from "@/components/ui/toast";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
-import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { getFacebookLoginUrl } from "@/store/social_accounts/getFacebookLoginUrl";
 import { getLinkedinLoginUrl } from "@/store/social_accounts/getLinkedinLoginUrl";
@@ -13,6 +11,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
+import { ToastFail } from "../Toast";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -59,12 +58,7 @@ export function Menu() {
         router.push(response?.value ?? "");
       })
       .catch(() => {
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
+        ToastFail("Something went wrong.", "There was a problem with your request.");
       });
   };
 
@@ -74,12 +68,7 @@ export function Menu() {
         router.push(response?.value ?? "");
       })
       .catch(() => {
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
+        ToastFail("Something went wrong.", "There was a problem with your request.");
       });
   };
 
@@ -89,12 +78,7 @@ export function Menu() {
         router.push(response?.value ?? "");
       })
       .catch(() => {
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
+        ToastFail("Something went wrong.", "There was a problem with your request.");
       });
   };
 

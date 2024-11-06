@@ -3,7 +3,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
-import { ToastAction } from "@/components/ui/toast";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { toast } from "@/hooks/use-toast";
 import { WorkspaceInvitationFull } from "@/store/client/interface/workspace-invitation-full";
@@ -13,6 +12,7 @@ import { patchWorkspaceInvitation } from "@/store/workspaces/patchWorkspaceInvit
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
+import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspaceInvitationsProps = {
   workspaceInvitation: WorkspaceInvitationFull;
@@ -29,26 +29,16 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
     patchWorkspaceInvitation(session?.accessToken ?? "", workspaceInvitation.uuid, { status: "accepted" }, workspacesDispatch)
       .then(() => {
         setTimeout(() => {
+          ToastSuccess();
           getWorkspaceInvitations(session?.accessToken ?? "", workspacesDispatch);
           getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           setIsLoadingAccept(false);
-          toast({
-            variant: "destructive",
-            title: "Success!",
-            description: "Your request was completed successfully.",
-            className: "bg-green-700 border-green-700",
-          });
         }, 2000);
       })
       .catch(() => {
         setTimeout(() => {
           setIsLoadingAccept(false);
-          toast({
-            variant: "destructive",
-            title: "Something went wrong.",
-            description: "There was a problem with your request.",
-            action: <ToastAction altText="Try again">Try again</ToastAction>,
-          });
+          ToastFail("Something went wrong.", "There was a problem with your request.");
         }, 2000);
       });
   };
@@ -61,23 +51,13 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
           getWorkspaceInvitations(session?.accessToken ?? "", workspacesDispatch);
           getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           setIsLoadingAccept(false);
-          toast({
-            variant: "destructive",
-            title: "Success!",
-            description: "Your request was completed successfully.",
-            className: "bg-green-700 border-green-700",
-          });
+          ToastSuccess();
         }, 2000);
       })
       .catch(() => {
         setTimeout(() => {
           setIsLoadingAccept(false);
-          toast({
-            variant: "destructive",
-            title: "Something went wrong.",
-            description: "There was a problem with your request.",
-            action: <ToastAction altText="Try again">Try again</ToastAction>,
-          });
+          ToastFail("Something went wrong.", "There was a problem with your request.");
         }, 2000);
       });
   };

@@ -8,7 +8,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { toast } from "@/hooks/use-toast";
 import { WorkspaceFull } from "@/store/client/interface/workspace-full";
 import { deleteWorkspaceUser } from "@/store/workspaces/deleteWorkspaceUser";
 import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
@@ -20,6 +19,7 @@ import { ShieldCheck, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import * as Yup from "yup";
+import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspacesMembersProps = {
   workspace: WorkspaceFull;
@@ -58,22 +58,13 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
           formik.resetForm();
           setTimeout(() => {
             setIsLoading(false);
-            toast({
-              variant: "destructive",
-              title: "Success!",
-              description: "Your request was completed successfully.",
-              className: "bg-green-700 border-green-700",
-            });
+            ToastSuccess();
           }, 2000);
         })
         .catch((response) => {
           setTimeout(() => {
             setIsLoading(false);
-            toast({
-              variant: "destructive",
-              title: "Something went wrong.",
-              description: response.message ?? "There was a problem with your request.",
-            });
+            ToastFail("Something went wrong.", response.message ?? "There was a problem with your request.");
           }, 2000);
         });
     },
@@ -88,23 +79,14 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
         setUuidLoadingOnDelete("");
         setTimeout(() => {
           setIsLoadingOnDelete(false);
-          toast({
-            variant: "destructive",
-            title: "Success!",
-            description: "Your request was completed successfully.",
-            className: "bg-green-700 border-green-700",
-          });
+          ToastSuccess();
         }, 2000);
       })
       .catch((response) => {
         setUuidLoadingOnDelete("");
         setTimeout(() => {
           setIsLoadingOnDelete(false);
-          toast({
-            variant: "destructive",
-            title: "Something went wrong.",
-            description: response.message ?? "There was a problem with your request.",
-          });
+          ToastFail("Something went wrong.", response.message ?? "There was a problem with your request.");
         }, 2000);
       });
   };
@@ -130,30 +112,21 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
         setTimeout(() => {
           setIsLoadingOnPromote(false);
           setShowDialog(false);
-          toast({
-            variant: "destructive",
-            title: "Success!",
-            description: "Your request was completed successfully.",
-            className: "bg-green-700 border-green-700",
-          });
+          ToastSuccess();
         }, 2000);
       })
       .catch(() => {
         setUuidLoadingOnPromote("");
         setTimeout((response) => {
           setIsLoadingOnPromote(false);
-          toast({
-            variant: "destructive",
-            title: "Something went wrong.",
-            description: response.message ?? "There was a problem with your request.",
-          });
+          ToastFail("Something went wrong.", response.message ?? "There was a problem with your request.");
         }, 2000);
       });
   };
 
   return (
     <>
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
           <CardTitle>Invite people to collaborate</CardTitle>
           <CardDescription> You can invite existing members to collaborate on this workspace, giving them permission to edit and contribute alongside you.</CardDescription>

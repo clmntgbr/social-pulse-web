@@ -7,11 +7,9 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ToastAction } from "@/components/ui/toast";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useUserContext from "@/contexts/users/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Workspace } from "@/store/client/interface/workspace";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
@@ -24,6 +22,7 @@ import { DiamondPlus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { ToastFail, ToastSuccess } from "../Toast";
 
 export default function WorkspacesSwitcher() {
   const { workspaces, workspacesDispatch } = useWorkspacesContext();
@@ -49,23 +48,13 @@ export default function WorkspacesSwitcher() {
           setTimeout(() => {
             setIsLoading(false);
             setShowNewWorkspaceDialog(false);
+            ToastSuccess();
             getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             formik.resetForm();
-            toast({
-              variant: "destructive",
-              title: "Success!",
-              description: "Your request was completed successfully.",
-              className: "bg-green-700 border-green-700",
-            });
           }, 2000);
         })
         .catch(() => {
-          toast({
-            variant: "destructive",
-            title: "Something went wrong.",
-            description: "There was a problem with your request.",
-            action: <ToastAction altText="Try again">Try again</ToastAction>,
-          });
+          ToastFail("Something went wrong.", "There was a problem with your request.");
         });
     },
   });
@@ -78,12 +67,7 @@ export default function WorkspacesSwitcher() {
         getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
       })
       .catch(() => {
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
+        ToastFail("Something went wrong.", "There was a problem with your request.");
       });
   };
 

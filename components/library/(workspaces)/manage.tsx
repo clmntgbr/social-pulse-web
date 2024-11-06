@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { toast } from "@/hooks/use-toast";
 import { WorkspaceFull } from "@/store/client/interface/workspace-full";
 import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
 import { getWorkspace } from "@/store/workspaces/getWorkspace";
@@ -14,8 +13,9 @@ import { patchWorkspace } from "@/store/workspaces/patchWorkspace";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
+import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspacesMembersProps = {
   workspace: WorkspaceFull;
@@ -26,10 +26,21 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   const { workspacesDispatch } = useWorkspacesContext();
   const [isLoading, setIsLoading] = useState(false);
   const [file64, setFile64] = useState<string | null>(null);
+  const fileRef = useRef(null);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     convertToBase64(selectedFile);
+  };
+
+  const handleFileClick = () => {
+    if (workspace.admin.uuid !== session?.user?.id || isLoading) {
+      return;
+    }
+
+    if (fileRef) {
+      fileRef.current.click();
+    }
   };
 
   const formik = useFormik({
@@ -46,26 +57,17 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
       patchWorkspace(session?.accessToken ?? "", workspace.uuid, body, workspacesDispatch)
         .then(() => {
           setTimeout(() => {
+            ToastSuccess();
             getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             getWorkspace(session?.accessToken ?? "", workspacesDispatch);
             setIsLoading(false);
-            toast({
-              variant: "destructive",
-              title: "Success!",
-              description: "Your request was completed successfully.",
-              className: "bg-green-700 border-green-700",
-            });
           }, 2000);
         })
         .catch((response) => {
           setTimeout(() => {
             setIsLoading(false);
-            toast({
-              variant: "destructive",
-              title: "Something went wrong.",
-              description: response.message ?? "There was a problem with your request.",
-            });
+            ToastFail("Something went wrong.", response.message ?? "There was a problem with your request.");
           }, 2000);
         });
     },
@@ -87,27 +89,45 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
 
   return (
     <>
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
           <CardTitle>{workspace.label}</CardTitle>
           <CardDescription> Update your workspace settings. Set your workspace name and avatar.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="post-workspaces" onSubmit={formik.handleSubmit} key={workspace.uuid}>
-            <Label htmlFor="name" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
-              Name
-            </Label>
-            <Input
-              className={`${formik.touched.label && formik.errors.label ? "border-red-500" : ""}`}
-              id="label"
-              name="label"
-              onBlur={formik.handleBlur}
-              value={formik.values.label}
-              onChange={formik.handleChange}
-              disabled={workspace.admin.uuid !== session?.user?.id || isLoading}
-            />
-            <input type="file" id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
-            <Button type="submit" className="mt-3" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
+            <div>
+              <Label htmlFor="name" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
+                Name
+              </Label>
+              <Input
+                className={`${formik.touched.label && formik.errors.label ? "border-red-500" : ""}`}
+                id="label"
+                name="label"
+                onBlur={formik.handleBlur}
+                value={formik.values.label}
+                onChange={formik.handleChange}
+                disabled={workspace.admin.uuid !== session?.user?.id || isLoading}
+              />
+            </div>
+
+            <div className="mt-5">
+              <Label htmlFor="logo" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
+                Logo
+              </Label>
+
+              <div className="flex items-center space-x-4">
+                <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64 ?? workspace.logoUrl} alt="Base64 Image" />
+
+                <div>
+                  <div className="text-sm font-medium leading-none">
+                    <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="mt-2 font-extralight from-stone-300 text-xs">You can change the workspace logo by clicking on it.</p>
+            <Button type="submit" className="mt-5" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
               Save
               {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             </Button>
