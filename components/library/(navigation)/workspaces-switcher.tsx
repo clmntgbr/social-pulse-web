@@ -109,7 +109,7 @@ export default function WorkspacesSwitcher() {
         <PopoverTrigger asChild>
           <Button variant="outline" role="combobox" aria-expanded={open} aria-label="Select a workspace" className={cn("min-w-[250px] justify-between font-semibold")}>
             <Avatar className="mr-2 h-5 w-5">
-              <AvatarImage src={`https://avatar.vercel.sh/${selectedWorkspace?.uuid}.png`} alt={selectedWorkspace?.label} />
+              <AvatarImage src={selectedWorkspace?.logoUrl} alt={selectedWorkspace?.label} />
               <AvatarFallback>{selectedWorkspace?.label}</AvatarFallback>
             </Avatar>
             {selectedWorkspace?.label}
@@ -131,7 +131,7 @@ export default function WorkspacesSwitcher() {
                     className="text-sm font-light px-4"
                   >
                     <Avatar className="mr-2 h-5 w-5">
-                      <AvatarImage src={`https://avatar.vercel.sh/${workspace.uuid}.png`} alt={workspace.label} />
+                      <AvatarImage src={workspace.logoUrl} alt={workspace.label} />
                       <AvatarFallback>{workspace.label}</AvatarFallback>
                     </Avatar>
                     {workspace.label}

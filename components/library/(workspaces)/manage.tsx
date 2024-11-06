@@ -25,6 +25,12 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   const { data: session } = useSession();
   const { workspacesDispatch } = useWorkspacesContext();
   const [isLoading, setIsLoading] = useState(false);
+  const [file64, setFile64] = useState<string | null>(null);
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    convertToBase64(selectedFile);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +41,9 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      patchWorkspace(session?.accessToken ?? "", workspace.uuid, { label: values.label }, workspacesDispatch)
+      const body = { label: values.label, avatar: file64 };
+
+      patchWorkspace(session?.accessToken ?? "", workspace.uuid, body, workspacesDispatch)
         .then(() => {
           setTimeout(() => {
             getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
@@ -63,6 +71,16 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
     },
   });
 
+  const convertToBase64 = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setFile64(reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   useEffect(() => {
     formik.setFieldValue("label", workspace.label);
   }, [workspace]);
@@ -88,6 +106,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
               onChange={formik.handleChange}
               disabled={workspace.admin.uuid !== session?.user?.id || isLoading}
             />
+            <input type="file" id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
             <Button type="submit" className="mt-3" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
               Save
               {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
