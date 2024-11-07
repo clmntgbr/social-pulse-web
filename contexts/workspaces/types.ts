@@ -106,6 +106,16 @@ export type PatchWorkspaceNotFoundAction = SetNotFoundErrorAction<WorkspacesActi
 export type PatchWorkspaceHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.PATCH_WORKSPACE_HTTP_INTERNAL_ERROR>;
 export type PatchWorkspaceErrorAction = SetErrorAction<WorkspacesAction.PATCH_WORKSPACE_ERROR>;
 
+/// Leave Workspace
+
+export type LeaveWorkspaceSuccessAction = {
+  type: WorkspacesAction.LEAVE_WORKSPACE_SUCCESS;
+  payload: Default;
+};
+export type LeaveWorkspaceNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.LEAVE_WORKSPACE_NOT_FOUND>;
+export type LeaveWorkspaceHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.LEAVE_WORKSPACE_HTTP_INTERNAL_ERROR>;
+export type LeaveWorkspaceErrorAction = SetErrorAction<WorkspacesAction.LEAVE_WORKSPACE_ERROR>;
+
 /// Post Workspace Invitation
 
 export type PostWorkspaceInvitationSuccessAction = {
@@ -167,6 +177,10 @@ export type WorkspacesActionTypes =
   | PostWorkspacePromoteNotFoundAction
   | PostWorkspacePromoteHttpInternalErrorAction
   | PostWorkspacePromoteErrorAction
+  | LeaveWorkspaceSuccessAction
+  | LeaveWorkspaceNotFoundAction
+  | LeaveWorkspaceHttpInternalErrorAction
+  | LeaveWorkspaceErrorAction
   | PostWorkspacesSuccessAction
   | PostWorkspacesNotFoundAction
   | PostWorkspacesHttpInternalErrorAction

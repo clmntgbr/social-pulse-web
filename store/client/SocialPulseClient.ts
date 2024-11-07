@@ -60,6 +60,14 @@ export default class SocialPulseClient {
     }
   }
 
+  public async leaveWorkspace(workspaceUuid: string): Promise<AxiosResponse<Default> | any> {
+    try {
+      return await this.httpClient.patch(WORKSPACES.LEAVE_WORKSPACE.replace("%workspaceUuid%", workspaceUuid));
+    } catch (response: any) {
+      return response;
+    }
+  }
+
   public async deleteWorkspaceUser(workspaceUuid: string, userUuid: string): Promise<AxiosResponse<Default> | any> {
     try {
       return await this.httpClient.delete(WORKSPACES.DELETE_WORKSPACE_USER.replace("%workspaceUuid%", workspaceUuid).replace("%userUuid%", userUuid));

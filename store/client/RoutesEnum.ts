@@ -11,6 +11,7 @@ export enum SOCIAL_ACCOUNTS {
 export enum WORKSPACES {
   GET_WORKSPACES = "/workspaces",
   POST_WORKSPACES = "/workspaces",
+  LEAVE_WORKSPACE = "/workspaces/%workspaceUuid%/leave",
   DELETE_WORKSPACE_USER = "/workspaces/%workspaceUuid%/user/%userUuid%",
   POST_WORKSPACE_PROMOTE = "/workspaces/%workspaceUuid%/promote/%userUuid%",
   GET_WORKSPACE = "/workspace",
