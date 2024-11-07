@@ -4,7 +4,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { WorkspaceInvitationFull } from "@/store/client/interface/workspace-invitation-full";
+import { WorkspaceInvitation } from "@/store/client/interface/workspace-invitation";
 import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { patchWorkspaceInvitation } from "@/store/workspaces/patchWorkspaceInvitation";
@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspaceInvitationsProps = {
-  workspaceInvitation: WorkspaceInvitationFull;
+  workspaceInvitation: WorkspaceInvitation;
 };
 
 export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ workspaceInvitation }) => {

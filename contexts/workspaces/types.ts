@@ -3,7 +3,7 @@ import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaceInvitation } from "@/store/client/interface/GetWorkspaceInvitation";
 import { GetWorkspaceInvitations } from "@/store/client/interface/GetWorkspaceInvitations";
 import { GetWorkspaces } from "@/store/client/interface/GetWorkspaces";
-import { WorkspaceInvitationFull } from "@/store/client/interface/workspace-invitation-full";
+import { WorkspaceInvitation } from "@/store/client/interface/workspace-invitation";
 import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
 import { WorkspacesAction } from "./actions";
 
@@ -116,7 +116,7 @@ export type DeleteWorkspaceErrorAction = SetErrorAction<WorkspacesAction.DELETE_
 
 export type PostWorkspaceInvitationSuccessAction = {
   type: WorkspacesAction.POST_WORKSPACE_INVITATION_SUCCESS;
-  payload: WorkspaceInvitationFull;
+  payload: WorkspaceInvitation;
 };
 
 export type PostWorkspaceInvitationNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.POST_WORKSPACE_INVITATION_NOT_FOUND>;

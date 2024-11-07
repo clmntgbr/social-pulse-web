@@ -1,3 +1,3 @@
-import { WorkspaceInvitationFull } from "./workspace-invitation-full";
+import { WorkspaceInvitation } from "./workspace-invitation";
 
-export type GetWorkspaceInvitation = WorkspaceInvitationFull;
+export type GetWorkspaceInvitation = WorkspaceInvitation;
