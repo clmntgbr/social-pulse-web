@@ -36,14 +36,6 @@ export default class SocialPulseClient {
 
   public async getWorkspaces(): Promise<AxiosResponse<GetWorkspaces> | null> {
     try {
-      return await this.httpClient.get(WORKSPACES.GET_WORKSPACES);
-    } catch {
-      return null;
-    }
-  }
-
-  public async getFullWorkspaces(): Promise<AxiosResponse<GetWorkspaces> | null> {
-    try {
       return await this.httpClient.get(WORKSPACES.GET_WORKSPACES.concat("?groups=workspaces:full"));
     } catch {
       return null;

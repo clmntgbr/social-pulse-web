@@ -1,8 +1,8 @@
 import { User } from "./user";
-import { WorkspaceFull } from "./workspace-full";
+import { Workspace } from "./workspace";
 
 export interface WorkspaceInvitationFull {
-  workspace: WorkspaceFull;
+  workspace: Workspace;
   user: User;
   createdBy: User;
   updatedBy: User;

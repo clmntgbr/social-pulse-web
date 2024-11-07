@@ -8,9 +8,9 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { WorkspaceFull } from "@/store/client/interface/workspace-full";
+import { Workspace } from "@/store/client/interface/workspace";
 import { deleteWorkspaceUser } from "@/store/workspaces/deleteWorkspaceUser";
-import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
+import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { postWorkspaceInvitation } from "@/store/workspaces/postWorkspaceInvitation";
 import { postWorkspacePromote } from "@/store/workspaces/postWorkspacePromote";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -22,7 +22,7 @@ import * as Yup from "yup";
 import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspacesMembersProps = {
-  workspace: WorkspaceFull;
+  workspace: Workspace;
 };
 
 export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace }) => {
@@ -54,7 +54,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
       };
       postWorkspaceInvitation(session?.accessToken ?? "", body, workspacesDispatch)
         .then(() => {
-          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+          getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           formik.resetForm();
           setTimeout(() => {
             setIsLoading(false);
@@ -75,7 +75,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
     setIsLoadingOnDelete(true);
     deleteWorkspaceUser(session?.accessToken ?? "", workspaceUuid, userUuid, workspacesDispatch)
       .then(() => {
-        getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+        getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
         setUuidLoadingOnDelete("");
         setTimeout(() => {
           setIsLoadingOnDelete(false);
@@ -106,7 +106,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
     setIsLoadingOnPromote(true);
     postWorkspacePromote(session?.accessToken ?? "", selectedUuid.workspaceUuid ?? "", selectedUuid.userUuid ?? "", workspacesDispatch)
       .then(() => {
-        getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+        getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
         setUuidLoadingOnPromote("");
         setSelectedUuid({ workspaceUuid: null, userUuid: null });
         setTimeout(() => {

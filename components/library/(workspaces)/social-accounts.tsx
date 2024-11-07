@@ -5,10 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { WorkspaceFull } from "@/store/client/interface/workspace-full";
+import { Workspace } from "@/store/client/interface/workspace";
 import { deleteSocialAccount } from "@/store/social_accounts/deleteSocialAccount";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
-import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
+import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { RefreshCw, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -18,7 +18,7 @@ import { SocialAccountsLogo } from "../SocialAccountsLogo";
 import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspacesMembersProps = {
-  workspace: WorkspaceFull;
+  workspace: Workspace;
 };
 
 export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ workspace }) => {
@@ -60,7 +60,7 @@ export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ wor
     deleteSocialAccount(session?.accessToken ?? "", socialAccountUuid, socialAccountsDispatch)
       .then(() => {
         setTimeout(() => {
-          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+          getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
           setIsLoading(false);
           ToastSuccess();

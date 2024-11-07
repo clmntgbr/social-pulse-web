@@ -8,9 +8,9 @@ import { WorkspacesSocialAccounts } from "@/components/library/(workspaces)/soci
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { WorkspaceFull } from "@/store/client/interface/workspace-full";
-import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
+import { Workspace } from "@/store/client/interface/workspace";
 import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
+import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -23,22 +23,22 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
-    const getWorkspaces = async () => {
+    const fetchWorkspaces = async () => {
       if (session?.accessToken) {
-        getFullWorkspaces(session?.accessToken, workspacesDispatch);
+        getWorkspaces(session?.accessToken, workspacesDispatch);
       }
     };
 
-    getWorkspaces();
+    fetchWorkspaces();
   }, [session?.accessToken, workspacesDispatch]);
 
   const workspaceNavItems =
-    workspaces.fullWorkspaces?.member.map((workspace: WorkspaceFull) => ({
+    workspaces.workspaces?.member.map((workspace: Workspace) => ({
       title: workspace.label,
       href: `?uuid=${workspace.uuid}`,
     })) || [];
 
-  const selectedWorkspace = workspaces.fullWorkspaces?.member?.find((workspace: WorkspaceFull) => workspace.uuid === currentUuid) || workspaces.fullWorkspaces?.member?.[0];
+  const selectedWorkspace = workspaces.workspaces?.member?.find((workspace: Workspace) => workspace.uuid === currentUuid) || workspaces.workspaces?.member?.[0];
 
   useEffect(() => {
     if (selectedWorkspace && !currentUuid) {
@@ -64,7 +64,7 @@ export default function Page() {
       </div>
       <Separator className="my-6" />
 
-      {workspaces.fullWorkspaces && (
+      {workspaces.workspaces && (
         <>
           {workspaces.workspaceInvitations && workspaces.workspaceInvitations.length > 0 && (
             <div className="flex-1 lg:max-w-2xl">

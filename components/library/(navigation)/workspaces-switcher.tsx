@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { Workspace } from "@/store/client/interface/workspace";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { patchUserWorkspace } from "@/store/users/patchUserWorkspace";
-import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
+import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { postWorkspaces } from "@/store/workspaces/postWorkspaces";
 import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
@@ -49,7 +49,7 @@ export default function WorkspacesSwitcher() {
             setIsLoading(false);
             setShowNewWorkspaceDialog(false);
             ToastSuccess();
-            getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+            getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             formik.resetForm();
           }, 2000);
         })

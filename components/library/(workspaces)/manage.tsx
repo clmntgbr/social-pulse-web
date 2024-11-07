@@ -7,10 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { WorkspaceFull } from "@/store/client/interface/workspace-full";
+import { Workspace } from "@/store/client/interface/workspace";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { deleteWorkspace } from "@/store/workspaces/deleteWorkspace";
-import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
 import { getWorkspace } from "@/store/workspaces/getWorkspace";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { leaveWorkspace } from "@/store/workspaces/leaveWorkspace";
@@ -24,7 +23,7 @@ import * as Yup from "yup";
 import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspacesMembersProps = {
-  workspace: WorkspaceFull;
+  workspace: Workspace;
 };
 
 export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }) => {
@@ -70,7 +69,6 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
         .then(() => {
           setTimeout(async () => {
             ToastSuccess();
-            getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             getWorkspace(session?.accessToken ?? "", workspacesDispatch);
             setIsLoading(false);
@@ -112,7 +110,6 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
       .then(() => {
         setTimeout(async () => {
           ToastSuccess();
-          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           getWorkspace(session?.accessToken ?? "", workspacesDispatch);
           getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
@@ -138,7 +135,6 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
       .then(() => {
         setTimeout(async () => {
           ToastSuccess();
-          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           getWorkspace(session?.accessToken ?? "", workspacesDispatch);
           router.push(`?uuid=`);

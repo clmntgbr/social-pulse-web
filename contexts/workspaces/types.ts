@@ -1,5 +1,4 @@
 import { Default } from "@/store/client/interface/Default";
-import { GetFullWorkspaces } from "@/store/client/interface/GetFullWorkspaces";
 import { GetWorkspace } from "@/store/client/interface/GetWorkspace";
 import { GetWorkspaceInvitation } from "@/store/client/interface/GetWorkspaceInvitation";
 import { GetWorkspaceInvitations } from "@/store/client/interface/GetWorkspaceInvitations";
@@ -36,19 +35,6 @@ export type GetWorkspacesNotFoundAction = SetNotFoundErrorAction<WorkspacesActio
 export type GetWorkspacesHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.GET_WORKSPACES_HTTP_INTERNAL_ERROR>;
 
 export type GetWorkspacesErrorAction = SetErrorAction<WorkspacesAction.GET_WORKSPACES_ERROR>;
-
-/// Get Full Workspaces
-
-export type GetFullWorkspacesSuccessAction = {
-  type: WorkspacesAction.GET_WORKSPACES_FULL_SUCCESS;
-  payload: GetFullWorkspaces;
-};
-
-export type GetFullWorkspacesNotFoundAction = SetNotFoundErrorAction<WorkspacesAction.GET_WORKSPACES_FULL_NOT_FOUND>;
-
-export type GetFullWorkspacesHttpInternalErrorAction = SetHttpInternalServerErrorAction<WorkspacesAction.GET_WORKSPACES_FULL_HTTP_INTERNAL_ERROR>;
-
-export type GetFullWorkspacesErrorAction = SetErrorAction<WorkspacesAction.GET_WORKSPACES_FULL_ERROR>;
 
 /// Get Workspace
 
@@ -167,10 +153,6 @@ export type WorkspacesActionTypes =
   | SetLoadingEndAction
   | SetWorkspacesLoadingStartAction
   | SetWorkspacesLoadingEndAction
-  | GetFullWorkspacesSuccessAction
-  | GetFullWorkspacesNotFoundAction
-  | GetFullWorkspacesHttpInternalErrorAction
-  | GetFullWorkspacesErrorAction
   | GetWorkspacesSuccessAction
   | GetWorkspacesNotFoundAction
   | GetWorkspacesHttpInternalErrorAction

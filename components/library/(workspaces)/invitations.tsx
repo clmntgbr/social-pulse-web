@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { WorkspaceInvitationFull } from "@/store/client/interface/workspace-invitation-full";
-import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
 import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
+import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { patchWorkspaceInvitation } from "@/store/workspaces/patchWorkspaceInvitation";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSession } from "next-auth/react";
@@ -30,7 +30,7 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
         setTimeout(() => {
           ToastSuccess();
           getWorkspaceInvitations(session?.accessToken ?? "", workspacesDispatch);
-          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+          getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           setIsLoadingAccept(false);
         }, 2000);
       })
@@ -48,7 +48,7 @@ export const WorkspacesInvitations: React.FC<WorkspaceInvitationsProps> = ({ wor
       .then(() => {
         setTimeout(() => {
           getWorkspaceInvitations(session?.accessToken ?? "", workspacesDispatch);
-          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+          getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
           setIsLoadingAccept(false);
           ToastSuccess();
         }, 2000);
