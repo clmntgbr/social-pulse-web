@@ -6,10 +6,7 @@ import SocialPulseClient from "../client/SocialPulseClient";
 import { HTTP_STATUS } from "../enums/HTTP_STATUS";
 import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
-export async function getSocialAccounts(
-  token: string,
-  dispatch: Dispatch<SocialAccountsActionTypes>
-): Promise<void> {
+export async function getSocialAccounts(token: string, dispatch: Dispatch<SocialAccountsActionTypes>): Promise<void> {
   try {
     dispatch({ type: SocialAccountsAction.SOCIAL_ACCOUNTS_LOADING_START });
 
@@ -42,9 +39,7 @@ export async function getSocialAccounts(
       default:
         dispatch({
           type: SocialAccountsAction.GET_SOCIAL_ACCOUNTS_HTTP_INTERNAL_ERROR,
-          payload: new HttpInternalServerError(
-            `Unexpected status: ${response.status}`
-          ),
+          payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
     }
   } catch (error) {

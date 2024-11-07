@@ -1,17 +1,14 @@
 "use client";
 
+import { onFacebookLoginUrl, onLinkedinLoginUrl, onTwitterLoginUrl } from "@/components/loginUrl";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import { cn } from "@/lib/utils";
-import { getFacebookLoginUrl } from "@/store/social_accounts/getFacebookLoginUrl";
-import { getLinkedinLoginUrl } from "@/store/social_accounts/getLinkedinLoginUrl";
-import { getTwitterLoginUrl } from "@/store/social_accounts/getTwitterLoginUrl";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
-import { ToastFail } from "../Toast";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -52,36 +49,6 @@ export function Menu() {
   const pathname = usePathname();
   const { socialAccountsDispatch } = useSocialAccountsContext();
 
-  const onFacebookLoginUrl = async () => {
-    getFacebookLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
-      .then((response) => {
-        router.push(response?.value ?? "");
-      })
-      .catch(() => {
-        ToastFail("Something went wrong.", "There was a problem with your request.");
-      });
-  };
-
-  const onLinkedinLoginUrl = async () => {
-    getLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
-      .then((response) => {
-        router.push(response?.value ?? "");
-      })
-      .catch(() => {
-        ToastFail("Something went wrong.", "There was a problem with your request.");
-      });
-  };
-
-  const onTwitterLoginUrl = async () => {
-    getTwitterLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch)
-      .then((response) => {
-        router.push(response?.value ?? "");
-      })
-      .catch(() => {
-        ToastFail("Something went wrong.", "There was a problem with your request.");
-      });
-  };
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -90,17 +57,26 @@ export function Menu() {
           <NavigationMenuContent>
             <ul className="grid grid-cols-2 gap-2 p-2 w-[230px]">
               <li className="col-span-1">
-                <button onClick={onFacebookLoginUrl} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton">
+                <button
+                  onClick={() => onFacebookLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router)}
+                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton"
+                >
                   <Facebook size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
                 </button>
               </li>
               <li className="col-span-1">
-                <button onClick={onTwitterLoginUrl} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton">
+                <button
+                  onClick={() => onTwitterLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router)}
+                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton"
+                >
                   <Twitter size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
                 </button>
               </li>
               <li className="col-span-2">
-                <button onClick={onLinkedinLoginUrl} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton">
+                <button
+                  onClick={() => onLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router)}
+                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton"
+                >
                   <Linkedin size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
                 </button>
               </li>

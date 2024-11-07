@@ -1,3 +1,4 @@
+import { Default } from "@/store/client/interface/Default";
 import { GetLoginUrl } from "@/store/client/interface/GetLoginUrl";
 import { GetSocialAccounts } from "@/store/client/interface/GetSocialAccounts";
 import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
@@ -17,6 +18,13 @@ export type SetLoginUrlLoadingEndAction = {
   type: SocialAccountsAction.LOGIN_URL_LOADING_END;
 };
 
+export type SetLoadingStartAction = {
+  type: SocialAccountsAction.LOADING_START;
+};
+export type SetLoadingEndAction = {
+  type: SocialAccountsAction.LOADING_END;
+};
+
 // Get Social Accounts
 
 export type GetSocialAccountsSuccessAction = {
@@ -26,6 +34,16 @@ export type GetSocialAccountsSuccessAction = {
 export type GetSocialAccountsNotFoundAction = SetNotFoundErrorAction<SocialAccountsAction.GET_SOCIAL_ACCOUNTS_NOT_FOUND>;
 export type GetSocialAccountsHttpInternalErrorAction = SetHttpInternalServerErrorAction<SocialAccountsAction.GET_SOCIAL_ACCOUNTS_HTTP_INTERNAL_ERROR>;
 export type GetSocialAccountsErrorAction = SetErrorAction<SocialAccountsAction.GET_SOCIAL_ACCOUNTS_ERROR>;
+
+// Delete Social Account
+
+export type DeleteSocialAccountSuccessAction = {
+  type: SocialAccountsAction.DELETE_SOCIAL_ACCOUNT_SUCCESS;
+  payload: Default;
+};
+export type DeleteSocialAccountNotFoundAction = SetNotFoundErrorAction<SocialAccountsAction.DELETE_SOCIAL_ACCOUNT_NOT_FOUND>;
+export type DeleteSocialAccountHttpInternalErrorAction = SetHttpInternalServerErrorAction<SocialAccountsAction.DELETE_SOCIAL_ACCOUNT_HTTP_INTERNAL_ERROR>;
+export type DeleteSocialAccountErrorAction = SetErrorAction<SocialAccountsAction.DELETE_SOCIAL_ACCOUNT_ERROR>;
 
 // Get Facebook Login Url
 
@@ -60,12 +78,18 @@ export type GetLinkedinLoginUrlErrorAction = SetErrorAction<SocialAccountsAction
 export type SocialAccountsActionTypes =
   | SetSocialAccountsLoadingStartAction
   | SetSocialAccountsLoadingEndAction
+  | SetLoadingStartAction
+  | SetLoadingEndAction
   | SetLoginUrlLoadingStartAction
   | SetLoginUrlLoadingEndAction
   | GetSocialAccountsSuccessAction
   | GetSocialAccountsNotFoundAction
   | GetSocialAccountsHttpInternalErrorAction
   | GetSocialAccountsErrorAction
+  | DeleteSocialAccountSuccessAction
+  | DeleteSocialAccountNotFoundAction
+  | DeleteSocialAccountHttpInternalErrorAction
+  | DeleteSocialAccountErrorAction
   | GetFacebookLoginUrlSuccessAction
   | GetFacebookLoginUrlNotFoundAction
   | GetFacebookLoginUrlHttpInternalErrorAction

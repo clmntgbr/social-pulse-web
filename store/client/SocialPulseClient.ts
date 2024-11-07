@@ -68,6 +68,14 @@ export default class SocialPulseClient {
     }
   }
 
+  public async deleteSocialAccount(SocialAccountUuid: string): Promise<AxiosResponse<Default> | any> {
+    try {
+      return await this.httpClient.delete(SOCIAL_ACCOUNTS.DELETE_SOCIAL_ACCOUNTS.replace("%socialAccountUuid%", SocialAccountUuid));
+    } catch (response: any) {
+      return response;
+    }
+  }
+
   public async postWorkspacePromote(workspaceUuid: string, userUuid: string): Promise<AxiosResponse<Default> | any> {
     try {
       return await this.httpClient.post(WORKSPACES.POST_WORKSPACE_PROMOTE.replace("%workspaceUuid%", workspaceUuid).replace("%userUuid%", userUuid));

@@ -28,7 +28,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   const [file64, setFile64] = useState<string | null>(null);
   const fileRef = useRef(null);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: { target: { files: any[] } }) => {
     const selectedFile = event.target.files[0];
     convertToBase64(selectedFile);
   };
@@ -84,6 +84,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   };
 
   useEffect(() => {
+    setFile64(null);
     formik.setFieldValue("label", workspace.label);
   }, [workspace]);
 
@@ -126,7 +127,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
                 </div>
               </div>
             </div>
-            <p className="mt-2 font-extralight from-stone-300 text-xs">You can change the workspace logo by clicking on it.</p>
+            <p className="italic mt-2 font-extralight from-stone-300 text-sm">You can change the workspace logo by clicking on it</p>
             <Button type="submit" className="mt-5" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
               Save
               {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}

@@ -4,6 +4,7 @@ import { WorkspacesInvitations } from "@/components/library/(workspaces)/invitat
 import { WorkspacesManage } from "@/components/library/(workspaces)/manage";
 import { WorkspacesMembers } from "@/components/library/(workspaces)/members";
 import { WorkspacesSidebarNav } from "@/components/library/(workspaces)/sidebar-nav.";
+import { WorkspacesSocialAccounts } from "@/components/library/(workspaces)/social-accounts";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
@@ -54,7 +55,7 @@ export default function Page() {
   }, [selectedWorkspace, currentUuid, router, session?.accessToken, workspacesDispatch]);
 
   return (
-    <div className="hidden space-y-6 p-10 pb-16 md:block">
+    <div className="space-y-6 py-10 px-8 pb-16 md:block">
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">Workspaces</h2>
         <p className="text-muted-foreground">
@@ -80,8 +81,11 @@ export default function Page() {
             <aside>
               <WorkspacesSidebarNav items={workspaceNavItems} />
             </aside>
-            <div className="flex flex-row gap-4">
-              <div className="flex-1">{selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}</div>
+            <div className="flex flex-col xl:flex-row gap-4">
+              <div className="flex-1 gap-4 grid">
+                {selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}
+                {selectedWorkspace && <WorkspacesSocialAccounts workspace={selectedWorkspace} />}
+              </div>
               <div className="flex-1">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
             </div>
           </div>

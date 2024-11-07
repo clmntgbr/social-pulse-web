@@ -4,7 +4,6 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
-import { toast } from "@/hooks/use-toast";
 import { WorkspaceInvitationFull } from "@/store/client/interface/workspace-invitation-full";
 import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
 import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
