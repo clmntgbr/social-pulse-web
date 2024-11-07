@@ -35,14 +35,14 @@ export async function deleteSocialAccount(token: string, socialAccountUuid: stri
           type: SocialAccountsAction.DELETE_SOCIAL_ACCOUNT_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
 
       default:
         dispatch({
           type: SocialAccountsAction.DELETE_SOCIAL_ACCOUNT_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
     }
   } catch (error) {
     dispatch({

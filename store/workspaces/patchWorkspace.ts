@@ -36,14 +36,14 @@ export async function patchWorkspace(token: string, workspaceUuid: string, body:
           type: WorkspacesAction.PATCH_WORKSPACE_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
 
       default:
         dispatch({
           type: WorkspacesAction.PATCH_WORKSPACE_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
     }
   } catch (error) {
     dispatch({

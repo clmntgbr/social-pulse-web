@@ -1,11 +1,10 @@
-import axios, { AxiosResponse, type AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
 import { PatchUserWorkspace } from "./interface/body/PatchUserWorkspace";
 import { PatchWorkspaceBody } from "./interface/body/PatchWorkspace";
 import { PatchWorkspaceInvitation } from "./interface/body/PatchWorkspaceInvitation";
 import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaceInvitationBody } from "./interface/body/PostWorkspaceInvitation";
 import { PostWorkspaces } from "./interface/body/PostWorkspaces";
-import { Default } from "./interface/Default";
 import { GetLogin } from "./interface/GetLogin";
 import { GetLoginUrl } from "./interface/GetLoginUrl";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
@@ -14,7 +13,6 @@ import { GetWorkspace } from "./interface/GetWorkspace";
 import { GetWorkspaceInvitation } from "./interface/GetWorkspaceInvitation";
 import { GetWorkspaceInvitations } from "./interface/GetWorkspaceInvitations";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
-import { PostWorkspaceInvitation } from "./interface/PostWorkspaceInvitation";
 import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
@@ -60,35 +58,58 @@ export default class SocialPulseClient {
     }
   }
 
-  public async leaveWorkspace(workspaceUuid: string): Promise<AxiosResponse<Default> | any> {
+  public async leaveWorkspace(workspaceUuid: string): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.patch(WORKSPACES.LEAVE_WORKSPACE.replace("%workspaceUuid%", workspaceUuid));
-    } catch (response: any) {
-      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
     }
   }
 
-  public async deleteWorkspaceUser(workspaceUuid: string, userUuid: string): Promise<AxiosResponse<Default> | any> {
+  public async deleteWorkspace(workspaceUuid: string): Promise<AxiosResponse | null> {
+    try {
+      return await this.httpClient.delete(WORKSPACES.DELETE_WORKSPACE.replace("%workspaceUuid%", workspaceUuid));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
+    }
+  }
+
+  public async deleteWorkspaceUser(workspaceUuid: string, userUuid: string): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.delete(WORKSPACES.DELETE_WORKSPACE_USER.replace("%workspaceUuid%", workspaceUuid).replace("%userUuid%", userUuid));
-    } catch (response: any) {
-      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
     }
   }
 
-  public async deleteSocialAccount(SocialAccountUuid: string): Promise<AxiosResponse<Default> | any> {
+  public async deleteSocialAccount(SocialAccountUuid: string): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.delete(SOCIAL_ACCOUNTS.DELETE_SOCIAL_ACCOUNTS.replace("%socialAccountUuid%", SocialAccountUuid));
-    } catch (response: any) {
-      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
     }
   }
 
-  public async postWorkspacePromote(workspaceUuid: string, userUuid: string): Promise<AxiosResponse<Default> | any> {
+  public async postWorkspacePromote(workspaceUuid: string, userUuid: string): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.post(WORKSPACES.POST_WORKSPACE_PROMOTE.replace("%workspaceUuid%", workspaceUuid).replace("%userUuid%", userUuid));
-    } catch (response: any) {
-      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
     }
   }
 
@@ -152,19 +173,25 @@ export default class SocialPulseClient {
     }
   }
 
-  public async postWorkspaceInvitation(requestBody: PostWorkspaceInvitationBody): Promise<AxiosResponse<PostWorkspaceInvitation> | any> {
+  public async postWorkspaceInvitation(requestBody: PostWorkspaceInvitationBody): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.post(WORKSPACES.WORKSPACE_INVITATION, requestBody);
-    } catch (response: any) {
-      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
     }
   }
 
-  public async patchWorkspace(workspaceUuid: string, requestBody: PatchWorkspaceBody): Promise<AxiosResponse<Default> | any> {
+  public async patchWorkspace(workspaceUuid: string, requestBody: PatchWorkspaceBody): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.patch(WORKSPACES.PATCH_WORKSPACE.concat("/", workspaceUuid), requestBody);
-    } catch (response: any) {
-      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
     }
   }
 

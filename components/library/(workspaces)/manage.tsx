@@ -5,8 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { WorkspaceFull } from "@/store/client/interface/workspace-full";
+import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
+import { deleteWorkspace } from "@/store/workspaces/deleteWorkspace";
 import { getFullWorkspaces } from "@/store/workspaces/getFullWorkspaces";
 import { getWorkspace } from "@/store/workspaces/getWorkspace";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
@@ -26,13 +29,16 @@ type WorkspacesMembersProps = {
 
 export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }) => {
   const { data: session } = useSession();
-  const { workspaces, workspacesDispatch } = useWorkspacesContext();
+  const { workspacesDispatch } = useWorkspacesContext();
+  const { socialAccountsDispatch } = useSocialAccountsContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingOnLeave, setIsLoadingOnLeave] = useState(false);
+  const [isLoadingOnDelete, setIsLoadingOnDelete] = useState(false);
   const [file64, setFile64] = useState<string | null>(null);
   const fileRef = useRef(null);
   const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
+  const [showDialogDelete, setShowDialogDelete] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -94,12 +100,42 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
     setShowDialog(true);
   };
 
+  const showDeleteDialog = async (event) => {
+    event.preventDefault();
+    setShowDialogDelete(true);
+  };
+
+  const onDeleteWorkspace = async () => {
+    setIsLoadingOnDelete(true);
+
+    deleteWorkspace(session?.accessToken ?? "", workspace.uuid, workspacesDispatch)
+      .then(() => {
+        setTimeout(async () => {
+          ToastSuccess();
+          getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+          getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+          getWorkspace(session?.accessToken ?? "", workspacesDispatch);
+          getSocialAccounts(session?.accessToken ?? "", socialAccountsDispatch);
+          router.push(`?uuid=`);
+          setShowDialog(false);
+          setShowDialogDelete(false);
+          setIsLoadingOnDelete(false);
+        }, 2000);
+      })
+      .catch((response) => {
+        setTimeout(() => {
+          setShowDialogDelete(false);
+          setIsLoadingOnDelete(false);
+          ToastFail("Something went wrong.", response.message ?? "There was a problem with your request.");
+        }, 2000);
+      });
+  };
+
   const onLeaveWorkspace = async () => {
     setIsLoadingOnLeave(true);
 
     leaveWorkspace(session?.accessToken ?? "", workspace.uuid, workspacesDispatch)
       .then(() => {
-        console.log("success");
         setTimeout(async () => {
           ToastSuccess();
           getFullWorkspaces(session?.accessToken ?? "", workspacesDispatch);
@@ -112,7 +148,6 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
         }, 2000);
       })
       .catch((response) => {
-        console.log("error");
         setTimeout(() => {
           setIsLoading(false);
           setShowDialog(false);
@@ -170,11 +205,19 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
             <div className="flex justify-between mt-5">
               <Button type="submit" className="mt-5" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
                 Save
-                {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading && <ReloadIcon className="ml-2 h-4 w-4 animate-spin" />}
               </Button>
-              <Button variant="destructive" className="mt-5" onClick={showLeaveDialog}>
-                Leave this workspace
-              </Button>
+
+              <div className="flex gap-2">
+                <Button variant="outline" className="mt-5" onClick={showLeaveDialog}>
+                  Leave this workspace
+                </Button>
+                {workspace.admin.uuid === session?.user?.id && (
+                  <Button variant="destructive" className="mt-5" onClick={showDeleteDialog}>
+                    Delete this workspace
+                  </Button>
+                )}
+              </div>
             </div>
           </form>
         </CardContent>
@@ -203,6 +246,27 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
                   </Button>
                 </>
               )}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={showDialogDelete} onOpenChange={setShowDialogDelete}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Deleting {workspace.label} workspace ?</DialogTitle>
+              <DialogDescription>
+                Deleting this workspace will permanently remove all associated data, including social accounts, user access, and workspace settings. This action cannot be undone. Please confirm if you
+                are sure you want to proceed.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button type="submit" disabled={isLoadingOnDelete} variant="destructive" onClick={() => setShowDialogDelete(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoadingOnDelete} onClick={() => onDeleteWorkspace()}>
+                Confirm
+                {isLoadingOnDelete && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

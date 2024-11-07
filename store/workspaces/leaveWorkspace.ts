@@ -14,8 +14,6 @@ export async function leaveWorkspace(token: string, workspaceUuid: string, dispa
     const client = new SocialPulseClient(token);
     const response = await client.leaveWorkspace(workspaceUuid);
 
-    console.log("", response);
-
     if (response === null) {
       dispatch({
         type: WorkspacesAction.LEAVE_WORKSPACE_HTTP_INTERNAL_ERROR,
@@ -37,14 +35,14 @@ export async function leaveWorkspace(token: string, workspaceUuid: string, dispa
           type: WorkspacesAction.LEAVE_WORKSPACE_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.status ?? null, data: null });
 
       default:
         dispatch({
           type: WorkspacesAction.LEAVE_WORKSPACE_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
     }
   } catch (error) {
     dispatch({

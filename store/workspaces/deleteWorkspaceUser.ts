@@ -35,14 +35,14 @@ export async function deleteWorkspaceUser(token: string, workspaceUuid: string, 
           type: WorkspacesAction.DELETE_WORKSPACE_USER_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
 
       default:
         dispatch({
           type: WorkspacesAction.DELETE_WORKSPACE_USER_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
-        return Promise.reject({ status: false, message: response.response.data.message ?? null, data: null });
+        return Promise.reject({ status: false, message: response.data.message ?? null, data: null });
     }
   } catch (error) {
     dispatch({
