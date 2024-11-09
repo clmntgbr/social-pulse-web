@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { AppContextProviders } from "@/contexts";
 import { I18nProviderClient } from "@/locales/client";
-import { Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
+import { Handshake, Home, LineChart, Package, Package2, PanelLeft, Settings, ShoppingCart, Users2 } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import { ReactElement } from "react";
@@ -70,11 +70,11 @@ function DesktopNav() {
         </NavItem>
 
         <NavItem href="/workspaces" label="Workspaces">
-          <ShoppingCart className="h-5 w-5" />
+          <Package className="h-5 w-5" />
         </NavItem>
 
         <NavItem href="/social-accounts" label="Social Accounts">
-          <Package className="h-5 w-5" />
+          <Handshake className="h-5 w-5" />
         </NavItem>
 
         <NavItem href="/customers" label="Customers">

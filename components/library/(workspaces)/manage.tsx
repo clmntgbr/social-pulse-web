@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { useI18n } from "@/locales/client";
@@ -35,13 +36,13 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   const [isLoadingOnLeave, setIsLoadingOnLeave] = useState(false);
   const [isLoadingOnDelete, setIsLoadingOnDelete] = useState(false);
   const [file64, setFile64] = useState<string | null>(null);
-  const fileRef = useRef(null);
+  const fileRef = useRef<any | null>(null);
   const router = useRouter();
   const t = useI18n();
   const [showDialog, setShowDialog] = useState(false);
   const [showDialogDelete, setShowDialogDelete] = useState(false);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     convertToBase64(selectedFile);
   };
@@ -95,12 +96,12 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
     reader.readAsDataURL(file);
   };
 
-  const showLeaveDialog = async (event) => {
+  const showLeaveDialog = async (event: any) => {
     event.preventDefault();
     setShowDialog(true);
   };
 
-  const showDeleteDialog = async (event) => {
+  const showDeleteDialog = async (event: any) => {
     event.preventDefault();
     setShowDialogDelete(true);
   };
@@ -190,16 +191,21 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
               </Label>
 
               <div className="flex items-center space-x-4">
-                <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64 ?? workspace.logoUrl} alt="Base64 Image" />
-
-                <div>
-                  <div className="text-sm font-medium leading-none">
-                    <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
-                  </div>
-                </div>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <>
+                      <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64 ?? workspace.logoUrl} alt="Base64 Image" />
+                      <div>
+                        <div className="text-sm font-medium leading-none">
+                          <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
+                        </div>
+                      </div>
+                    </>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">{t("pages.workspaces.widget.manage.form.tips")}</TooltipContent>
+                </Tooltip>
               </div>
             </div>
-            <p className="italic mt-2 font-extralight from-stone-300 text-sm">{t("pages.workspaces.widget.manage.form.tips")}</p>
             <div className="flex justify-between mt-5">
               <Button type="submit" className="mt-5" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
                 {t("pages.workspaces.widget.manage.form.save")}

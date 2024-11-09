@@ -78,7 +78,7 @@ export default function Page() {
           )}
 
           <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 w-full">
-            <aside className="flex-none">
+            <aside className="flex-none min-w-[250px]">
               <WorkspacesSidebarNav items={workspaceNavItems} />
             </aside>
             <div className="flex flex-col xl:flex-row gap-4 w-full">

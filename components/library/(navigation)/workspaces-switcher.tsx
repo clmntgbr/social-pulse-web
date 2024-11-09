@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useUserContext from "@/contexts/users/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
@@ -34,7 +35,7 @@ export default function WorkspacesSwitcher() {
   const { data: session } = useSession();
   const t = useI18n();
   const [file64, setFile64] = useState<string>(imageBase64);
-  const fileRef = useRef(null);
+  const fileRef = useRef<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>();
@@ -108,7 +109,7 @@ export default function WorkspacesSwitcher() {
     reader.readAsDataURL(file);
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     convertToBase64(selectedFile);
   };
@@ -200,15 +201,21 @@ export default function WorkspacesSwitcher() {
               <Label htmlFor="logo" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
                 {t("pages.workspaces.widget.manage.form.logo")}
               </Label>
-
               <div className="flex items-center space-x-4">
-                <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64} alt="Base64 Image" />
+                <Tooltip>
+                  <TooltipTrigger>
+                    <>
+                      <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64} alt="Base64 Image" />
 
-                <div>
-                  <div className="text-sm font-medium leading-none">
-                    <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
-                  </div>
-                </div>
+                      <div>
+                        <div className="text-sm font-medium leading-none">
+                          <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
+                        </div>
+                      </div>
+                    </>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">{t("pages.workspaces.widget.manage.form.tips")}</TooltipContent>
+                </Tooltip>
               </div>
             </div>
           </div>
