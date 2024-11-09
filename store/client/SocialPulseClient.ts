@@ -4,7 +4,6 @@ import { PatchWorkspaceBody } from "./interface/body/PatchWorkspace";
 import { PatchWorkspaceInvitation } from "./interface/body/PatchWorkspaceInvitation";
 import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaceInvitationBody } from "./interface/body/PostWorkspaceInvitation";
-import { PostWorkspaces } from "./interface/body/PostWorkspaces";
 import { GetLogin } from "./interface/GetLogin";
 import { GetLoginUrl } from "./interface/GetLoginUrl";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
@@ -42,10 +41,13 @@ export default class SocialPulseClient {
     }
   }
 
-  public async postWorkspaces(requestBody: PostWorkspaces): Promise<AxiosResponse<GetWorkspaces> | null> {
+  public async postWorkspaces(requestBody: PatchWorkspaceBody): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.post(WORKSPACES.POST_WORKSPACES, requestBody);
-    } catch {
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
       return null;
     }
   }

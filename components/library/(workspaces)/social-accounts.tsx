@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
+import { useI18n } from "@/locales/client";
 import { Workspace } from "@/store/client/interface/workspace";
 import { deleteSocialAccount } from "@/store/social_accounts/deleteSocialAccount";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
@@ -25,6 +26,7 @@ export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ wor
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const t = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [uuidLoadingOnDelete, setUuidLoadingOnDelete] = useState("");
   const { socialAccountsDispatch } = useSocialAccountsContext();
@@ -78,15 +80,13 @@ export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ wor
     <>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Social Accounts</CardTitle>
-          <CardDescription>
-            Connect and manage your social media accounts to streamline your content publishing. Link platforms like Twitter, LinkedIn, and Instagram to post directly from this workspace.
-          </CardDescription>
+          <CardTitle>{t("pages.workspaces.widget.socialAccount.title")}</CardTitle>
+          <CardDescription>{t("pages.workspaces.widget.socialAccount.description")} </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
             {workspace.socialAccounts.filter((socialAccount) => socialAccount.status !== "temporary").length === 0 ? (
-              <p className="italic mt-2 font-extralight from-stone-300 text-sm">No social accounts available</p>
+              <p className="italic mt-2 font-extralight from-stone-300 text-sm">{t("pages.workspaces.widget.socialAccount.none")}</p>
             ) : (
               workspace.socialAccounts
                 .filter((socialAccount) => socialAccount.status !== "temporary")

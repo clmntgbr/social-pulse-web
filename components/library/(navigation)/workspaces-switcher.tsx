@@ -11,6 +11,8 @@ import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useUserContext from "@/contexts/users/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/locales/client";
+import { imageBase64 } from "@/public/imageBase64";
 import { Workspace } from "@/store/client/interface/workspace";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { patchUserWorkspace } from "@/store/users/patchUserWorkspace";
@@ -20,7 +22,7 @@ import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
 import { DiamondPlus } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { ToastFail, ToastSuccess } from "../Toast";
 
@@ -30,31 +32,40 @@ export default function WorkspacesSwitcher() {
   const { socialAccountsDispatch } = useSocialAccountsContext();
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
+  const t = useI18n();
+  const [file64, setFile64] = useState<string>(imageBase64);
+  const fileRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showNewWorkspaceDialog, setShowNewWorkspaceDialog] = useState(false);
   const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>();
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      label: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required(),
+      label: Yup.string().required(),
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      postWorkspaces(session?.accessToken ?? "", { label: values.name, logoUrl: "https://avatar.vercel.sh/rauchg.png" }, workspacesDispatch)
+      const body = { label: values.label, avatar: file64 };
+
+      postWorkspaces(session?.accessToken ?? "", body, workspacesDispatch)
         .then(() => {
           setTimeout(() => {
+            getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
             setIsLoading(false);
             setShowNewWorkspaceDialog(false);
             ToastSuccess();
-            getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
+            setFile64(imageBase64);
             formik.resetForm();
           }, 2000);
         })
-        .catch(() => {
-          ToastFail("Something went wrong.", "There was a problem with your request.");
+        .catch((response) => {
+          setTimeout(() => {
+            ToastFail("Something went wrong.", response.message ?? "There was a problem with your request.");
+            setIsLoading(false);
+          }, 2000);
         });
     },
   });
@@ -87,11 +98,32 @@ export default function WorkspacesSwitcher() {
     return null;
   }
 
+  const convertToBase64 = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setFile64(reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    convertToBase64(selectedFile);
+  };
+
+  const handleFileClick = () => {
+    if (fileRef) {
+      fileRef.current?.click();
+    }
+  };
+
   return (
     <Dialog open={showNewWorkspaceDialog} onOpenChange={setShowNewWorkspaceDialog}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" role="combobox" aria-expanded={open} aria-label="Select a workspace" className={cn("min-w-[250px] justify-between font-semibold")}>
+          <Button variant="outline" role="combobox" aria-expanded={open} className={cn("min-w-[250px] justify-between font-semibold")}>
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage src={selectedWorkspace?.logoUrl} alt={selectedWorkspace?.label} />
               <AvatarFallback>{selectedWorkspace?.label}</AvatarFallback>
@@ -103,7 +135,7 @@ export default function WorkspacesSwitcher() {
         <PopoverContent className="min-w-[250px] p-0">
           <Command>
             <CommandList>
-              <CommandEmpty>No workspace found.</CommandEmpty>
+              <CommandEmpty>{t("navigation.workspace.empty")}</CommandEmpty>
               <CommandGroup heading="Workspaces">
                 {workspaces.workspaces?.member.map((workspace: Workspace) => (
                   <CommandItem
@@ -136,7 +168,7 @@ export default function WorkspacesSwitcher() {
                     }}
                   >
                     <DiamondPlus className="h-8 w-8" />
-                    Create a workspace
+                    {t("navigation.workspace.create.button")}
                   </CommandItem>
                 </DialogTrigger>
               </CommandGroup>
@@ -147,34 +179,45 @@ export default function WorkspacesSwitcher() {
       <DialogContent>
         <form className="post-workspaces" onSubmit={formik.handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Create a Workspace</DialogTitle>
-            <DialogDescription>Add a new workspace to manage social accounts & posts.</DialogDescription>
+            <DialogTitle>{t("navigation.workspace.create.title")}</DialogTitle>
+            <DialogDescription>{t("navigation.workspace.create.description")}</DialogDescription>
           </DialogHeader>
           <div>
             <div className="space-y-4 py-2 pb-4">
-              <div className="space-y-2">
-                <Label htmlFor="name" className={`${formik.touched.name && formik.errors.name ? "text-red-800" : ""}`}>
-                  Name
-                </Label>
-                <Input
-                  className={`${formik.touched.name && formik.errors.name ? "border-red-500" : ""}`}
-                  id="name"
-                  name="name"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  disabled={isLoading}
-                  placeholder="Acme Inc."
-                />
+              <Label htmlFor="name" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
+                {t("pages.workspaces.widget.manage.form.name")}
+              </Label>
+              <Input
+                className={`${formik.touched.label && formik.errors.label ? "border-red-500" : ""}`}
+                id="label"
+                name="label"
+                onBlur={formik.handleBlur}
+                value={formik.values.label}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="mt-5">
+              <Label htmlFor="logo" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
+                {t("pages.workspaces.widget.manage.form.logo")}
+              </Label>
+
+              <div className="flex items-center space-x-4">
+                <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64} alt="Base64 Image" />
+
+                <div>
+                  <div className="text-sm font-medium leading-none">
+                    <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowNewWorkspaceDialog(false)}>
-              Cancel
+              {t("navigation.workspace.create.form.cancel")}
             </Button>
             <Button type="submit" disabled={isLoading}>
-              Continue
+              {t("navigation.workspace.create.form.confirm")}
               {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             </Button>
           </DialogFooter>

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
+import { useI18n } from "@/locales/client";
 import { Workspace } from "@/store/client/interface/workspace";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { deleteWorkspace } from "@/store/workspaces/deleteWorkspace";
@@ -36,6 +37,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
   const [file64, setFile64] = useState<string | null>(null);
   const fileRef = useRef(null);
   const router = useRouter();
+  const t = useI18n();
   const [showDialog, setShowDialog] = useState(false);
   const [showDialogDelete, setShowDialogDelete] = useState(false);
 
@@ -50,7 +52,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
     }
 
     if (fileRef) {
-      fileRef.current.click();
+      fileRef.current?.click();
     }
   };
 
@@ -163,13 +165,13 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle>{workspace.label}</CardTitle>
-          <CardDescription> Update your workspace settings. Set your workspace name and avatar.</CardDescription>
+          <CardDescription>{t("pages.workspaces.widget.manage.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="post-workspaces" onSubmit={formik.handleSubmit} key={workspace.uuid}>
             <div>
               <Label htmlFor="name" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
-                Name
+                {t("pages.workspaces.widget.manage.form.name")}
               </Label>
               <Input
                 className={`${formik.touched.label && formik.errors.label ? "border-red-500" : ""}`}
@@ -184,7 +186,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
 
             <div className="mt-5">
               <Label htmlFor="logo" className={`${formik.touched.label && formik.errors.label ? "text-red-800" : ""}`}>
-                Logo
+                {t("pages.workspaces.widget.manage.form.logo")}
               </Label>
 
               <div className="flex items-center space-x-4">
@@ -197,20 +199,20 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
                 </div>
               </div>
             </div>
-            <p className="italic mt-2 font-extralight from-stone-300 text-sm">You can change the workspace logo by clicking on it</p>
+            <p className="italic mt-2 font-extralight from-stone-300 text-sm">{t("pages.workspaces.widget.manage.form.tips")}</p>
             <div className="flex justify-between mt-5">
               <Button type="submit" className="mt-5" disabled={workspace.admin.uuid !== session?.user?.id || isLoading}>
-                Save
+                {t("pages.workspaces.widget.manage.form.save")}
                 {isLoading && <ReloadIcon className="ml-2 h-4 w-4 animate-spin" />}
               </Button>
 
               <div className="flex gap-2">
                 <Button variant="outline" className="mt-5" onClick={showLeaveDialog}>
-                  Leave this workspace
+                  {t("pages.workspaces.widget.manage.leave.button")}
                 </Button>
                 {workspace.admin.uuid === session?.user?.id && (
                   <Button variant="destructive" className="mt-5" onClick={showDeleteDialog}>
-                    Delete this workspace
+                    {t("pages.workspaces.widget.manage.delete.button")}
                   </Button>
                 )}
               </div>
@@ -221,23 +223,19 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
         <Dialog open={showDialog} onOpenChange={setShowDialog}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Leaving {workspace.label} workspace ?</DialogTitle>
+              <DialogTitle>{t("pages.workspaces.widget.manage.leave.title", { name: workspace.label })}</DialogTitle>
               <DialogDescription>
-                {workspace.admin.uuid === session?.user?.id ? (
-                  <>You cannot leave this workspace as you are the current administrator. Please assign administrator rights to another user and try again.</>
-                ) : (
-                  <>Are you sure you want to leave?</>
-                )}
+                {workspace.admin.uuid === session?.user?.id ? <>{t("pages.workspaces.widget.manage.leave.description.denied")}</> : <>{t("pages.workspaces.widget.manage.leave.description.accept")}</>}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
               {workspace.admin.uuid !== session?.user?.id && (
                 <>
                   <Button type="submit" disabled={isLoadingOnLeave} variant="destructive" onClick={() => setShowDialog(false)}>
-                    Cancel
+                    {t("pages.workspaces.widget.manage.leave.cancel")}
                   </Button>
                   <Button type="submit" disabled={isLoadingOnLeave} onClick={() => onLeaveWorkspace()}>
-                    Confirm
+                    {t("pages.workspaces.widget.manage.leave.confirm")}
                     {isLoadingOnLeave && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
                   </Button>
                 </>
@@ -249,18 +247,15 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
         <Dialog open={showDialogDelete} onOpenChange={setShowDialogDelete}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Deleting {workspace.label} workspace ?</DialogTitle>
-              <DialogDescription>
-                Deleting this workspace will permanently remove all associated data, including social accounts, user access, and workspace settings. This action cannot be undone. Please confirm if you
-                are sure you want to proceed.
-              </DialogDescription>
+              <DialogTitle>{t("pages.workspaces.widget.manage.delete.title", { name: workspace.label })}</DialogTitle>
+              <DialogDescription>{t("pages.workspaces.widget.manage.delete.description")}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <Button type="submit" disabled={isLoadingOnDelete} variant="destructive" onClick={() => setShowDialogDelete(false)}>
-                Cancel
+                {t("pages.workspaces.widget.manage.delete.cancel")}
               </Button>
               <Button type="submit" disabled={isLoadingOnDelete} onClick={() => onDeleteWorkspace()}>
-                Confirm
+                {t("pages.workspaces.widget.manage.delete.confirm")}
                 {isLoadingOnDelete && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
               </Button>
             </DialogFooter>

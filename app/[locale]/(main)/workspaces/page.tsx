@@ -8,6 +8,7 @@ import { WorkspacesSocialAccounts } from "@/components/library/(workspaces)/soci
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
+import { useI18n } from "@/locales/client";
 import { Workspace } from "@/store/client/interface/workspace";
 import { getWorkspaceInvitations } from "@/store/workspaces/getWorkspaceInvitations";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
@@ -21,6 +22,7 @@ export default function Page() {
   const searchParams = useSearchParams();
   const currentUuid = searchParams.get("uuid");
   const router = useRouter();
+  const t = useI18n();
 
   useEffect(() => {
     const fetchWorkspaces = async () => {
@@ -57,10 +59,8 @@ export default function Page() {
   return (
     <div className="space-y-6 py-10 px-8 pb-16 md:block">
       <div className="space-y-0.5">
-        <h2 className="text-2xl font-bold tracking-tight">Workspaces</h2>
-        <p className="text-muted-foreground">
-          Manage and organize your workspaces. Create new collaborative environments, configure access permissions, and streamline your social accounts workflow all in one place.
-        </p>
+        <h2 className="text-2xl font-bold tracking-tight">{t("pages.workspaces.title")}</h2>
+        <p className="text-muted-foreground">{t("pages.workspaces.description")}</p>
       </div>
       <Separator className="my-6" />
 
@@ -77,16 +77,16 @@ export default function Page() {
             </div>
           )}
 
-          <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside>
+          <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 w-full">
+            <aside className="flex-none">
               <WorkspacesSidebarNav items={workspaceNavItems} />
             </aside>
-            <div className="flex flex-col xl:flex-row gap-4">
-              <div className="flex-1 gap-4 grid">
+            <div className="flex flex-col xl:flex-row gap-4 w-full">
+              <div className="flex-1 gap-4 grid w-full">
                 {selectedWorkspace && <WorkspacesManage workspace={selectedWorkspace} />}
                 {selectedWorkspace && <WorkspacesSocialAccounts workspace={selectedWorkspace} />}
               </div>
-              <div className="flex-1">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
+              <div className="flex-1 w-full">{selectedWorkspace && <WorkspacesMembers workspace={selectedWorkspace} />}</div>
             </div>
           </div>
         </>

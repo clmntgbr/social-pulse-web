@@ -1,18 +1,20 @@
 "use client";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useCurrentLocale } from "@/locales/client";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function NavItem({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   const pathname = usePathname();
+  const locale = useCurrentLocale();
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <Link
-          href={href}
+          href={`/${locale}${href}`}
           className={clsx("flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8", {
             "bg-accent text-black": pathname === href,
           })}

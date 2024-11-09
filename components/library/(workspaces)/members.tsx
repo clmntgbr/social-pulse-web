@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
+import { useI18n } from "@/locales/client";
 import { Workspace } from "@/store/client/interface/workspace";
 import { deleteWorkspaceUser } from "@/store/workspaces/deleteWorkspaceUser";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
@@ -33,10 +34,12 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
   const [uuidLoadingOnDelete, setUuidLoadingOnDelete] = useState("");
   const [uuidLoadingOnPromote, setUuidLoadingOnPromote] = useState("");
   const { workspacesDispatch } = useWorkspacesContext();
+  const t = useI18n();
   const [showDialog, setShowDialog] = useState(false);
-  const [selectedUuid, setSelectedUuid] = useState<{ workspaceUuid: string | null; userUuid: string | null }>({
+  const [selectedUuid, setSelectedUuid] = useState<{ workspaceUuid: string | null; userUuid: string | null; user: string | null }>({
     workspaceUuid: null,
     userUuid: null,
+    user: null,
   });
 
   const formik = useFormik({
@@ -91,13 +94,13 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
       });
   };
 
-  const promoteUserValidate = async (workspaceUuid: string, userUuid: string) => {
-    setSelectedUuid({ workspaceUuid, userUuid });
+  const promoteUserValidate = async (workspaceUuid: string, userUuid: string, userName: string) => {
+    setSelectedUuid({ workspaceUuid, userUuid, user: userName });
     setShowDialog(true);
   };
 
   const promoteUserCancel = async () => {
-    setSelectedUuid({ workspaceUuid: null, userUuid: null });
+    setSelectedUuid({ workspaceUuid: null, userUuid: null, user: null });
     setShowDialog(false);
   };
 
@@ -108,7 +111,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
       .then(() => {
         getWorkspaces(session?.accessToken ?? "", workspacesDispatch);
         setUuidLoadingOnPromote("");
-        setSelectedUuid({ workspaceUuid: null, userUuid: null });
+        setSelectedUuid({ workspaceUuid: null, userUuid: null, user: null });
         setTimeout(() => {
           setIsLoadingOnPromote(false);
           setShowDialog(false);
@@ -128,22 +131,22 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
     <>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Invite people to collaborate</CardTitle>
-          <CardDescription> You can invite existing members to collaborate on this workspace, giving them permission to edit and contribute alongside you.</CardDescription>
+          <CardTitle>{t("pages.workspaces.widget.members.title")}</CardTitle>
+          <CardDescription>{t("pages.workspaces.widget.members.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="post-workspaces" onSubmit={formik.handleSubmit}>
             <div className="flex space-x-2">
               <Input id="email" name="email" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} disabled={isLoading} placeholder="" />
               <Button variant="secondary" className="shrink-0" type="submit" disabled={isLoading}>
-                Send invitation
+                {t("pages.workspaces.widget.members.button")}
                 {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
               </Button>
             </div>
           </form>
           <Separator className="my-4" />
           <div className="space-y-4">
-            <h4 className="text-sm font-medium">People with access</h4>
+            <h4 className="text-sm font-medium">{t("pages.workspaces.widget.members.access")}</h4>
             <div className="grid gap-6">
               {workspace &&
                 workspace.users.map((user) => (
@@ -157,7 +160,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
                           {user.givenName} {user.familyName}
                           {session?.user?.id === user.uuid && (
                             <Badge variant="outline" className="ml-1">
-                              You
+                              {t("pages.workspaces.widget.members.you")}
                             </Badge>
                           )}
                         </div>
@@ -165,13 +168,13 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
                       </div>
                     </div>
                     <div className="flex gap-3">
-                      <Badge>{user.uuid === workspace.admin.uuid ? "Administrator" : "Member"}</Badge>
+                      <Badge>{user.uuid === workspace.admin.uuid ? t("pages.workspaces.widget.members.administrator") : t("pages.workspaces.widget.members.member")}</Badge>
                       {session?.user?.id === workspace.admin.uuid && user.uuid !== workspace.admin.uuid && (
                         <>
                           <Badge className="cursor-pointer" variant="destructive" onClick={() => removeUser(workspace.uuid, user.uuid)}>
                             {isLoadingOnDelete && user.uuid === uuidLoadingOnDelete ? <ReloadIcon className="h-4 w-4 animate-spin" /> : <Trash2 size={16} />}
                           </Badge>
-                          <Badge className="cursor-pointer" variant="outline" onClick={() => promoteUserValidate(workspace.uuid, user.uuid)}>
+                          <Badge className="cursor-pointer" variant="outline" onClick={() => promoteUserValidate(workspace.uuid, user.uuid, `${user.givenName} ${user.familyName}`)}>
                             {isLoadingOnPromote && user.uuid === uuidLoadingOnPromote ? <ReloadIcon className="h-4 w-4 animate-spin" /> : <ShieldCheck size={16} />}
                           </Badge>
                         </>
@@ -185,7 +188,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
             <>
               <Separator className="my-4" />
               <div className="space-y-4">
-                <h4 className="text-sm font-medium">Pending invitations</h4>
+                <h4 className="text-sm font-medium">{t("pages.workspaces.widget.members.pending.title")}</h4>
                 <div className="grid gap-6">
                   {workspace &&
                     workspace.workspaceInvitations
@@ -216,18 +219,15 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Promote User to Administrator</DialogTitle>
-            <DialogDescription>
-              You will lose your administrator status and grant this user administrator rights to manage workspace settings and members. Confirm this action to provide them with advanced access and
-              management privileges.
-            </DialogDescription>
+            <DialogTitle>{t("pages.workspaces.widget.members.promote.title", { name: selectedUuid.user })}</DialogTitle>
+            <DialogDescription>{t("pages.workspaces.widget.members.promote.description")}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button type="submit" variant="destructive" disabled={isLoadingOnPromote} onClick={() => promoteUserCancel()}>
-              Cancel
+              {t("pages.workspaces.widget.members.promote.cancel")}
             </Button>
             <Button type="submit" disabled={isLoadingOnPromote} onClick={promoteUser}>
-              Confirm {isLoadingOnPromote && <ReloadIcon className="h-4 w-4 animate-spin" />}
+              {t("pages.workspaces.widget.members.promote.confirm")} {isLoadingOnPromote && <ReloadIcon className="h-4 w-4 animate-spin" />}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -51,13 +51,6 @@ export function workspacesReducer(state: WorkspacesState, action: WorkspacesActi
       };
     }
 
-    case WorkspacesAction.POST_WORKSPACES_SUCCESS: {
-      return {
-        ...state,
-        workspaces: action.payload,
-      };
-    }
-
     case WorkspacesAction.GET_WORKSPACE_INVITATIONS_SUCCESS: {
       return {
         ...state,
