@@ -129,7 +129,7 @@ export const WorkspacesMembers: React.FC<WorkspacesMembersProps> = ({ workspace 
 
   return (
     <>
-      <Card className="shadow-lg">
+      <Card className="shadow-xs">
         <CardHeader>
           <CardTitle>{t("pages.workspaces.widget.members.title")}</CardTitle>
           <CardDescription>{t("pages.workspaces.widget.members.description")}</CardDescription>

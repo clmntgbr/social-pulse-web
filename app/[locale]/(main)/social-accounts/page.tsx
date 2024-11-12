@@ -1,54 +1,18 @@
 "use client";
 
+import { StatsCard } from "@/components/library/(social-accounts)/Stats";
 import { SocialAccountsTable } from "@/components/library/(social-accounts)/Table";
 import { Separator } from "@/components/ui/separator";
 import { useI18n } from "@/locales/client";
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { MessageCircle, Share2, TrendingUp, Users } from "lucide-react";
 
 export default function Page() {
   const t = useI18n();
-
-  const socialData = [
-    {
-      platform: "Facebook",
-      icon: Facebook,
-      followers: "89.5K",
-      engagement: "4.2K",
-      posts: "156",
-      shares: "2.3K",
-      growth: "+12%",
-      color: "bg-blue-100 text-blue-600",
-    },
-    {
-      platform: "Twitter",
-      icon: Twitter,
-      followers: "45.8K",
-      engagement: "3.1K",
-      posts: "243",
-      shares: "4.7K",
-      growth: "+8%",
-      color: "bg-sky-100 text-sky-600",
-    },
-    {
-      platform: "Instagram",
-      icon: Instagram,
-      followers: "112K",
-      engagement: "8.9K",
-      posts: "328",
-      shares: "1.8K",
-      growth: "+15%",
-      color: "bg-pink-100 text-pink-600",
-    },
-    {
-      platform: "YouTube",
-      icon: Youtube,
-      followers: "25.2K",
-      engagement: "2.8K",
-      posts: "86",
-      shares: "956",
-      growth: "+6%",
-      color: "bg-red-100 text-red-600",
-    },
+  const stats = [
+    { icon: Users, label: "Total Followers", value: "272.5K" },
+    { icon: MessageCircle, label: "Total Engagement", value: "19K" },
+    { icon: Share2, label: "Total Shares", value: "9.7K" },
+    { icon: TrendingUp, label: "Average Growth", value: "+10.25%" },
   ];
 
   return (
@@ -58,6 +22,12 @@ export default function Page() {
         <p className="text-muted-foreground">{t("pages.socialAccounts.description")}</p>
       </div>
       <Separator className="my-6" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        {stats.map((stat, index) => (
+          <StatsCard key={index} icon={stat.icon} label={stat.label} value={stat.value} />
+        ))}
+      </div>
+
       <SocialAccountsTable />
     </div>
   );

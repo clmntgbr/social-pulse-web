@@ -8,7 +8,9 @@ import { ToastFail } from "./library/Toast";
 export const onFacebookLoginUrl = async (accessToken: string, pathname: string, socialAccountsDispatch: React.Dispatch<SocialAccountsActionTypes>, router: AppRouterInstance) => {
   getFacebookLoginUrl(accessToken, pathname, socialAccountsDispatch)
     .then((response) => {
-      router.push(response?.value ?? "");
+      setTimeout(() => {
+        router.push(response?.value ?? "");
+      }, 2000);
     })
     .catch(() => {
       ToastFail("Something went wrong.", "There was a problem with your request.");
@@ -18,7 +20,9 @@ export const onFacebookLoginUrl = async (accessToken: string, pathname: string, 
 export const onTwitterLoginUrl = async (accessToken: string, pathname: string, socialAccountsDispatch: React.Dispatch<SocialAccountsActionTypes>, router: AppRouterInstance) => {
   getTwitterLoginUrl(accessToken, pathname, socialAccountsDispatch)
     .then((response) => {
-      router.push(response?.value ?? "");
+      setTimeout(() => {
+        router.push(response?.value ?? "");
+      }, 2000);
     })
     .catch(() => {
       ToastFail("Something went wrong.", "There was a problem with your request.");
@@ -28,7 +32,9 @@ export const onTwitterLoginUrl = async (accessToken: string, pathname: string, s
 export const onLinkedinLoginUrl = async (accessToken: string, pathname: string, socialAccountsDispatch: React.Dispatch<SocialAccountsActionTypes>, router: AppRouterInstance) => {
   getLinkedinLoginUrl(accessToken, pathname, socialAccountsDispatch)
     .then((response) => {
-      router.push(response?.value ?? "");
+      setTimeout(() => {
+        router.push(response?.value ?? "");
+      }, 2000);
     })
     .catch(() => {
       ToastFail("Something went wrong.", "There was a problem with your request.");

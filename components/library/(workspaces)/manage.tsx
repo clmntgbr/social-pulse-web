@@ -163,7 +163,7 @@ export const WorkspacesManage: React.FC<WorkspacesMembersProps> = ({ workspace }
 
   return (
     <>
-      <Card className="shadow-lg">
+      <Card className="shadow-xs">
         <CardHeader>
           <CardTitle>{workspace.label}</CardTitle>
           <CardDescription>{t("pages.workspaces.widget.manage.description")}</CardDescription>

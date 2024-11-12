@@ -1,7 +1,7 @@
 "use client";
 
 import { onFacebookLoginUrl, onLinkedinLoginUrl, onTwitterLoginUrl } from "@/components/loginUrl";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
@@ -29,23 +29,27 @@ export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ wor
   const t = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [uuidLoadingOnDelete, setUuidLoadingOnDelete] = useState("");
+  const [uuidLoadingOnRefresh, setUuidLoadingOnRefresh] = useState("");
   const { socialAccountsDispatch } = useSocialAccountsContext();
   const { workspacesDispatch } = useWorkspacesContext();
 
-  const refresh = async (type: string) => {
+  const refresh = async (type: string, socialAccountUuid: string) => {
     if (isLoading) {
       return;
     }
 
+    setIsLoading(true);
+    setUuidLoadingOnRefresh(socialAccountUuid);
+
     switch (type) {
       case "facebook_social_account":
-        await onFacebookLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router);
+        await onFacebookLoginUrl(session?.accessToken ?? "", pathname.concat("?uuid=").concat(workspace.uuid), socialAccountsDispatch, router);
         break;
       case "linkedin_social_account":
-        await onLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router);
+        await onLinkedinLoginUrl(session?.accessToken ?? "", pathname.concat("?uuid=").concat(workspace.uuid), socialAccountsDispatch, router);
         break;
       case "twitter_social_account":
-        await onTwitterLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router);
+        await onTwitterLoginUrl(session?.accessToken ?? "", pathname.concat("?uuid=").concat(workspace.uuid), socialAccountsDispatch, router);
         break;
       default:
         ToastFail("Unsupported platform", "The specified platform type is not supported.");
@@ -78,7 +82,7 @@ export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ wor
 
   return (
     <>
-      <Card className="shadow-lg">
+      <Card className="shadow-xs">
         <CardHeader>
           <CardTitle>{t("pages.workspaces.widget.socialAccount.title")}</CardTitle>
           <CardDescription>{t("pages.workspaces.widget.socialAccount.description")} </CardDescription>
@@ -101,12 +105,17 @@ export const WorkspacesSocialAccounts: React.FC<WorkspacesMembersProps> = ({ wor
                     </div>
                     <div className="flex gap-3">
                       <>
-                        <Badge className="cursor-pointer" variant="destructive" onClick={() => removeSocialAccount(socialAccount.uuid)}>
+                        <Button variant="outline" size="icon" onClick={() => refresh(socialAccount.socialAccountType, socialAccount.uuid)}>
+                          {isLoading && socialAccount.uuid === uuidLoadingOnRefresh ? <ReloadIcon className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => removeSocialAccount(socialAccount.uuid)}
+                          className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                        >
                           {isLoading && socialAccount.uuid === uuidLoadingOnDelete ? <ReloadIcon className="h-4 w-4 animate-spin" /> : <Trash2 size={16} />}
-                        </Badge>
-                        <Badge className="cursor-pointer" variant="outline" onClick={() => refresh(socialAccount.socialAccountType)}>
-                          <RefreshCw size={16} />
-                        </Badge>
+                        </Button>
                       </>
                     </div>
                   </div>
