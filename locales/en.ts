@@ -14,6 +14,11 @@ export default {
         },
       },
     },
+    language: {
+      french: "French",
+      english: "English",
+      xx: "Test",
+    },
   },
   pages: {
     workspaces: {

@@ -1,3 +1,4 @@
+import { Language } from "@/components/library/(navigation)/language";
 import { Button } from "@/components/ui/button";
 import { VercelLogo } from "@/components/ui/icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -41,6 +42,7 @@ export default async function DashboardLayout({ params, children }: { params: Pr
 
                   <div className="hidden lg:flex items-center space-x-2 ml-auto z-50 gap-2">
                     <User />
+                    <Language />
                   </div>
                 </header>
                 <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40 overflow-y-auto bg-gray-200">{children}</main>

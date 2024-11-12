@@ -72,5 +72,10 @@ export default {
         },
       },
     },
+    socialAccounts: {
+      title: "Social Accounts",
+      description:
+        "Manage and centralize your social media accounts to simplify content publishing. Connect your social profiles, track performance metrics, and coordinate posts from one place to enhance your workflow.",
+    },
   },
 } as const;

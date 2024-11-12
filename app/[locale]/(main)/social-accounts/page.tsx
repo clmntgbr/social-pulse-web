@@ -1,7 +1,7 @@
 "use client";
 
-import { StatsCard } from "@/components/library/(social-accounts)/Stats";
-import { SocialAccountsTable } from "@/components/library/(social-accounts)/Table";
+import { StatsCard } from "@/components/library/(social-accounts)/statistics";
+import { SocialAccountsTable } from "@/components/library/(social-accounts)/table";
 import { Separator } from "@/components/ui/separator";
 import { useI18n } from "@/locales/client";
 import { MessageCircle, Share2, TrendingUp, Users } from "lucide-react";

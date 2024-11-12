@@ -16,9 +16,9 @@ import { ArrowUpDown, ChevronDown, ChevronRight, FileText, RefreshCw, Share2, Th
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
-import { SocialAccountsLogo } from "../SocialAccountsLogo";
+import { SocialAccountsLogo } from "../social-accounts-logo";
 import { ToastFail, ToastSuccess } from "../Toast";
-import SkeletonTable from "./TableSkeleton";
+import SkeletonTable from "./table-skeleton";
 
 export function SocialAccountsTable() {
   const { data: session } = useSession();

@@ -1,6 +1,6 @@
 "use client";
 
-import { SocialAccountsLogo } from "@/components/library/SocialAccountsLogo";
+import { SocialAccountsLogo } from "@/components/library/social-accounts-logo";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import { SocialAccount } from "@/store/client/interface/social-account";
 
