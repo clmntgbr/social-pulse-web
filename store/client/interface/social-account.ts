@@ -11,4 +11,5 @@ export interface SocialAccount {
   givenName: string | null;
   familyName: string | null;
   uuid: string;
+  nbOfPosts: number;
 }
