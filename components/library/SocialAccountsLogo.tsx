@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
@@ -21,7 +22,7 @@ export const SocialAccountsLogo: React.FC<SocialAccountsLogoProps> = ({ avatarUr
                   <AvatarFallback>{username}</AvatarFallback>
                 </Avatar>
                 <div className="absolute -bottom-1 right-0 w-4 h-4 rounded-full bg-primary border-2 border-background z-50">
-                  <img src={logo} alt="Logo" className="w-full h-full rounded-full" />
+                  <Image src={logo} alt="Logo image" className="w-full h-full rounded-full" width={40} height={40} />
                 </div>
               </>
             </TooltipTrigger>

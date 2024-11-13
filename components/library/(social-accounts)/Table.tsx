@@ -1,24 +1,29 @@
 import { onFacebookLoginUrl, onLinkedinLoginUrl, onTwitterLoginUrl } from "@/components/loginUrl";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
+import { useCurrentLocale } from "@/locales/client";
 import { SocialAccount } from "@/store/client/interface/social-account";
 import { deleteSocialAccount } from "@/store/social_accounts/deleteSocialAccount";
 import { getSocialAccounts } from "@/store/social_accounts/getSocialAccounts";
 import { getWorkspaces } from "@/store/workspaces/getWorkspaces";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { ArrowUpDown, ChevronDown, ChevronRight, FileText, RefreshCw, Share2, ThumbsUp, Trash2, Users } from "lucide-react";
+import { ArrowUpDown, ChevronDown, ChevronRight, FileText, RefreshCw, ThumbsUp, Trash2, UserCheck, Users } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
-import { SocialAccountsLogo } from "../social-accounts-logo";
+import { BadgeDefault } from "../badge/BadgeDefault";
+import { BadgeError } from "../badge/BadgeError";
+import { BadgeSuccess } from "../badge/BadgeSuccess";
+import { BadgeWarning } from "../badge/BadgeWarning";
+import { SocialAccountsLogo } from "../SocialAccountsLogo";
 import { ToastFail, ToastSuccess } from "../Toast";
-import SkeletonTable from "./table-skeleton";
+import SkeletonTable from "./TableSkeleton";
 
 export function SocialAccountsTable() {
   const { data: session } = useSession();
@@ -31,6 +36,7 @@ export function SocialAccountsTable() {
   const [isLoading, setIsLoading] = useState(false);
   const [uuidLoadingOnDelete, setUuidLoadingOnDelete] = useState("");
   const [uuidLoadingOnRefresh, setUuidLoadingOnRefresh] = useState("");
+  const locale = useCurrentLocale();
   const [sortConfig, setSortConfig] = useState<{
     key: keyof SocialAccount;
     direction: "asc" | "desc";
@@ -52,16 +58,29 @@ export function SocialAccountsTable() {
     setExpandedRows(newExpandedRows);
   };
 
-  const getStatusBadge = (status: string) => {
+  const getSocialAccountStatus = (status: string) => {
     switch (status) {
       case "is_actif":
-        return <Badge className="bg-green-500">Actif</Badge>;
+        return <BadgeSuccess label="socialAccounts.status.is_actif" />;
       case "expire_soon":
-        return <Badge variant="secondary">Expire Soon</Badge>;
+        return <BadgeWarning label="socialAccounts.status.expire_soon" />;
       case "is_expired":
-        return <Badge variant="destructive">Is Expired</Badge>;
+        return <BadgeError label="socialAccounts.status.is_expired" />;
       default:
         return null;
+    }
+  };
+
+  const getPostStatus = (status: string) => {
+    switch (status) {
+      case "posted":
+        return <BadgeSuccess label="posts.status.posted" />;
+      case "programmed":
+        return <BadgeWarning label="posts.status.programmed" />;
+      case "failed":
+        return <BadgeError label="posts.status.failed" />;
+      default:
+        return <BadgeDefault label="posts.status.draft" />;
     }
   };
 
@@ -129,19 +148,28 @@ export function SocialAccountsTable() {
       });
   };
 
+  const formatDateWithTime = (date: string) => {
+    const dateObj = new Date(date);
+    return (
+      dateObj.toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }) +
+      " à " +
+      dateObj.toLocaleTimeString("fr-FR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    );
+  };
+
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("fr-FR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     });
-  };
-
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat("en-US", {
-      notation: "compact",
-      maximumFractionDigits: 1,
-    }).format(num);
   };
 
   const filteredAccounts = accounts.filter((account) => account.name.toLowerCase());
@@ -187,6 +215,12 @@ export function SocialAccountsTable() {
                 </Button>
               </TableHead>
               <TableHead className="py-4">
+                <Button variant="ghost" onClick={() => handleSort("updatedAt")} className="mx-auto flex items-center gap-1 font-semibold leading-none tracking-tight text-black text-center">
+                  Updated At
+                  <ArrowUpDown className="h-4 w-4" />
+                </Button>
+              </TableHead>
+              <TableHead className="py-4">
                 <h3 className="font-semibold leading-none tracking-tight text-black text-center">Actions</h3>
               </TableHead>
             </TableRow>
@@ -194,13 +228,13 @@ export function SocialAccountsTable() {
           <TableBody>
             {filteredAccounts.map((account) => (
               <Fragment key={account.uuid}>
-                <TableRow key={account.uuid} className="cursor-pointer hover:bg-muted/50">
-                  <TableCell>
+                <TableRow key={account.uuid} className="cursor-pointer hover:bg-muted/50 transition-transform duration-200">
+                  <TableCell onClick={() => toggleRow(account.uuid)}>
                     <Button variant="ghost" size="icon" onClick={() => toggleRow(account.uuid)}>
                       {expandedRows.has(account.uuid) ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                     </Button>
                   </TableCell>
-                  <TableCell className="py-4">
+                  <TableCell className="py-4" onClick={() => toggleRow(account.uuid)}>
                     <div className="flex items-center space-x-4">
                       <SocialAccountsLogo username={account.username} avatarUrl={account.avatarUrl} logo={account.socialAccountTypeAvatarUrl} />
                       <div>
@@ -209,17 +243,24 @@ export function SocialAccountsTable() {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="py-4 text-center">{getStatusBadge(account.status)}</TableCell>
-                  <TableCell className="py-4 mx-auto">
+                  <TableCell className="py-4 text-center" onClick={() => toggleRow(account.uuid)}>
+                    {getSocialAccountStatus(account.status)}
+                  </TableCell>
+                  <TableCell className="py-4 mx-auto" onClick={() => toggleRow(account.uuid)}>
                     <div className="flex items-center gap-1 justify-center">
                       <FileText className="h-4 w-4 text-muted-foreground" />
                       {account.nbOfPosts}
                     </div>
                   </TableCell>
-                  <TableCell className="py-4 text-center">{formatDate(account.createdAt)}</TableCell>
-                  <TableCell className="py-4 ">
+                  <TableCell className="py-4 text-center" onClick={() => toggleRow(account.uuid)}>
+                    {formatDate(account.createdAt)}
+                  </TableCell>
+                  <TableCell className="py-4 text-center" onClick={() => toggleRow(account.uuid)}>
+                    {formatDate(account.updatedAt)}
+                  </TableCell>
+                  <TableCell className="py-4 " onClick={() => toggleRow(account.uuid)}>
                     <div className="flex gap-2 justify-center">
-                      <Button variant="outline" size="icon" onClick={() => refresh(account.socialAccountType, account.uuid)}>
+                      <Button variant="outline" className="z-50" size="icon" onClick={() => refresh(account.socialAccountType, account.uuid)}>
                         {isLoading && account.uuid === uuidLoadingOnRefresh ? <ReloadIcon className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
                       </Button>
                       <Button variant="outline" size="icon" onClick={() => removeSocialAccount(account.uuid)} className="text-destructive hover:bg-destructive hover:text-destructive-foreground">
@@ -229,62 +270,60 @@ export function SocialAccountsTable() {
                   </TableCell>
                 </TableRow>
                 {expandedRows.has(account.uuid) && (
-                  <TableRow>
-                    <TableCell colSpan={6} className="p-4">
-                      <Card className="p-6 border-none">
+                  <TableRow className="transition-all duration-200 ease-in-out hover:bg-white">
+                    <TableCell colSpan={6} className="p-4 transition-all duration-200 ease-in-out">
+                      <div className="p-6 border-none">
                         <div className="grid grid-cols-2 gap-6">
                           <div className="space-y-4">
                             <h3 className="text-lg font-semibold">Analytics Overview</h3>
                             <div className="grid grid-cols-3 gap-4">
                               <div className="space-y-1">
                                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                  <Users className="h-4 w-4" />
+                                  <UserCheck className="h-4 w-4" />
                                   Followers
                                 </div>
-                                <p className="text-2xl font-bold">{formatNumber(12)}</p>
+                                <p className="text-2xl font-bold">{account.followersCount ?? "~"}</p>
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                  <Users className="h-4 w-4" />
+                                  Followings
+                                </div>
+                                <p className="text-2xl font-bold">{account.followingCount ?? "~"}</p>
                               </div>
                               <div className="space-y-1">
                                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                   <ThumbsUp className="h-4 w-4" />
                                   Likes
                                 </div>
-                                <p className="text-2xl font-bold">{formatNumber(23)}</p>
+                                <p className="text-2xl font-bold">{account.likeCount ?? "~"}</p>
                               </div>
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                  <Share2 className="h-4 w-4" />
-                                  Shares
-                                </div>
-                                <p className="text-2xl font-bold">{formatNumber(45)}</p>
-                              </div>
-                            </div>
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">Engagement Rate</span>
-                                <span className="text-sm font-medium">{28}%</span>
-                              </div>
-                              <Progress value={28} className="h-2" />
                             </div>
                           </div>
                           <div className="space-y-4">
-                            <h3 className="text-lg font-semibold">Recent Members</h3>
+                            <h3 className="text-lg font-semibold">Recently created posts</h3>
                             <div className="space-y-3">
-                              {/* {account.details.recentMembers.map((member) => (
-                                <div key={member.id} className="flex items-center gap-3">
-                                  <Avatar className="h-8 w-8">
-                                    <AvatarImage src={member.avatar} alt={member.name} />
-                                    <AvatarFallback>{member.name[0]}</AvatarFallback>
-                                  </Avatar>
-                                  <div>
-                                    <p className="text-sm font-medium">{member.name}</p>
-                                    <p className="text-xs text-muted-foreground">Joined {formatDate(member.joinedDate)}</p>
-                                  </div>
-                                </div>
-                              ))} */}
+                              {account.recentPosts.length <= 0 && <p className="italic mt-2 font-extralight from-stone-300 text-sm">You didnt posted yet.</p>}
+                              {account.recentPosts.map((post) => (
+                                <Link href={`/${locale}/posts/${post.uuid}/show`} key={post.uuid}>
+                                  <Card className="flex items-center gap-3 bg-white hover:bg-slate-100 border-none shadow-none p-2">
+                                    <Avatar className="h-8 w-8">
+                                      <AvatarImage src={post.pictures[0] ?? "https://avatar.vercel.sh/personal.png"} alt={post.header ?? post.uuid} />
+                                    </Avatar>
+                                    <div className="flex-1">
+                                      <p className="text-sm font-medium">{post.header}</p>
+                                      <div className="flex items-center justify-start gap-3">
+                                        <p className="text-xs text-muted-foreground">{formatDateWithTime(post.postAt)}</p>
+                                        {getPostStatus(post.status)}
+                                      </div>
+                                    </div>
+                                  </Card>
+                                </Link>
+                              ))}
                             </div>
                           </div>
                         </div>
-                      </Card>
+                      </div>
                     </TableCell>
                   </TableRow>
                 )}

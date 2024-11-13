@@ -1,13 +1,14 @@
 "use client";
 
-import { StatsCard } from "@/components/library/(social-accounts)/statistics";
-import { SocialAccountsTable } from "@/components/library/(social-accounts)/table";
+import { Statistics } from "@/components/library/(social-accounts)/Statistics";
+import { SocialAccountsTable } from "@/components/library/(social-accounts)/Table";
 import { Separator } from "@/components/ui/separator";
 import { useI18n } from "@/locales/client";
 import { MessageCircle, Share2, TrendingUp, Users } from "lucide-react";
 
 export default function Page() {
   const t = useI18n();
+
   const stats = [
     { icon: Users, label: "Total Followers", value: "272.5K" },
     { icon: MessageCircle, label: "Total Engagement", value: "19K" },
@@ -23,9 +24,7 @@ export default function Page() {
       </div>
       <Separator className="my-6" />
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat, index) => (
-          <StatsCard key={index} icon={stat.icon} label={stat.label} value={stat.value} />
-        ))}
+        <Statistics />
       </div>
 
       <SocialAccountsTable />

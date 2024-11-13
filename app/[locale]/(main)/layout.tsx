@@ -1,4 +1,9 @@
-import { Language } from "@/components/library/(navigation)/language";
+import { Language } from "@/components/library/(navigation)/Language";
+import { Menu } from "@/components/library/(navigation)/Menu";
+import { NavItem } from "@/components/library/(navigation)/NavItem";
+import SocialAccounts from "@/components/library/(navigation)/SocialAccounts";
+import { User } from "@/components/library/(navigation)/User";
+import WorkspacesSwitcher from "@/components/library/(navigation)/WorkspacesSwitcher";
 import { Button } from "@/components/ui/button";
 import { VercelLogo } from "@/components/ui/icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -9,11 +14,6 @@ import { Handshake, Home, LineChart, Package, Package2, PanelLeft, Settings, Sho
 import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import { ReactElement } from "react";
-import { Menu } from "../../../components/library/(navigation)/menu";
-import { NavItem } from "../../../components/library/(navigation)/nav-item";
-import SocialAccounts from "../../../components/library/(navigation)/social-accounts";
-import { User } from "../../../components/library/(navigation)/user";
-import WorkspacesSwitcher from "../../../components/library/(navigation)/workspaces-switcher";
 import Providers from "./providers";
 
 export default async function DashboardLayout({ params, children }: { params: Promise<{ locale: string }>; children: ReactElement }) {

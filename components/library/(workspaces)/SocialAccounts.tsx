@@ -15,7 +15,7 @@ import { RefreshCw, Trash2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { SocialAccountsLogo } from "../social-accounts-logo";
+import { SocialAccountsLogo } from "../SocialAccountsLogo";
 import { ToastFail, ToastSuccess } from "../Toast";
 
 type WorkspacesMembersProps = {

@@ -44,7 +44,7 @@ export function socialAccountsReducer(state: SocialAccountsState, action: Social
       return {
         ...state,
         error: true,
-        socialAccounts: null,
+        socialAccounts: state.socialAccounts,
       };
     }
 

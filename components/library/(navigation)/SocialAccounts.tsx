@@ -1,13 +1,15 @@
 "use client";
 
-import { SocialAccountsLogo } from "@/components/library/social-accounts-logo";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import { SocialAccount } from "@/store/client/interface/social-account";
+import { SocialAccountsLogo } from "../SocialAccountsLogo";
 
 export default function SocialAccounts() {
   const { socialAccounts } = useSocialAccountsContext();
 
-  if (!socialAccounts || !socialAccounts.socialAccounts || socialAccounts.loading) {
+  console.log(socialAccounts);
+
+  if (!socialAccounts || !socialAccounts.socialAccounts) {
     return null;
   }
 

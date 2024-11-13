@@ -84,4 +84,19 @@ export default {
         "Manage and centralize your social media accounts to simplify content publishing. Connect your social profiles, track performance metrics, and coordinate posts from one place to enhance your workflow.",
     },
   },
+  posts: {
+    status: {
+      programmed: "Programmed",
+      draft: "Draft",
+      posted: "Posted",
+      failed: "Failed",
+    },
+  },
+  socialAccounts: {
+    status: {
+      is_actif: "Active",
+      expire_soon: "Expire Soon",
+      is_expired: "Is Expired",
+    },
+  },
 } as const;

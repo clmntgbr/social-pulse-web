@@ -1,10 +1,10 @@
 "use client";
 
-import { WorkspacesInvitations } from "@/components/library/(workspaces)/invitations";
-import { WorkspacesManage } from "@/components/library/(workspaces)/manage";
-import { WorkspacesMembers } from "@/components/library/(workspaces)/members";
-import { WorkspacesSidebarNav } from "@/components/library/(workspaces)/sidebar-nav.";
-import { WorkspacesSocialAccounts } from "@/components/library/(workspaces)/social-accounts";
+import { WorkspacesInvitations } from "@/components/library/(workspaces)/Invitations";
+import { WorkspacesManage } from "@/components/library/(workspaces)/Manage";
+import { WorkspacesMembers } from "@/components/library/(workspaces)/Members";
+import { WorkspacesSidebarNav } from "@/components/library/(workspaces)/SidebarNav.";
+import { WorkspacesSocialAccounts } from "@/components/library/(workspaces)/SocialAccounts";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
@@ -76,7 +76,6 @@ export default function Page() {
               </Card>
             </div>
           )}
-
           <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 w-full">
             <aside className="flex-none min-w-[250px]">
               <WorkspacesSidebarNav items={workspaceNavItems} />

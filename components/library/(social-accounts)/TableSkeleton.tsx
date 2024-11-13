@@ -9,73 +9,73 @@ const SkeletonTable = () => {
             <table className="min-w-full">
               <thead className="bg-gray-200">
                 <tr>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                    <Skeleton className="h-4 w-24" />
+                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4">
+                    <Skeleton className="h-6 w-24 mx-auto" />
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                    <Skeleton className="h-4 w-24" />
+                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4">
+                    <Skeleton className="h-6 w-24 mx-auto" />
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                    <Skeleton className="h-4 w-24" />
+                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4">
+                    <Skeleton className="h-6 w-24 mx-auto" />
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                    <Skeleton className="h-4 w-24" />
+                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4">
+                    <Skeleton className="h-6 w-24 mx-auto" />
                   </th>
-                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                    <Skeleton className="h-4 w-24" />
+                  <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4">
+                    <Skeleton className="h-6 w-24 mx-auto" />
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="bg-white border-b">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                 </tr>
                 <tr className="bg-white border-b">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                 </tr>
                 <tr className="bg-white border-b">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-6 w-full" />
                   </td>
                 </tr>
               </tbody>

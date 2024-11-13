@@ -23,6 +23,7 @@ import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useFormik } from "formik";
 import { DiamondPlus } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { ToastFail, ToastSuccess } from "../Toast";
@@ -205,8 +206,7 @@ export default function WorkspacesSwitcher() {
                 <Tooltip>
                   <TooltipTrigger>
                     <>
-                      <img className="w-24 h-24 object-cover rounded-full " onClick={handleFileClick} src={file64} alt="Base64 Image" />
-
+                      <Image src={file64} alt="Base64 Image" onClick={handleFileClick} className="w-24 h-24 object-cover rounded-full" width={96} height={96} />
                       <div>
                         <div className="text-sm font-medium leading-none">
                           <input type="file" hidden ref={fileRef} id="file" name="file" onChange={handleFileChange} className="border border-gray-400 p-2 rounded-md w-full" />

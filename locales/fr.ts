@@ -1,73 +1,79 @@
 export default {
   navigation: {
     workspace: {
-      empty: "Aucun workspace trouvé.",
+      empty: "No workspace found.",
       create: {
-        button: "Créer un workspace",
-        title: "Créer un Workspace",
-        description: "Ajoutez un nouveau workspace pour gérer les comptes sociaux et les publications.",
+        button: "Create a workspace",
+        title: "Create a Workspace",
+        description: "Add a new workspace to manage social accounts & posts.",
         form: {
-          name: "Nom",
+          name: "Name",
           logo: "Logo",
-          cancel: "Annuler",
-          confirm: "Confirmer",
+          cancel: "Cancel",
+          confirm: "Confirm",
         },
       },
+    },
+    language: {
+      french: "French",
+      english: "English",
+      xx: "Test",
     },
   },
   pages: {
     workspaces: {
       title: "Workspaces",
-      description:
-        "Gérez et organisez vos workspaces. Créez de nouveaux environnements collaboratifs, configurez les autorisations d'accès et rationalisez votre flux de travail sur les réseaux sociaux, le tout en un seul endroit.",
+      description: "Manage and organize your workspaces. Create new collaborative environments, configure access permissions, and streamline your social accounts workflow all in one place.",
       widget: {
         manage: {
-          description: "Mettez à jour les paramètres de votre workspace. Définissez le nom et l'avatar de votre workspace.",
+          description: "Update your workspace settings. Set your workspace name and avatar.",
           form: {
-            name: "Nom",
+            name: "Name",
             logo: "Logo",
-            tips: "Vous pouvez changer le logo du workspace en cliquant dessus",
-            save: "Enregistrer",
+            tips: "You can change the workspace logo by clicking on it",
+            save: "Save",
           },
           leave: {
-            button: "Quitter ce workspace",
-            title: "Quitter le workspace {name} ?",
-            cancel: "Annuler",
-            confirm: "Confirmer",
+            button: "Leave this workspace",
+            title: "Leaving {name} workspace ?",
+            cancel: "Cancel",
+            confirm: "Confirm",
             description: {
-              accept: "Êtes-vous sûr de vouloir partir ?",
-              denied: "Vous ne pouvez pas quitter ce workspace car vous êtes l'administrateur actuel. Veuillez attribuer les droits d'administrateur à un autre utilisateur et réessayez.",
+              accept: "Are you sure you want to leave ?",
+              denied: "You cannot leave this workspace as you are the current administrator. Please assign administrator rights to another user and try again.",
             },
           },
           delete: {
-            button: "Supprimer ce workspace",
-            title: "Supprimer le workspace {name} ?",
-            cancel: "Annuler",
-            confirm: "Confirmer",
+            button: "Delete this workspace",
+            title: "Deleting {name} workspace ?",
+            cancel: "Cancel",
+            confirm: "Confirm",
             description:
-              "La suppression de ce workspace entraînera la suppression définitive de toutes les données associées, y compris les réseaux sociaux, les accès utilisateurs et les paramètres du workspace. Cette action est irréversible. Veuillez confirmer si vous êtes sûr de vouloir continuer.",
+              "Deleting this workspace will permanently remove all associated data, including social accounts, user access, and workspace settings. This action cannot be undone. Please confirm if you are sure you want to proceed.",
           },
         },
         socialAccount: {
-          title: "Réseaux sociaux",
-          description:
-            "Connectez et gérez vos comptes de réseaux sociaux pour simplifier la publication de contenu. Connectez des plateformes telles que Twitter, LinkedIn et Facebook pour publier directement depuis ce workspace.",
-          none: "Aucun réseau social disponible",
+          title: "Social Accounts",
+          description: "Connect and manage your social media accounts to streamline your content publishing. Link platforms like Twitter, LinkedIn, and Facebook to post directly from this workspace.",
+          none: "No social accounts available",
         },
         members: {
-          title: "Inviter des personnes à collaborer",
-          description: "Vous pouvez inviter des membres existants à collaborer sur ce workspace, leur donnant ainsi la permission de modifier et de contribuer avec vous.",
-          button: "Envoyer une invitation",
-          access: "Personnes ayant accès",
-          you: "Vous",
-          administrator: "Administrateur",
-          member: "Membre",
+          title: "Invite people to collaborate",
+          description: "You can invite existing members to collaborate on this workspace, giving them permission to edit and contribute alongside you.",
+          button: "Send invitation",
+          access: "People with access",
+          you: "You",
+          administrator: "Administrator",
+          member: "Member",
+          pending: {
+            title: "Pending invitations",
+          },
           promote: {
-            title: "Promouvoir {name} au rang d'administrateur",
+            title: "Promote {name} to Administrator",
             description:
-              "Vous perdrez votre statut d'administrateur et accorderez à cet utilisateur les droits d'administrateur pour gérer les paramètres du workspace et ses membres. Confirmez cette action pour lui fournir des privilèges avancés d'accès et de gestion.",
-            cancel: "Annuler",
-            confirm: "Confirmer",
+              "You will lose your administrator status and grant this user administrator rights to manage workspace settings and members. Confirm this action to provide them with advanced access and management privileges.",
+            cancel: "Cancel",
+            confirm: "Confirm",
           },
         },
       },

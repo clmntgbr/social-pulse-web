@@ -4,11 +4,13 @@ import { onFacebookLoginUrl, onLinkedinLoginUrl, onTwitterLoginUrl } from "@/com
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import { cn } from "@/lib/utils";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
+import { useState } from "react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -47,7 +49,42 @@ export function Menu() {
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const [isLoadingTwitter, setIsLoadingTwitter] = useState(false);
+  const [isLoadingFacebook, setIsLoadingFacebook] = useState(false);
+  const [isLoadingLinkedin, setIsLoadingLinkedin] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const { socialAccountsDispatch } = useSocialAccountsContext();
+
+  const handleFacebookLoginUrl = async () => {
+    if (isDisabled) {
+      return;
+    }
+
+    setIsDisabled(true);
+    setIsLoadingFacebook(true);
+    onFacebookLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router);
+  };
+
+  const handleLinkedinLoginUrl = async () => {
+    if (isDisabled) {
+      return;
+    }
+
+    setIsDisabled(true);
+    setIsLoadingLinkedin(true);
+    onLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router);
+  };
+
+  const handleTwitterLoginUrl = async () => {
+    if (isDisabled) {
+      return;
+    }
+
+    setIsDisabled(true);
+    setIsLoadingTwitter(true);
+    onTwitterLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router);
+  };
 
   return (
     <NavigationMenu>
@@ -57,27 +94,18 @@ export function Menu() {
           <NavigationMenuContent>
             <ul className="grid grid-cols-2 gap-2 p-2 w-[230px]">
               <li className="col-span-1">
-                <button
-                  onClick={() => onFacebookLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router)}
-                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton"
-                >
-                  <Facebook size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                <button onClick={() => handleFacebookLoginUrl()} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton">
+                  {isLoadingFacebook ? <ReloadIcon className="text-white h-10 w-10 animate-spin" /> : <Facebook size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />}
                 </button>
               </li>
               <li className="col-span-1">
-                <button
-                  onClick={() => onTwitterLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router)}
-                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton"
-                >
-                  <Twitter size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                <button onClick={() => handleTwitterLoginUrl()} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton">
+                  {isLoadingTwitter ? <ReloadIcon className="text-white h-10 w-10 animate-spin" /> : <Twitter size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />}
                 </button>
               </li>
               <li className="col-span-2">
-                <button
-                  onClick={() => onLinkedinLoginUrl(session?.accessToken ?? "", pathname, socialAccountsDispatch, router)}
-                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton"
-                >
-                  <Linkedin size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                <button onClick={() => handleLinkedinLoginUrl()} className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton">
+                  {isLoadingLinkedin ? <ReloadIcon className="text-white h-10 w-10 animate-spin" /> : <Linkedin size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />}
                 </button>
               </li>
             </ul>
