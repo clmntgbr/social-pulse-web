@@ -9,6 +9,7 @@ import { SocialAccountsLogo } from "../SocialAccountsLogo";
 export default function SocialAccounts() {
   const { socialAccounts } = useSocialAccountsContext();
   const locale = useCurrentLocale();
+  const maxToDisplay = 4;
 
   if (!socialAccounts || !socialAccounts.socialAccounts) {
     return null;
@@ -16,10 +17,17 @@ export default function SocialAccounts() {
 
   return (
     <>
-      <Link className="flex -space-x-1" href={`/${locale}/social-accounts`}>
-        {socialAccounts.socialAccounts?.member.slice(0, 5).map((socialAccount: SocialAccount) => (
+      <Link className="flex -space-x-1  " href={`/${locale}/social-accounts`}>
+        {socialAccounts.socialAccounts?.member.slice(0, maxToDisplay).map((socialAccount: SocialAccount) => (
           <SocialAccountsLogo key={socialAccount.uuid} username={socialAccount.username} avatarUrl={socialAccount.avatarUrl} logo={socialAccount.socialAccountTypeAvatarUrl} />
         ))}
+        {socialAccounts.socialAccounts?.member.length > maxToDisplay && (
+          <div className="avatar placeholder">
+            <div className="bg-neutral text-neutral-content w-9 h-9 rounded-full">
+              <span className="text-sm">+{socialAccounts.socialAccounts?.member.length - maxToDisplay}</span>
+            </div>
+          </div>
+        )}
       </Link>
     </>
   );

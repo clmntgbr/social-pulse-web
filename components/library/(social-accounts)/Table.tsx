@@ -270,56 +270,54 @@ export function SocialAccountsTable() {
                 </TableRow>
                 {expandedRows.has(account.uuid) && (
                   <TableRow className="transition-all duration-200 ease-in-out hover:bg-white">
-                    <TableCell colSpan={6} className="p-4 transition-all duration-200 ease-in-out">
-                      <div className="p-6 border-none">
-                        <div className="grid grid-cols-2 gap-6">
-                          <div className="space-y-4">
-                            <h3 className="text-lg font-semibold">Analytics Overview</h3>
-                            <div className="grid grid-cols-3 gap-4">
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                  <UserCheck className="h-4 w-4" />
-                                  Followers
-                                </div>
-                                <p className="text-2xl font-bold">{account.followersCount ?? "~"}</p>
+                    <TableCell colSpan={100} className="p-4 transition-all duration-200 ease-in-out">
+                      <div className="grid grid-cols-2 gap-6 px-6 py-3">
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold">Analytics Overview</h3>
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <UserCheck className="h-4 w-4" />
+                                Followers
                               </div>
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                  <Users className="h-4 w-4" />
-                                  Followings
-                                </div>
-                                <p className="text-2xl font-bold">{account.followingCount ?? "~"}</p>
+                              <p className="text-2xl font-bold">{account.followersCount ?? "~"}</p>
+                            </div>
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <Users className="h-4 w-4" />
+                                Followings
                               </div>
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                  <ThumbsUp className="h-4 w-4" />
-                                  Likes
-                                </div>
-                                <p className="text-2xl font-bold">{account.likeCount ?? "~"}</p>
+                              <p className="text-2xl font-bold">{account.followingCount ?? "~"}</p>
+                            </div>
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                <ThumbsUp className="h-4 w-4" />
+                                Likes
                               </div>
+                              <p className="text-2xl font-bold">{account.likeCount ?? "~"}</p>
                             </div>
                           </div>
-                          <div className="space-y-4">
-                            <h3 className="text-lg font-semibold">Recently created posts</h3>
-                            <div className="space-y-3">
-                              {account.recentPosts.length <= 0 && <p className="italic mt-2 font-extralight from-stone-300 text-sm">You didnt posted yet.</p>}
-                              {account.recentPosts.map((post) => (
-                                <Link href={`/${locale}/posts/${post.uuid}/show`} key={post.uuid}>
-                                  <div className="flex items-center gap-3 bg-white hover:bg-slate-100 border-none shadow-none p-2">
-                                    <Avatar className="h-8 w-8">
-                                      <AvatarImage src={post.pictures[0] ?? "https://avatar.vercel.sh/personal.png"} alt={post.header ?? post.uuid} />
-                                    </Avatar>
-                                    <div className="flex-1">
-                                      <span className="text-sm font-medium">{post.header}</span>
-                                      <div className="flex items-center justify-start gap-3">
-                                        <p className="text-xs text-muted-foreground">{formatDateWithTime(post.postAt)}</p>
-                                        {getPostStatus(post.status)}
-                                      </div>
+                        </div>
+                        <div className="space-y-4">
+                          <h3 className="text-lg font-semibold">Recently created posts</h3>
+                          <div className="gap-1 flex flex-col">
+                            {account.recentPosts.length <= 0 && <p className="italic mt-2 font-extralight from-stone-300 text-sm">You didnt posted yet.</p>}
+                            {account.recentPosts.map((post) => (
+                              <Link href={`/${locale}/posts/${post.uuid}/show`} key={post.uuid}>
+                                <div className="flex items-center gap-3 bg-white hover:bg-slate-100 border-none shadow-none px-3 py-4">
+                                  <Avatar className="h-8 w-8">
+                                    <AvatarImage src={post.pictures[0] ?? "https://avatar.vercel.sh/personal.png"} alt={post.header ?? post.uuid} />
+                                  </Avatar>
+                                  <div className="flex-1">
+                                    <span className="text-sm font-medium">{post.header}</span>
+                                    <div className="flex items-center justify-start gap-3">
+                                      <p className="text-xs text-muted-foreground">{formatDateWithTime(post.postAt)}</p>
+                                      {getPostStatus(post.status)}
                                     </div>
                                   </div>
-                                </Link>
-                              ))}
-                            </div>
+                                </div>
+                              </Link>
+                            ))}
                           </div>
                         </div>
                       </div>
