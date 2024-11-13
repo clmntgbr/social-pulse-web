@@ -45,7 +45,7 @@ export default async function DashboardLayout({ params, children }: { params: Pr
                     <Language />
                   </div>
                 </header>
-                <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40 overflow-y-auto bg-gray-200">{children}</main>
+                <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40 overflow-y-scroll bg-gray-200">{children}</main>
               </div>
             </main>
           </Providers>

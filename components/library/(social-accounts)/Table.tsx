@@ -2,7 +2,6 @@ import { onFacebookLoginUrl, onLinkedinLoginUrl, onTwitterLoginUrl } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
 import useWorkspacesContext from "@/contexts/workspaces/hooks";
@@ -306,18 +305,18 @@ export function SocialAccountsTable() {
                               {account.recentPosts.length <= 0 && <p className="italic mt-2 font-extralight from-stone-300 text-sm">You didnt posted yet.</p>}
                               {account.recentPosts.map((post) => (
                                 <Link href={`/${locale}/posts/${post.uuid}/show`} key={post.uuid}>
-                                  <Card className="flex items-center gap-3 bg-white hover:bg-slate-100 border-none shadow-none p-2">
+                                  <div className="flex items-center gap-3 bg-white hover:bg-slate-100 border-none shadow-none p-2">
                                     <Avatar className="h-8 w-8">
                                       <AvatarImage src={post.pictures[0] ?? "https://avatar.vercel.sh/personal.png"} alt={post.header ?? post.uuid} />
                                     </Avatar>
                                     <div className="flex-1">
-                                      <p className="text-sm font-medium">{post.header}</p>
+                                      <span className="text-sm font-medium">{post.header}</span>
                                       <div className="flex items-center justify-start gap-3">
                                         <p className="text-xs text-muted-foreground">{formatDateWithTime(post.postAt)}</p>
                                         {getPostStatus(post.status)}
                                       </div>
                                     </div>
-                                  </Card>
+                                  </div>
                                 </Link>
                               ))}
                             </div>
