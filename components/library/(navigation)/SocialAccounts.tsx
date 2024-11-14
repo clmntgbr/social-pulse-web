@@ -1,6 +1,7 @@
 "use client";
 
 import useSocialAccountsContext from "@/contexts/social_accounts/hooks";
+import useWorkspacesContext from "@/contexts/workspaces/hooks";
 import { useCurrentLocale } from "@/locales/client";
 import { SocialAccount } from "@/store/client/interface/social-account";
 import Link from "next/link";
@@ -8,10 +9,11 @@ import { SocialAccountsLogo } from "../SocialAccountsLogo";
 
 export default function SocialAccounts() {
   const { socialAccounts } = useSocialAccountsContext();
+  const { workspaces } = useWorkspacesContext();
   const locale = useCurrentLocale();
   const maxToDisplay = 4;
 
-  if (!socialAccounts || !socialAccounts.socialAccounts) {
+  if (!socialAccounts || !socialAccounts.socialAccounts || !workspaces || !workspaces.workspaces) {
     return null;
   }
 

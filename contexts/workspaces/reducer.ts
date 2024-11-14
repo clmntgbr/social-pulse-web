@@ -14,7 +14,7 @@ export type WorkspacesState = {
 
 export const initialWorkspacesState: WorkspacesState = {
   error: false,
-  loading: false,
+  loading: true,
   workspaces: null,
   workspace: null,
   workspaceInvitations: [],

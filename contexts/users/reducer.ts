@@ -10,14 +10,11 @@ export type UserState = {
 
 export const initialUserState: UserState = {
   error: false,
-  loading: false,
+  loading: true,
   me: null,
 };
 
-export function userReducer(
-  state: UserState,
-  action: UserActionTypes
-): UserState {
+export function userReducer(state: UserState, action: UserActionTypes): UserState {
   switch (action.type) {
     case UserAction.USER_LOADING_START: {
       return {

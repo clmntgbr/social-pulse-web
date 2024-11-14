@@ -25,3 +25,8 @@ export enum USERS {
   POST_LOGIN = "/auth/token",
   PATCH_USER_WORKSPACE = "/users/workspace",
 }
+
+export enum POSTS {
+  GET_POSTS = "/posts?status[]=posted&status[]=programmed&status[]=failed",
+  GET_POST = "/posts/%postUuid%",
+}

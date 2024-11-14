@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from "react";
+import { PostsProvider } from "./posts";
 import { SocialAccountsProvider } from "./social_accounts";
 import { UserProvider } from "./users";
 import { WorkspacesProvider } from "./workspaces";
@@ -7,7 +8,9 @@ const AppContextProviders: React.FC<PropsWithChildren> = ({ children }) => (
   <UserProvider>
     <WorkspacesProvider>
       <SocialAccountsProvider>
-        <AppHooksProvider>{children}</AppHooksProvider>
+        <PostsProvider>
+          <AppHooksProvider>{children}</AppHooksProvider>
+        </PostsProvider>
       </SocialAccountsProvider>
     </WorkspacesProvider>
   </UserProvider>

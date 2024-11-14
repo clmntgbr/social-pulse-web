@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {

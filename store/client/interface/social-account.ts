@@ -5,6 +5,7 @@ export interface SocialAccount {
   isVerified: boolean;
   username: string;
   name: string;
+  url: string;
   avatarUrl: string;
   socialAccountTypeAvatarUrl: string;
   status: string;

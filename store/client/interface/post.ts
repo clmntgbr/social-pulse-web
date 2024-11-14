@@ -2,15 +2,17 @@ import { SocialAccount } from "./social-account";
 
 export interface Post {
   uuid: string;
-  postId?: string | null;
-  groupUuid: string | null;
-  groupType: string | null;
-  header?: string | null;
-  body?: string | null;
+  groupType: "parent" | "children";
+  header: string;
+  body: string;
   pictures: string[];
-  status: string;
+  status: "posted" | "programmed" | "failed" | "draft";
   postAt: string;
-  socialAccount: SocialAccount | null;
-  createdAt: string | null;
-  updatedAt: string | null;
+  socialAccount: Partial<SocialAccount>;
+  createdAt: string;
+  updatedAt: string;
+  postId: string | null;
+  position: number;
+  parent: Post | null;
+  children: Post[];
 }

@@ -16,10 +16,10 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
-import { BadgeDefault } from "../badge/BadgeDefault";
 import { BadgeError } from "../badge/BadgeError";
 import { BadgeSuccess } from "../badge/BadgeSuccess";
 import { BadgeWarning } from "../badge/BadgeWarning";
+import { postStatus } from "../PostStatus";
 import { SocialAccountsLogo } from "../SocialAccountsLogo";
 import { ToastFail, ToastSuccess } from "../Toast";
 import SkeletonTable from "./TableSkeleton";
@@ -67,19 +67,6 @@ export function SocialAccountsTable() {
         return <BadgeError label="socialAccounts.status.is_expired" />;
       default:
         return null;
-    }
-  };
-
-  const getPostStatus = (status: string) => {
-    switch (status) {
-      case "posted":
-        return <BadgeSuccess label="posts.status.posted" />;
-      case "programmed":
-        return <BadgeWarning label="posts.status.programmed" />;
-      case "failed":
-        return <BadgeError label="posts.status.failed" />;
-      default:
-        return <BadgeDefault label="posts.status.draft" />;
     }
   };
 
@@ -312,7 +299,7 @@ export function SocialAccountsTable() {
                                     <span className="text-sm font-medium">{post.header}</span>
                                     <div className="flex items-center justify-start gap-3">
                                       <p className="text-xs text-muted-foreground">{formatDateWithTime(post.postAt)}</p>
-                                      {getPostStatus(post.status)}
+                                      {postStatus(post.status)}
                                     </div>
                                   </div>
                                 </div>

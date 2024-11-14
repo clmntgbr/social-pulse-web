@@ -84,6 +84,9 @@ export default {
         "Manage and centralize your social media accounts to simplify content publishing. Connect your social profiles, track performance metrics, and coordinate posts from one place to enhance your workflow.",
     },
   },
+  error: {
+    post_not_found: "Post not found",
+  },
   posts: {
     status: {
       programmed: "Programmed",

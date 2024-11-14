@@ -31,7 +31,7 @@ import { ToastFail, ToastSuccess } from "../Toast";
 export default function WorkspacesSwitcher() {
   const { workspaces, workspacesDispatch } = useWorkspacesContext();
   const { userDispatch } = useUserContext();
-  const { socialAccountsDispatch } = useSocialAccountsContext();
+  const { socialAccounts, socialAccountsDispatch } = useSocialAccountsContext();
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const t = useI18n();
@@ -120,6 +120,10 @@ export default function WorkspacesSwitcher() {
       fileRef.current?.click();
     }
   };
+
+  if (!socialAccounts || !socialAccounts.socialAccounts || !workspaces || !workspaces.workspaces) {
+    return null;
+  }
 
   return (
     <Dialog open={showNewWorkspaceDialog} onOpenChange={setShowNewWorkspaceDialog}>

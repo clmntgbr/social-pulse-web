@@ -10,7 +10,7 @@ export type SocialAccountsState = {
 
 export const initialSocialAccountsState: SocialAccountsState = {
   error: false,
-  loading: false,
+  loading: true,
   socialAccounts: null,
 };
 

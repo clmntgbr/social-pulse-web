@@ -6,13 +6,15 @@ import { PostLogin } from "./interface/body/PostLogin";
 import { PostWorkspaceInvitationBody } from "./interface/body/PostWorkspaceInvitation";
 import { GetLogin } from "./interface/GetLogin";
 import { GetLoginUrl } from "./interface/GetLoginUrl";
+import { GetPost } from "./interface/GetPost";
+import { GetPosts } from "./interface/GetPosts";
 import { GetSocialAccounts } from "./interface/GetSocialAccounts";
 import { GetUser } from "./interface/GetUser";
 import { GetWorkspace } from "./interface/GetWorkspace";
 import { GetWorkspaceInvitation } from "./interface/GetWorkspaceInvitation";
 import { GetWorkspaceInvitations } from "./interface/GetWorkspaceInvitations";
 import { GetWorkspaces } from "./interface/GetWorkspaces";
-import { SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
+import { POSTS, SOCIAL_ACCOUNTS, USERS, WORKSPACES } from "./RoutesEnum";
 
 export default class SocialPulseClient {
   private httpClient: AxiosInstance;
@@ -200,6 +202,22 @@ export default class SocialPulseClient {
   public async getWorkspaceInvitations(): Promise<AxiosResponse<GetWorkspaceInvitations> | null> {
     try {
       return await this.httpClient.get(WORKSPACES.WORKSPACE_INVITATION);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getPosts(): Promise<AxiosResponse<GetPosts> | null> {
+    try {
+      return await this.httpClient.get(POSTS.GET_POSTS);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getPost(groupUuid: string): Promise<AxiosResponse<GetPost> | null> {
+    try {
+      return await this.httpClient.get(POSTS.GET_POST.replace("%postUuid%", groupUuid));
     } catch {
       return null;
     }
