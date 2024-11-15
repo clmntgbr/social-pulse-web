@@ -27,8 +27,7 @@ export default function Page() {
       axios
         .post("/api/signin", values)
         .then(() => {
-          router.refresh();
-          router.push(`/${locale}`);
+          window.location.href = `/${locale}`;
         })
         .catch(() => {
           ToastFail("Something went wrong.", "There was a problem with your request.");

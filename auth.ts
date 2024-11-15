@@ -44,8 +44,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.accessToken = (token.data as AuthUser).token;
       }
 
-      console.log(session);
-
       return session;
     },
   },

@@ -1,11 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import useUserContext from "@/contexts/users/hooks";
 
 export default function Page() {
-  // const { user } = useUserContext();
-  const { data: session } = useSession();
+  const { user } = useUserContext();
 
-  // return <>{JSON.stringify(user)}</>;
-  return <>{JSON.stringify(session)}</>;
+  return <>{JSON.stringify(user)}</>;
 }
