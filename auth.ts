@@ -1,7 +1,7 @@
 import NextAuth, { User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import SocialPulseClient from "./store/client/SocialPulseClient";
-import { PostLogin } from "./store/client/interface/body/PostLogin";
+import SocialPulseClient from "./store/client/ApiClient";
+import { LoginCredentials } from "./store/client/interface/body/LoginCredentials";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -12,7 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const client = new SocialPulseClient();
-        return client.postLogin(credentials as PostLogin).then((response) => {
+        return client.getToken(credentials as LoginCredentials).then((response) => {
           const user: AuthUser = {
             name: credentials.email as string,
             email: credentials.email as string,
@@ -43,6 +43,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
         session.accessToken = (token.data as AuthUser).token;
       }
+
+      console.log(session);
+
       return session;
     },
   },

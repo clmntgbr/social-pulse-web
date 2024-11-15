@@ -1,19 +1,16 @@
 import { UserAction } from "@/contexts/users/actions";
 import { UserActionTypes } from "@/contexts/users/types";
 import { Dispatch } from "react";
+import ApiClient from "../client/ApiClient";
 import { GetUser } from "../client/interface/GetUser";
-import SocialPulseClient from "../client/SocialPulseClient";
-import { HTTP_STATUS } from "../enums/HTTP_STATUS";
+import { HttpStatus } from "../enums/HttpStatus";
 import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
-export async function getUser(
-  token: string,
-  dispatch: Dispatch<UserActionTypes>
-): Promise<void> {
+export async function getUser(token: string, dispatch: Dispatch<UserActionTypes>): Promise<void> {
   try {
     dispatch({ type: UserAction.USER_LOADING_START });
 
-    const client = new SocialPulseClient(token);
+    const client = new ApiClient(token);
     const response = await client.getUser();
 
     if (response === null) {
@@ -25,14 +22,14 @@ export async function getUser(
     }
 
     switch (response.status) {
-      case HTTP_STATUS.OK:
+      case HttpStatus.OK:
         dispatch({
           type: UserAction.GET_USER_SUCCESS,
           payload: response.data as GetUser,
         });
         break;
 
-      case HTTP_STATUS.NOT_FOUND:
+      case HttpStatus.NOT_FOUND:
         dispatch({
           type: UserAction.GET_USER_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
@@ -42,9 +39,7 @@ export async function getUser(
       default:
         dispatch({
           type: UserAction.GET_USER_HTTP_INTERNAL_ERROR,
-          payload: new HttpInternalServerError(
-            `Unexpected status: ${response.status}`
-          ),
+          payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
     }
   } catch (error) {

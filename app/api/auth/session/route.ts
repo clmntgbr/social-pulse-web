@@ -1,16 +1,19 @@
 import { auth, AuthUser } from "@/auth";
-import SocialPulseClient from "@/store/client/SocialPulseClient";
+import ApiClient from "@/store/client/ApiClient";
 import { Session } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   const data = await auth();
-  const client = new SocialPulseClient(data?.accessToken);
+
+  const client = new ApiClient(data?.accessToken);
   const response = await client.getUser();
   const user = response?.data;
+
   if (user) {
     user.id = user?.uuid;
   }
+
   return NextResponse.json({ user: response?.data, accessToken: data?.accessToken }, { status: 200 });
 }
 

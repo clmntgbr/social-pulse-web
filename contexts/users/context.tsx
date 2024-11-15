@@ -15,7 +15,7 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, userDispatch] = useReducer(userReducer, initialUserState);
-  const { data: session } = useSession();
+  const { data } = useSession();
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
@@ -25,13 +25,13 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (session !== undefined && session !== null) {
-        await getUser(session?.accessToken ?? "", userDispatch);
+      if (data && data.accessToken) {
+        await getUser(`${data?.accessToken}`, userDispatch);
       }
     };
 
     fetchUser();
-  }, [session]);
+  }, [data]);
 
   return <UserContext.Provider value={{ user, userDispatch }}>{children}</UserContext.Provider>;
 };
