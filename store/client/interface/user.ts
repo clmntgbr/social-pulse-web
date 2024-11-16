@@ -5,5 +5,6 @@ export interface User {
   givenName: string | null;
   familyName: string | null;
   avatarUrl: string | null;
+  name: string | null;
   token: string | null;
 }
