@@ -7,11 +7,9 @@ import { Label } from "@/components/ui/label";
 import { useCurrentLocale } from "@/locales/client";
 import axios from "axios";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 
 export default function Page() {
-  const router = useRouter();
   const locale = useCurrentLocale();
 
   const formik = useFormik({
