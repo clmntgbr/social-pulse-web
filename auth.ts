@@ -12,7 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const client = new SocialPulseClient();
-        return client.getToken(credentials as LoginCredentials).then((response) => {
+        const token = client.getToken(credentials as LoginCredentials).then((response) => {
           const user: AuthUser = {
             name: credentials.email as string,
             email: credentials.email as string,
@@ -22,6 +22,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return user;
         });
+
+        console.log(token);
+
+        return token;
       },
     }),
   ],

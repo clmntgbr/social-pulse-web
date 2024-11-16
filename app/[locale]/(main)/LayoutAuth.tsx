@@ -1,10 +1,11 @@
 "use client";
 
 import { decodeToken, isTokenValid } from "@/components/Token";
+import { AppContextProviders } from "@/contexts";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ReactElement, useEffect } from "react";
-import Providers from "./(main)/providers";
+import Providers from "./providers";
 
 export function LayoutAuth({ locale, children }: { locale: string; children: ReactElement }) {
   const { data } = useSession();
@@ -13,13 +14,14 @@ export function LayoutAuth({ locale, children }: { locale: string; children: Rea
   useEffect(() => {
     const checkAuthAndRedirect = () => {
       if (data && !data?.accessToken) {
+        console.log("me");
         router.push(`/${locale}/login`);
         return;
       }
-
       if (data && data.accessToken) {
         const token = decodeToken(`${data?.accessToken}`);
         if (!token || !isTokenValid(token)) {
+          console.log("or me");
           router.push(`/${locale}/login`);
           return;
         }
@@ -29,5 +31,9 @@ export function LayoutAuth({ locale, children }: { locale: string; children: Rea
     checkAuthAndRedirect();
   }, [data, locale, router]);
 
-  return <Providers>{children}</Providers>;
+  return (
+    <AppContextProviders>
+      <Providers>{children}</Providers>
+    </AppContextProviders>
+  );
 }

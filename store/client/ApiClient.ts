@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, type AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
 import { GetToken } from "./interface/GetToken";
 import { GetUser } from "./interface/GetUser";
@@ -26,7 +26,10 @@ export default class ApiClient {
   public async getUser(): Promise<AxiosResponse<GetUser> | null> {
     try {
       return await this.httpClient.get(USERS.GET_USER);
-    } catch {
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
       return null;
     }
   }

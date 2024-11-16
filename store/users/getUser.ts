@@ -13,6 +13,8 @@ export async function getUser(token: string, dispatch: Dispatch<UserActionTypes>
     const client = new ApiClient(token);
     const response = await client.getUser();
 
+    console.log(response);
+
     if (response === null) {
       dispatch({
         type: UserAction.GET_USER_HTTP_INTERNAL_ERROR,

@@ -14,6 +14,8 @@ export async function GET() {
     user.id = user?.uuid;
   }
 
+  console.log(response, user);
+
   return NextResponse.json({ user: response?.data, accessToken: data?.accessToken }, { status: 200 });
 }
 
