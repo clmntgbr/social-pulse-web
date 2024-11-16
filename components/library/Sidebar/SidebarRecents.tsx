@@ -43,12 +43,22 @@ const items = [
     url: "#",
     emoji: "💰",
   },
+  {
+    name: "Movie & TV Show Watchlist with Reviews",
+    url: "#",
+    emoji: "🎬",
+  },
+  {
+    name: "Daily Habit Tracker & Goal Setting",
+    url: "#",
+    emoji: "✅",
+  },
 ];
 
-export function SidebarFavorites() {
+export function SidebarRecents() {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+      <SidebarGroupLabel>Recents</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={crypto.randomUUID()} className="hover:bg-gray-100">
