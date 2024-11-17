@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
 import { GetToken } from "./interface/GetToken";
 import { GetUser } from "./interface/GetUser";
-import { USERS } from "./RoutesEnum";
+import { ANALYSES, USERS } from "./RoutesEnum";
 
 export default class ApiClient {
   private httpClient: AxiosInstance;
@@ -37,6 +37,22 @@ export default class ApiClient {
   public async getToken(requestBody: LoginCredentials): Promise<AxiosResponse<GetToken> | null> {
     try {
       return await this.httpClient.post(USERS.GET_LOGIN, requestBody);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getAnalysesRecents(): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.get(ANALYSES.GET_ANALYSES_RECENTS);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getAnalysesFavorites(): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.get(ANALYSES.GET_ANALYSES_FAVORITES);
     } catch {
       return null;
     }

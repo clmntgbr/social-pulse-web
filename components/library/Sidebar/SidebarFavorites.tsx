@@ -1,65 +1,47 @@
 "use client";
 
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-
-const items = [
-  {
-    name: "Project Management & Task Tracking",
-    url: "#",
-    emoji: "📊",
-  },
-  {
-    name: "Family Recipe Collection & Meal Planning",
-    url: "#",
-    emoji: "🍳",
-  },
-  {
-    name: "Fitness Tracker & Workout Routines",
-    url: "#",
-    emoji: "💪",
-  },
-  {
-    name: "Book Notes & Reading List",
-    url: "#",
-    emoji: "📚",
-  },
-  {
-    name: "Sustainable Gardening Tips & Plant Care",
-    url: "#",
-    emoji: "🌱",
-  },
-  {
-    name: "Language Learning Progress & Resources",
-    url: "#",
-    emoji: "🗣️",
-  },
-  {
-    name: "Home Renovation Ideas & Budget Tracker",
-    url: "#",
-    emoji: "🏠",
-  },
-  {
-    name: "Personal Finance & Investment Portfolio",
-    url: "#",
-    emoji: "💰",
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import useAnalysisContext from "@/contexts/analyses/hooks";
+import { useEffect, useState } from "react";
 
 export function SidebarFavorites() {
+  const { analysis } = useAnalysisContext();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (analysis.favorites) {
+      setIsLoading(false);
+    }
+  }, [analysis.favorites]);
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Favorites</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={crypto.randomUUID()} className="hover:bg-gray-100">
-            <SidebarMenuButton asChild>
-              <a href={item.url} title={item.name}>
-                <span>{item.emoji}</span>
-                <span>{item.name}</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
+        {isLoading ? (
+          <>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="flex items-center space-x-2 py-1 px-2">
+                <Skeleton className="h-5 w-5 rounded-full bg-gray-200" />
+                <Skeleton className="h-4 w-40 bg-gray-200" />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            {analysis.favorites.map((item) => (
+              <SidebarMenuItem key={crypto.randomUUID()} className="hover:bg-gray-100">
+                <SidebarMenuButton asChild>
+                  <a href={item.title} title={item.title}>
+                    <img src={item.socialAccount.socialAccountTypeAvatarUrl} width={20} height={20} className="flex-shrink-0 w-5 h-5 rounded-sm object-cover overflow-hidden" />
+                    <span>{item.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </>
+        )}
       </SidebarMenu>
     </SidebarGroup>
   );

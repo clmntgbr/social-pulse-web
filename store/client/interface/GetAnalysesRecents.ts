@@ -1,0 +1,1 @@
+type GetAnalysesRecents = Analysis[];

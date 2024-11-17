@@ -1,21 +1,20 @@
-import { UserAction } from "@/contexts/users/actions";
-import { UserActionTypes } from "@/contexts/users/types";
+import { AnalysisAction } from "@/contexts/analyses/actions";
+import { AnalysisActionTypes } from "@/contexts/analyses/types";
 import { Dispatch } from "react";
 import ApiClient from "../client/ApiClient";
-import { GetUser } from "../client/interface/GetUser";
 import { HttpStatus } from "../enums/HttpStatus";
 import { HttpInternalServerError, HttpNotFoundError } from "../HttpErrors";
 
-export async function getUser(token: string, dispatch: Dispatch<UserActionTypes>): Promise<void> {
+export async function getAnalysesRecents(token: string, dispatch: Dispatch<AnalysisActionTypes>): Promise<void> {
   try {
-    dispatch({ type: UserAction.USER_LOADING_START });
+    dispatch({ type: AnalysisAction.ANALYSIS_LOADING_START });
 
     const client = new ApiClient(token);
-    const response = await client.getUser();
+    const response = await client.getAnalysesRecents();
 
     if (response === null) {
       dispatch({
-        type: UserAction.GET_USER_HTTP_INTERNAL_ERROR,
+        type: AnalysisAction.GET_ANALYSES_RECENTS_ERROR,
         payload: new HttpInternalServerError("Get plans failed"),
       });
       return;
@@ -24,30 +23,30 @@ export async function getUser(token: string, dispatch: Dispatch<UserActionTypes>
     switch (response.status) {
       case HttpStatus.OK:
         dispatch({
-          type: UserAction.GET_USER_SUCCESS,
-          payload: response.data as GetUser,
+          type: AnalysisAction.GET_ANALYSES_RECENTS_SUCCESS,
+          payload: response.data,
         });
         break;
 
       case HttpStatus.NOT_FOUND:
         dispatch({
-          type: UserAction.GET_USER_NOT_FOUND,
+          type: AnalysisAction.GET_ANALYSES_RECENTS_NOT_FOUND,
           payload: new HttpNotFoundError("Get plans not found"),
         });
         break;
 
       default:
         dispatch({
-          type: UserAction.GET_USER_HTTP_INTERNAL_ERROR,
+          type: AnalysisAction.GET_ANALYSES_RECENTS_HTTP_INTERNAL_ERROR,
           payload: new HttpInternalServerError(`Unexpected status: ${response.status}`),
         });
     }
   } catch (error) {
     dispatch({
-      type: UserAction.GET_USER_ERROR,
+      type: AnalysisAction.GET_ANALYSES_RECENTS_ERROR,
       payload: error instanceof Error ? error : new Error("Get plans failed"),
     });
   } finally {
-    dispatch({ type: UserAction.USER_LOADING_END });
+    dispatch({ type: AnalysisAction.ANALYSIS_LOADING_END });
   }
 }

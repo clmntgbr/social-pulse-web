@@ -1,0 +1,1 @@
+type GetAnalysesFavorites = Analysis[];
