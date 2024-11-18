@@ -2,28 +2,54 @@
 
 import { Capitalize } from "@/components/Capitalize";
 import SocialButton from "@/components/library/Home/SocialButton";
+import { ToastFail } from "@/components/library/Toast";
 import { Platforms } from "@/components/Platforms";
 import { Button } from "@/components/ui/button";
+import useAnalysisContext from "@/contexts/analyses/hooks";
+import { getAnalysesRecents } from "@/store/analyses/getAnalysesRecents";
+import { postAnalyses } from "@/store/analyses/postAnalysis";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { BarChart2, Search } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page() {
+  const { data } = useSession();
+  const { analysisDispatch } = useAnalysisContext();
   const searchParams = useSearchParams();
-  const type = searchParams.get("type");
+  const platform = searchParams.get("platform");
   const [username, setUsername] = useState("");
   const router = useRouter();
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleCreateAnalysis = () => {
+    setIsLoading(true);
+    postAnalyses(`${data?.accessToken}`, { username, platform }, analysisDispatch)
+      .then(() => {
+        getAnalysesRecents(`${data?.accessToken}`, analysisDispatch);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          setIsLoading(false);
+          ToastFail("Something went wrong.", error.message ?? "There was a problem with your request.");
+        }, 2000);
+      });
+  };
 
   useEffect(() => {
-    if (!type) {
-      router.push(`?type=linkedin`);
+    if (!platform) {
+      router.push(`?platform=linkedin`);
     }
 
-    if (type) {
-      setSelectedPlatform(`${type}`);
+    if (platform) {
+      setSelectedPlatform(`${platform}`);
     }
-  }, [type, router]);
+  }, [platform, router]);
 
   return (
     <>
@@ -40,7 +66,7 @@ export default function Page() {
                 <h1 className="text-6xl font-extrabold text-gray-900 tracking-tight">
                   Analysez les profils
                   <br />
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-sky-600">{Capitalize(`${type}`)} avec précision</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-sky-600">{Capitalize(`${platform}`)} avec précision</span>
                 </h1>
                 <p className="text-xl text-gray-600 font-bold font-sans max-w-2xl mx-auto">Découvrez des insights détaillés et analysez les tendances à partir des données sociales</p>
               </div>
@@ -55,30 +81,28 @@ export default function Page() {
                       isSelected={selectedPlatform === platform.id}
                       onClick={() => {
                         setSelectedPlatform(platform.id);
-                        router.push(`?type=${platform.id}`);
+                        router.push(`?platform=${platform.id}`);
                       }}
                     />
                   ))}
                 </div>
 
-                <form className="max-w-md mx-auto">
-                  <div className="flex items-stretch gap-2">
-                    <div className="flex-1">
-                      <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Entrez un nom d'utilisateur"
-                        className="w-full h-14 px-6 rounded-xl border-2 border-blue-100 focus:border-blue-100 focus:ring-1 focus:ring-indigo-100 outline-none transition-all text-lg bg-white/80"
-                        required
-                      />
-                    </div>
-
-                    <Button className="h-14 w-14 rounded-xl flex items-center justify-center" disabled={!username || !selectedPlatform} type="submit" variant="default">
-                      <Search className="w-6 h-6" />
-                    </Button>
+                <div className="flex items-stretch gap-2">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Entrez un nom d'utilisateur"
+                      className="w-full h-14 px-6 rounded-xl border-2 border-blue-100 focus:border-blue-100 focus:ring-1 focus:ring-indigo-100 outline-none transition-all text-lg bg-white/80"
+                      required
+                    />
                   </div>
-                </form>
+
+                  <Button onClick={handleCreateAnalysis} className="h-14 w-14 rounded-xl flex items-center justify-center" disabled={!username || !selectedPlatform} type="submit" variant="default">
+                    {isLoading ? <ReloadIcon className="w-6 h-6 animate-spin" /> : <Search className="w-6 h-6" />}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -3,16 +3,20 @@ import { ReactElement, useEffect, useState } from "react";
 import { SidebarApp } from "./SidebarApp";
 
 export function Sidebar({ children }: { children: ReactElement }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (!localStorage.getItem("sidebarOpen")) {
+      setOpen(true);
+      return;
+    }
+
     const storedValue = localStorage.getItem("sidebarOpen")?.toLowerCase() === "true";
     setOpen(storedValue);
   }, []);
 
   return (
     <>
-      {open}
       <SidebarProvider
         open={open}
         style={

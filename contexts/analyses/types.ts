@@ -1,3 +1,6 @@
+import { GetAnalysesFavorites } from "@/store/client/interface/GetAnalysesFavorites";
+import { GetAnalysesRecents } from "@/store/client/interface/GetAnalysesRecents";
+import { GetAnalysis } from "@/store/client/interface/GetAnalysis";
 import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
 import { AnalysisAction } from "./actions";
 
@@ -28,6 +31,26 @@ export type GetAnalysesFavoritesNotFoundAction = SetNotFoundErrorAction<Analysis
 export type GetAnalysesFavoritesHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.GET_ANALYSES_FAVORITES_HTTP_INTERNAL_ERROR>;
 export type GetAnalysesFavoritesErrorAction = SetErrorAction<AnalysisAction.GET_ANALYSES_FAVORITES_ERROR>;
 
+/// Get Analysis
+
+export type GetAnalysisSuccessAction = {
+  type: AnalysisAction.GET_ANALYSIS_SUCCESS;
+  payload: GetAnalysis;
+};
+export type GetAnalysisNotFoundAction = SetNotFoundErrorAction<AnalysisAction.GET_ANALYSIS_NOT_FOUND>;
+export type GetAnalysisHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.GET_ANALYSIS_HTTP_INTERNAL_ERROR>;
+export type GetAnalysisErrorAction = SetErrorAction<AnalysisAction.GET_ANALYSIS_ERROR>;
+
+/// Post Analyses
+
+export type PostAnalysesSuccessAction = {
+  type: AnalysisAction.POST_ANALYSES_SUCCESS;
+  payload: GetAnalysis;
+};
+export type PostAnalysesNotFoundAction = SetNotFoundErrorAction<AnalysisAction.POST_ANALYSES_NOT_FOUND>;
+export type PostAnalysesHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.POST_ANALYSES_HTTP_INTERNAL_ERROR>;
+export type PostAnalysesErrorAction = SetErrorAction<AnalysisAction.POST_ANALYSES_ERROR>;
+
 export type AnalysisActionTypes =
   | SetLoadingStartAction
   | SetLoadingEndAction
@@ -38,4 +61,12 @@ export type AnalysisActionTypes =
   | GetAnalysesFavoritesSuccessAction
   | GetAnalysesFavoritesNotFoundAction
   | GetAnalysesFavoritesHttpInternalErrorAction
-  | GetAnalysesFavoritesErrorAction;
+  | GetAnalysesFavoritesErrorAction
+  | GetAnalysisSuccessAction
+  | GetAnalysisNotFoundAction
+  | GetAnalysisHttpInternalErrorAction
+  | GetAnalysisErrorAction
+  | PostAnalysesSuccessAction
+  | PostAnalysesNotFoundAction
+  | PostAnalysesHttpInternalErrorAction
+  | PostAnalysesErrorAction;

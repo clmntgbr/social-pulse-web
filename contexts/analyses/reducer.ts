@@ -1,3 +1,5 @@
+import { GetAnalysesFavorites } from "@/store/client/interface/GetAnalysesFavorites";
+import { GetAnalysesRecents } from "@/store/client/interface/GetAnalysesRecents";
 import { AnalysisAction } from "./actions";
 import { AnalysisActionTypes } from "./types";
 
@@ -49,6 +51,14 @@ export function analysisReducer(state: AnalysisState, action: AnalysisActionType
     case AnalysisAction.GET_ANALYSES_FAVORITES_ERROR:
     case AnalysisAction.GET_ANALYSES_FAVORITES_HTTP_INTERNAL_ERROR:
     case AnalysisAction.GET_ANALYSES_FAVORITES_NOT_FOUND:
+
+    case AnalysisAction.POST_ANALYSES_ERROR:
+    case AnalysisAction.POST_ANALYSES_HTTP_INTERNAL_ERROR:
+    case AnalysisAction.POST_ANALYSES_NOT_FOUND:
+
+    case AnalysisAction.GET_ANALYSIS_ERROR:
+    case AnalysisAction.GET_ANALYSIS_HTTP_INTERNAL_ERROR:
+    case AnalysisAction.GET_ANALYSIS_NOT_FOUND:
 
     case AnalysisAction.GET_ANALYSES_RECENTS_ERROR:
     case AnalysisAction.GET_ANALYSES_RECENTS_HTTP_INTERNAL_ERROR:

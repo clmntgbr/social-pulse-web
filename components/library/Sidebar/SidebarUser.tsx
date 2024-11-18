@@ -42,7 +42,7 @@ export function SidebarUser() {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton size="lg" className="hover:bg-gray-100 border data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
                 <Avatar className="h-8 w-8 rounded-lg overflow-hidden">
-                  <AvatarImage src={user.me?.avatarUrl ?? "images/avatar.jpg"} alt={user.me?.uuid} />
+                  <AvatarImage src={user.me?.avatarUrl ?? "/images/avatar.jpg"} alt={user.me?.uuid} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">

@@ -1,1 +1,3 @@
-type GetAnalysesFavorites = Analysis[];
+import { Analysis } from "./analysis";
+
+export type GetAnalysesFavorites = Analysis[];

@@ -1,5 +1,6 @@
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { LifeBuoy, MessageCircleQuestion, Send, Settings2 } from "lucide-react";
+import Link from "next/link";
 
 const items = [
   {
@@ -32,10 +33,10 @@ export function SidebarSecondary({ ...props }: React.ComponentPropsWithoutRef<ty
           {items.map((item) => (
             <SidebarMenuItem key={item.title} className="hover:bg-gray-100">
               <SidebarMenuButton asChild>
-                <a href={item.url}>
+                <Link href={item.url}>
                   <item.icon />
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

@@ -1,7 +1,10 @@
-interface Analysis {
+export interface Analysis {
   title: string;
-  socialAccount: SocialAccount;
+  socialAccount: SocialAccount | null;
   uuid: string;
+  status: string;
+  username: string;
+  platform: string;
   createdAt: string;
   updatedAt: string;
 }

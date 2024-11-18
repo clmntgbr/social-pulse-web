@@ -17,6 +17,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Authentification échouée" }, { status: 401 });
     }
 
+    if (result.data && result.data.code && result.data.code !== 200) {
+      return NextResponse.json({ error: "Authentification échouée" }, { status: 401 });
+    }
+
     return NextResponse.json({}, { status: 200 });
   } catch {
     return NextResponse.json({ error: "Authentification échouée" }, { status: 401 });
