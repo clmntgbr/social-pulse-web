@@ -1,3 +1,5 @@
+import { SocialAccount } from "./social-account";
+
 export interface Analysis {
   title: string;
   socialAccount: SocialAccount | null;

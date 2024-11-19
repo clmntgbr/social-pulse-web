@@ -19,7 +19,7 @@ export default class ApiClient {
 
     this.httpClient = axios.create({
       baseURL: "http://localhost:9000/api",
-      timeout: 1000,
+      timeout: 30000,
       headers,
     });
   }

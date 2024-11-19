@@ -19,6 +19,7 @@ export async function postAnalyses(token: string, requestBody: PostAnalyses, dis
 
     const client = new ApiClient(token);
     const response = await client.postAnalyses(requestBody);
+    console.log(response);
 
     if (response === null) {
       dispatch({

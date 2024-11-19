@@ -6,6 +6,7 @@ import { ToastFail } from "@/components/library/Toast";
 import { Platforms } from "@/components/Platforms";
 import { Button } from "@/components/ui/button";
 import useAnalysisContext from "@/contexts/analyses/hooks";
+import { useCurrentLocale } from "@/locales/client";
 import { getAnalysesRecents } from "@/store/analyses/getAnalysesRecents";
 import { postAnalyses } from "@/store/analyses/postAnalysis";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -17,6 +18,7 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const { data } = useSession();
   const { analysisDispatch } = useAnalysisContext();
+  const locale = useCurrentLocale();
   const searchParams = useSearchParams();
   const platform = searchParams.get("platform");
   const [username, setUsername] = useState("");
@@ -26,11 +28,12 @@ export default function Page() {
 
   const handleCreateAnalysis = () => {
     setIsLoading(true);
-    postAnalyses(`${data?.accessToken}`, { username, platform }, analysisDispatch)
-      .then(() => {
+    postAnalyses(`${data?.accessToken}`, { username: encodeURI(username), platform }, analysisDispatch)
+      .then((response) => {
         getAnalysesRecents(`${data?.accessToken}`, analysisDispatch);
         setTimeout(() => {
           setIsLoading(false);
+          router.push(`/${locale}/analysis/${response.data?.uuid}`);
         }, 2000);
       })
       .catch((error) => {
