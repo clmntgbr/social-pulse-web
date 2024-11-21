@@ -12,6 +12,7 @@ export type SocialAccount = {
   username: string | null;
   firstName: string | null;
   lastName: string | null;
+  name: string | null;
   profilePicture: string | null;
   backgroundImage: string | null;
   email: string | null;

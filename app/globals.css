@@ -87,6 +87,10 @@ body {
   }
 }
 
+.page-analysis {
+  overflow: scroll;
+}
+
 @layer base {
   * {
     @apply border-border;

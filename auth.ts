@@ -23,8 +23,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return user;
         });
 
-        console.log(token);
-
         return token;
       },
     }),

@@ -1,9 +1,12 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 import { ReactElement, useEffect, useState } from "react";
 import { SidebarApp } from "./SidebarApp";
+import { SidebarMenu } from "./SidebarMenu";
 
 export function Sidebar({ children }: { children: ReactElement }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname().split("/")[2];
 
   useEffect(() => {
     if (!localStorage.getItem("sidebarOpen")) {
@@ -26,8 +29,8 @@ export function Sidebar({ children }: { children: ReactElement }) {
         }
       >
         <SidebarApp />
-        <SidebarInset className="bg-transparent">
-          <header className="flex h-16 shrink-0 items-center gap-2 px-4">
+        <SidebarInset className="bg-transparent max-h-screen">
+          <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b">
             <SidebarTrigger
               className="-ml-1"
               onMouseEnter={() => {
@@ -41,9 +44,10 @@ export function Sidebar({ children }: { children: ReactElement }) {
                 setOpen(!open);
               }}
             />
+            <SidebarMenu />
           </header>
-          <div className="flex flex-1 flex-col gap-4">
-            <div className="flex-1 rounded-xl md:min-h-min ">{children}</div>
+          <div className={`flex flex-1 flex-col gap-4 page-${pathname}`}>
+            <div className="flex-1 rounded-xl md:min-h-min p-5">{children}</div>
           </div>
         </SidebarInset>
       </SidebarProvider>

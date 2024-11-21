@@ -14,14 +14,12 @@ export function LayoutAuth({ locale, children }: { locale: string; children: Rea
   useEffect(() => {
     const checkAuthAndRedirect = () => {
       if (data && !data?.accessToken) {
-        console.log("me");
         router.push(`/${locale}/login`);
         return;
       }
       if (data && data.accessToken) {
         const token = decodeToken(`${data?.accessToken}`);
         if (!token || !isTokenValid(token)) {
-          console.log("or me");
           router.push(`/${locale}/login`);
           return;
         }

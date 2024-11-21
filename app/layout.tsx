@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${GeistSans.className} ${GeistMono.className} antialiased bg-gradient-to-br from-stone-100 via-neutral-100 to-zinc-100`}>
+      <body className={`${GeistSans.className} ${GeistMono.className} antialiased`}>
         <Suspense fallback={<LoaderIcon></LoaderIcon>}>{children}</Suspense>
         <Toaster />
         <SpeedInsights />

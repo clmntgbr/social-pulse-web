@@ -102,7 +102,13 @@ export default function Page() {
                     />
                   </div>
 
-                  <Button onClick={handleCreateAnalysis} className="h-14 w-14 rounded-xl flex items-center justify-center" disabled={!username || !selectedPlatform} type="submit" variant="default">
+                  <Button
+                    onClick={handleCreateAnalysis}
+                    className="h-14 w-14 rounded-xl flex items-center justify-center"
+                    disabled={!username || !selectedPlatform || isLoading}
+                    type="submit"
+                    variant="default"
+                  >
                     {isLoading ? <ReloadIcon className="w-6 h-6 animate-spin" /> : <Search className="w-6 h-6" />}
                   </Button>
                 </div>
