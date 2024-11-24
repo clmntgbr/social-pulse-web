@@ -5,6 +5,7 @@ import SocialButton from "@/components/library/Home/SocialButton";
 import { ToastFail } from "@/components/library/Toast";
 import { Platforms } from "@/components/Platforms";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import useAnalysisContext from "@/contexts/analyses/hooks";
 import { useCurrentLocale } from "@/locales/client";
 import { getAnalysesRecents } from "@/store/analyses/getAnalysesRecents";
@@ -61,17 +62,17 @@ export default function Page() {
           <div className="w-full max-w-3xl">
             <div className="text-center space-y-5">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-3 bg-indigo-50 px-4 py-2 rounded-full">
-                  <BarChart2 className="w-5 h-5 text-blue-600" />
-                  <span className="text-sm font-semibold text-blue-600">Social Media Analytics</span>
+                <div className="inline-flex items-center gap-3 bg-blue-600  dark:bg-gray-100 px-4 py-2 rounded-md">
+                  <BarChart2 className="w-5 h-5 text-white dark:text-blue-600" />
+                  <span className="text-sm font-semibold text-white dark:text-blue-600">Social Media Analytics</span>
                 </div>
 
-                <h1 className="text-6xl font-extrabold text-gray-900 tracking-tight">
+                <h1 className="text-6xl font-extrabold  tracking-tight dark:text-gray-100 text-gray-700">
                   Analysez les profils
                   <br />
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-sky-600">{Capitalize(`${platform}`)} avec précision</span>
                 </h1>
-                <p className="text-xl text-gray-600 font-bold font-sans max-w-2xl mx-auto">Découvrez des insights détaillés et analysez les tendances à partir des données sociales</p>
+                <p className="text-xl dark:text-gray-100 text-gray-700 font-bold max-w-2xl mx-auto">Découvrez des insights détaillés et analysez les tendances à partir des données sociales</p>
               </div>
 
               <div className="backdrop-blur-lg rounded-2xl p-8">
@@ -92,23 +93,10 @@ export default function Page() {
 
                 <div className="flex items-stretch gap-2">
                   <div className="flex-1">
-                    <input
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Entrez un nom d'utilisateur"
-                      className="w-full h-14 px-6 rounded-xl border-2 border-blue-100 focus:border-blue-100 focus:ring-1 focus:ring-indigo-100 outline-none transition-all text-lg bg-white/80"
-                      required
-                    />
+                    <Input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Entrez un nom d'utilisateur" className="w-full h-14 px-6 border-2 focus:border-blue-600 focus-visible:ring-0 outline-none transition-all text-lg" required />
                   </div>
 
-                  <Button
-                    onClick={handleCreateAnalysis}
-                    className="h-14 w-14 rounded-xl flex items-center justify-center"
-                    disabled={!username || !selectedPlatform || isLoading}
-                    type="submit"
-                    variant="default"
-                  >
+                  <Button onClick={handleCreateAnalysis} className="h-14 w-14 flex items-center justify-center hover:bg-blue-500 bg-blue-600 text-white" disabled={!username || !selectedPlatform || isLoading} type="submit" variant="default">
                     {isLoading ? <ReloadIcon className="w-6 h-6 animate-spin" /> : <Search className="w-6 h-6" />}
                   </Button>
                 </div>

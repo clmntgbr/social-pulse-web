@@ -1,6 +1,6 @@
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { LoaderIcon } from "lucide-react";
 import type { Metadata } from "next";
@@ -18,11 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${GeistSans.className} ${GeistMono.className} antialiased`}>
-        <Suspense fallback={<LoaderIcon></LoaderIcon>}>{children}</Suspense>
-        <Toaster />
-        <SpeedInsights />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${GeistSans.className} antialiased`}>
+        <ThemeProvider>
+          <Suspense fallback={<LoaderIcon></LoaderIcon>}>{children}</Suspense>
+          <Toaster />
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -35,13 +35,13 @@ export function SidebarFavorites() {
           </>
         ) : (
           <>
-            {analysis.favorites.length <= 0 && <p className="text-center font-extralight text-sm italic">You dont have any favorite analysis</p>}
+            {analysis.favorites.length <= 0 && <p className="text-center font-normal antialiased text-sm">You dont have any favorite analysis</p>}
             {analysis.favorites.map((item: Analysis) => (
-              <SidebarMenuItem key={crypto.randomUUID()} className="hover:bg-slate-200">
+              <SidebarMenuItem key={crypto.randomUUID()} className="hover:bg-accent rounded-xl">
                 <SidebarMenuButton asChild>
                   <Link href={`/${locale}/analysis/${item.uuid}`} title={item.title}>
                     <Image src={`/images/${item.platform}-logo.png`} alt={item.username} width={20} height={20} className="flex-shrink-0 w-5 h-5 rounded-sm object-cover overflow-hidden" />
-                    <span className="font-extralight">{item.title}</span>
+                    <span className="font-medium">{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

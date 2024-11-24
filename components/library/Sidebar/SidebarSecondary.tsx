@@ -31,7 +31,7 @@ export function SidebarSecondary({ ...props }: React.ComponentPropsWithoutRef<ty
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
-            <SidebarMenuItem key={item.title} className="hover:bg-gray-100">
+            <SidebarMenuItem key={item.title} className="hover:bg-accent rounded-xl">
               <SidebarMenuButton asChild>
                 <Link href={item.url}>
                   <item.icon />
