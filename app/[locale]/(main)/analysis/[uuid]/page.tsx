@@ -98,26 +98,33 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
         </div>
         <>
           {/* Vue mobile : one column */}
-          <div className="md:hidden space-y-4 mt-8">
+          <div className="2xl:hidden space-y-4 mt-8">
             {analysis?.socialAccount?.topPosts?.map((post, index) => (
               <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index + 1} />
             ))}
           </div>
 
           {/* Vue desktop : two columns */}
-          <div className="hidden md:flex gap-4 mt-8">
+          <div className="hidden 2xl:flex gap-4 mt-8">
             <div className="flex-1 space-y-4">
               {analysis?.socialAccount?.topPosts
-                ?.filter((_, index) => index % 2 === 0)
+                ?.filter((_, index) => index % 3 === 0)
                 .map((post, index) => (
-                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 1} />
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 3 + 1} />
                 ))}
             </div>
             <div className="flex-1 space-y-4">
               {analysis?.socialAccount?.topPosts
-                ?.filter((_, index) => index % 2 === 1)
+                ?.filter((_, index) => index % 3 === 1)
                 .map((post, index) => (
-                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 2} />
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 3 + 2} />
+                ))}
+            </div>
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.topPosts
+                ?.filter((_, index) => index % 3 === 2)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 3 + 3} />
                 ))}
             </div>
           </div>

@@ -10,7 +10,7 @@ export default function LinkedinBody({ post }: LinkedinDisplayProps) {
   const isUrl = (word: string) => urlRegex.test(word);
 
   return (
-    <>
+    <div className="text-sm">
       {post.body.split("\n").map((line, index) => (
         <Fragment key={index}>
           {line.split(" ").map((word, wordIndex) => (
@@ -30,6 +30,6 @@ export default function LinkedinBody({ post }: LinkedinDisplayProps) {
           <br />
         </Fragment>
       ))}
-    </>
+    </div>
   );
 }

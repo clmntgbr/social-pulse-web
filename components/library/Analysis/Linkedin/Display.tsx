@@ -4,6 +4,7 @@ import { SocialAccount } from "@/store/client/interface/social-account";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import LinkedinBody from "./Body";
+import LinkedinImage from "./Image";
 
 interface LinkedinDisplayProps {
   socialAccount: SocialAccount | null;
@@ -49,9 +50,9 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
           <LinkedinBody post={post} />
         </div>
 
-        {post.url}
-
-        <div className="mt-4">{/* <LinkedinImage post={post} /> */}</div>
+        <div className="mt-4">
+          <LinkedinImage post={post} />
+        </div>
 
         <div className="flex items-center justify-between text-sm text-gray-500 mt-4">
           <div className="flex items-center gap-1">
