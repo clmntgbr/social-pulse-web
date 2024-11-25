@@ -33,7 +33,7 @@ export default function LinkedinInsightPanel({ label, value, option = "", icon: 
               </TooltipProvider>
             )}
           </CardTitle>
-          {Icon && <Icon strokeWidth={3} className={`h-4 w-4 text-muted-foreground ${iconColor}`} />}
+          {Icon && <Icon strokeWidth={3} className={`h-4 w-4 ${iconColor}`} />}
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">

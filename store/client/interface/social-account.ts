@@ -31,6 +31,7 @@ export type SocialAccount = {
   experiences: Experience[];
   skills: Skill[];
   posts: Post[];
+  topPosts: Post[];
   createdAt: string;
   updatedAt: string;
 } & Partial<LinkedinSocialAccount> &
