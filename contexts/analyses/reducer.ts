@@ -62,7 +62,11 @@ export function analysisReducer(state: AnalysisState, action: AnalysisActionType
 
     case AnalysisAction.GET_ANALYSES_RECENTS_ERROR:
     case AnalysisAction.GET_ANALYSES_RECENTS_HTTP_INTERNAL_ERROR:
-    case AnalysisAction.GET_ANALYSES_RECENTS_NOT_FOUND: {
+    case AnalysisAction.GET_ANALYSES_RECENTS_NOT_FOUND:
+
+    case AnalysisAction.POST_ANALYSIS_TO_FAVORITES_ERROR:
+    case AnalysisAction.POST_ANALYSIS_TO_FAVORITES_HTTP_INTERNAL_ERROR:
+    case AnalysisAction.POST_ANALYSIS_TO_FAVORITES_NOT_FOUND: {
       return {
         ...state,
         error: true,

@@ -51,6 +51,17 @@ export type PostAnalysesNotFoundAction = SetNotFoundErrorAction<AnalysisAction.P
 export type PostAnalysesHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.POST_ANALYSES_HTTP_INTERNAL_ERROR>;
 export type PostAnalysesErrorAction = SetErrorAction<AnalysisAction.POST_ANALYSES_ERROR>;
 
+/// Post Analysis
+
+export type PostAnalysisToFavoritesSuccessAction = {
+  type: AnalysisAction.POST_ANALYSIS_TO_FAVORITES_SUCCESS;
+  payload: GetAnalysis;
+};
+export type PostAnalysisToFavoritesNotFoundAction = SetNotFoundErrorAction<AnalysisAction.POST_ANALYSIS_TO_FAVORITES_NOT_FOUND>;
+export type PostAnalysisToFavoritesHttpInternalErrorAction =
+  SetHttpInternalServerErrorAction<AnalysisAction.POST_ANALYSIS_TO_FAVORITES_HTTP_INTERNAL_ERROR>;
+export type PostAnalysisToFavoritesErrorAction = SetErrorAction<AnalysisAction.POST_ANALYSIS_TO_FAVORITES_ERROR>;
+
 export type AnalysisActionTypes =
   | SetLoadingStartAction
   | SetLoadingEndAction
@@ -69,4 +80,8 @@ export type AnalysisActionTypes =
   | PostAnalysesSuccessAction
   | PostAnalysesNotFoundAction
   | PostAnalysesHttpInternalErrorAction
-  | PostAnalysesErrorAction;
+  | PostAnalysesErrorAction
+  | PostAnalysisToFavoritesSuccessAction
+  | PostAnalysisToFavoritesNotFoundAction
+  | PostAnalysisToFavoritesHttpInternalErrorAction
+  | PostAnalysisToFavoritesErrorAction;

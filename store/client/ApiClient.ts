@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
 import { PostAnalyses } from "./interface/body/PostAnalyses";
+import { PostAnalysisToFavorites } from "./interface/body/PostAnalysisToFavorites";
 import { GetToken } from "./interface/GetToken";
 import { GetUser } from "./interface/GetUser";
 import { ANALYSES, USERS } from "./RoutesEnum";
@@ -62,6 +63,17 @@ export default class ApiClient {
   public async postAnalyses(requestBody: PostAnalyses): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.post(ANALYSES.POST_ANALYSIS, requestBody);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
+    }
+  }
+
+  public async postAnalysisToFavorites(requestBody: PostAnalysisToFavorites): Promise<AxiosResponse | null> {
+    try {
+      return await this.httpClient.post(ANALYSES.POST_ANALYSIS_TO_FAVORITES, requestBody);
     } catch (error) {
       if (error instanceof AxiosError) {
         return error.response!;

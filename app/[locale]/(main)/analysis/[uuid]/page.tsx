@@ -4,16 +4,19 @@ import LinkedinDisplay from "@/components/library/Analysis/Linkedin/Display";
 import LinkedinInsight from "@/components/library/Analysis/Linkedin/Insight";
 import { ToastFail } from "@/components/library/Toast";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import useAnalysisContext from "@/contexts/analyses/hooks";
 import { useCurrentLocale } from "@/locales/client";
+import { getAnalysesFavorites } from "@/store/analyses/getAnalysesFavorites";
 import { getAnalysis } from "@/store/analyses/getAnalysis";
+import { postAnalysisToFavorites } from "@/store/analyses/postAnalysisToFavorites";
 import { Analysis } from "@/store/client/interface/analysis";
-import { Info } from "lucide-react";
+import { Info, Star, StarOff } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 
 export default function Page({ params }: { params: Promise<{ uuid: string }> }) {
   const { data } = useSession();
@@ -21,32 +24,34 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
   const { analysisDispatch } = useAnalysisContext();
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const router = useRouter();
   const locale = useCurrentLocale();
 
-  useEffect(() => {
-    const fetchAnalysis = async () => {
-      if (uuid && data?.accessToken) {
-        getAnalysis(`${data?.accessToken}`, uuid, analysisDispatch)
-          .then((response) => {
-            setIsLoading(false);
-            setAnalysis(response.data);
-          })
-          .catch(() => {
-            setIsLoading(false);
-            ToastFail(null, "Analysis not found");
-            router.push(`/${locale}`);
-          });
-      }
-    };
+  const fetchAnalysis = useCallback(async () => {
+    if (uuid && data?.accessToken) {
+      getAnalysis(`${data?.accessToken}`, uuid, analysisDispatch)
+        .then((response) => {
+          setIsLoading(false);
+          setAnalysis(response.data);
+          setIsFavorite(response.data?.isFavorite ?? false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+          ToastFail(null, "Analysis not found");
+          router.push(`/${locale}`);
+        });
+    }
+  }, [analysisDispatch, data?.accessToken, locale, router, uuid]);
 
+  useEffect(() => {
     fetchAnalysis();
     const interval = setInterval(() => {
       fetchAnalysis();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [analysisDispatch, data?.accessToken, locale, router, uuid]);
+  }, [analysisDispatch, fetchAnalysis, uuid]);
 
   if (isLoading || analysis?.status === "loading") {
     return (
@@ -59,6 +64,19 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
     );
   }
 
+  const handleClickOnFavorite = async () => {
+    setIsFavorite(true);
+    postAnalysisToFavorites(`${data?.accessToken}`, { uuid: analysis?.uuid, status: !isFavorite }, analysisDispatch)
+      .then(() => {
+        fetchAnalysis();
+        getAnalysesFavorites(`${data?.accessToken}`, analysisDispatch);
+      })
+      .catch(() => {
+        setIsFavorite(false);
+        ToastFail();
+      });
+  };
+
   return (
     <>
       <div className="flex items-center space-x-4 mb-8">
@@ -66,23 +84,38 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
           <AvatarImage src={analysis?.socialAccount?.profilePicture ?? "https://ui.shadcn.com/avatars/01.png"} className="w-full h-full" />
         </Avatar>
         <div>
-          <a
-            href={`https://www.linkedin.com/in/${analysis?.socialAccount?.username}`}
-            target="_blank"
-            className="text-2xl font-bold tracking-tight hover:underline"
-          >
-            {analysis?.socialAccount?.name}
-          </a>
+          <div className=" flex items-center gap-3">
+            <a
+              href={`https://www.linkedin.com/in/${analysis?.socialAccount?.username}`}
+              target="_blank"
+              className="text-2xl font-bold tracking-tight hover:underline"
+            >
+              {analysis?.socialAccount?.name}{" "}
+            </a>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" onClick={handleClickOnFavorite}>
+                    {!isFavorite && <Star size={48} color={"#fff"} strokeWidth={2} />}
+                    {isFavorite && <StarOff size={48} color={"#dbca57"} strokeWidth={2} />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add to favorites</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <p className="text-muted-foreground">{analysis?.socialAccount?.headline}</p>
         </div>
       </div>
 
       {analysis?.socialAccount && <LinkedinInsight socialAccount={analysis?.socialAccount} />}
 
-      <div className="">
+      <>
         <div className="mt-8">
           <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
-            Top All-Time Publications{" "}
+            Top All-Time Publications
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild className="text-muted-foreground w-5">
@@ -98,14 +131,32 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
         </div>
         <>
           {/* Vue mobile : one column */}
-          <div className="2xl:hidden space-y-4 mt-8">
+          <div className="lg:hidden md:hidden space-y-4 mt-8">
             {analysis?.socialAccount?.topPosts?.map((post, index) => (
               <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index + 1} />
             ))}
           </div>
 
-          {/* Vue desktop : two columns */}
-          <div className="hidden 2xl:flex gap-4 mt-8">
+          {/* Vue intermediaire : deux colonnes */}
+          <div className="hidden md:flex xl:hidden gap-4 mt-8">
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.topPosts
+                ?.filter((_, index) => index % 2 === 0)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 1} />
+                ))}
+            </div>
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.topPosts
+                ?.filter((_, index) => index % 2 === 1)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 2} />
+                ))}
+            </div>
+          </div>
+
+          {/* Vue desktop : trois colonnes */}
+          <div className="hidden xl:flex gap-4 mt-8">
             <div className="flex-1 space-y-4">
               {analysis?.socialAccount?.topPosts
                 ?.filter((_, index) => index % 3 === 0)
@@ -129,7 +180,47 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
             </div>
           </div>
         </>
-      </div>
+      </>
+
+      <>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">All Publications</h2>
+          <p className="text-muted-foreground">Explore the most impactful posts from your account’s history!</p>
+        </div>
+        <>
+          {/* Vue mobile : one column */}
+          <div className="2xl:hidden space-y-4 mt-8">
+            {analysis?.socialAccount?.posts?.map((post, index) => (
+              <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index + 1} />
+            ))}
+          </div>
+
+          {/* Vue desktop : three columns */}
+          <div className="hidden 2xl:flex gap-4 mt-8">
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.posts
+                ?.filter((_, index) => index % 3 === 0)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 3 + 1} />
+                ))}
+            </div>
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.posts
+                ?.filter((_, index) => index % 3 === 1)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 3 + 2} />
+                ))}
+            </div>
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.posts
+                ?.filter((_, index) => index % 3 === 2)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 3 + 3} />
+                ))}
+            </div>
+          </div>
+        </>
+      </>
     </>
   );
 }

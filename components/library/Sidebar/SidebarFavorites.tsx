@@ -35,12 +35,22 @@ export function SidebarFavorites() {
           </>
         ) : (
           <>
-            {analysis.favorites.length <= 0 && <p className="text-center font-normal antialiased text-sm">You dont have any favorite analysis</p>}
+            {analysis.favorites.length <= 0 && (
+              <div className="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&amp;>span:last-child]:truncate [&amp;>svg]:size-4 [&amp;>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 text-sm">
+                <span className="font-medium">You dont have any favorites analysis</span>
+              </div>
+            )}
             {analysis.favorites.map((item: Analysis) => (
               <SidebarMenuItem key={crypto.randomUUID()} className="hover:bg-accent rounded-xl">
                 <SidebarMenuButton asChild>
                   <Link href={`/${locale}/analysis/${item.uuid}`} title={item.title}>
-                    <Image src={`/images/${item.platform}-logo.png`} alt={item.username} width={20} height={20} className="flex-shrink-0 w-5 h-5 rounded-sm object-cover overflow-hidden" />
+                    <Image
+                      src={`/images/${item.platform}-logo.png`}
+                      alt={item.username}
+                      width={20}
+                      height={20}
+                      className="flex-shrink-0 w-5 h-5 rounded-sm object-cover overflow-hidden"
+                    />
                     <span className="font-medium">{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
