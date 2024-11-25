@@ -79,48 +79,50 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
 
       {analysis?.socialAccount && <LinkedinInsight socialAccount={analysis?.socialAccount} />}
 
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
-          Top All-Time Publications{" "}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild className="text-muted-foreground w-5">
-                <Info strokeWidth={3} />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Based on last {analysis?.socialAccount?.postCount} publications</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </h2>
-        <p className="text-muted-foreground">Explore the most impactful posts from your account’s history!</p>
-      </div>
-      <>
-        {/* Vue mobile : one column */}
-        <div className="md:hidden space-y-4 mt-8">
-          {analysis?.socialAccount?.topPosts?.map((post, index) => (
-            <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index + 1} />
-          ))}
+      <div className="">
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
+            Top All-Time Publications{" "}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild className="text-muted-foreground w-5">
+                  <Info strokeWidth={3} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Based on last {analysis?.socialAccount?.postCount} publications</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </h2>
+          <p className="text-muted-foreground">Explore the most impactful posts from your account’s history!</p>
         </div>
+        <>
+          {/* Vue mobile : one column */}
+          <div className="md:hidden space-y-4 mt-8">
+            {analysis?.socialAccount?.topPosts?.map((post, index) => (
+              <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index + 1} />
+            ))}
+          </div>
 
-        {/* Vue desktop : two columns */}
-        <div className="hidden md:flex gap-4 mt-8">
-          <div className="flex-1 space-y-4">
-            {analysis?.socialAccount?.topPosts
-              ?.filter((_, index) => index % 2 === 0)
-              .map((post, index) => (
-                <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 1} />
-              ))}
+          {/* Vue desktop : two columns */}
+          <div className="hidden md:flex gap-4 mt-8">
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.topPosts
+                ?.filter((_, index) => index % 2 === 0)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 1} />
+                ))}
+            </div>
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.topPosts
+                ?.filter((_, index) => index % 2 === 1)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 2} />
+                ))}
+            </div>
           </div>
-          <div className="flex-1 space-y-4">
-            {analysis?.socialAccount?.topPosts
-              ?.filter((_, index) => index % 2 === 1)
-              .map((post, index) => (
-                <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 2} />
-              ))}
-          </div>
-        </div>
-      </>
+        </>
+      </div>
     </>
   );
 }
