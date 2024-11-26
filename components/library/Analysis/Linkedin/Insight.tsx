@@ -104,7 +104,7 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
         <LinkedinInsightChartMultiple
           title="Publications per month / engagement rate"
           labelPrimary="Publications"
-          labelSecondary="Engagement Rate"
+          labelSecondary="Rate"
           data={transformData(insights, "posts", "engagementRate")}
         />
       </div>

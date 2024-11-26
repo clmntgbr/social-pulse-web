@@ -63,7 +63,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [analysisDispatch, fetchAnalysis, fetchAnalysisInsights, uuid]);
+  }, [analysisDispatch, fetchAnalysis, fetchAnalysisInsights, uuid, analysis?.status]);
 
   if (isLoading || analysis?.status === "loading") {
     return (
@@ -108,7 +108,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="outline" onClick={handleClickOnFavorite}>
-                    {!isFavorite && <Star size={48} color={"#fff"} strokeWidth={2} />}
+                    {!isFavorite && <Star size={48} strokeWidth={2} />}
                     {isFavorite && <StarOff size={48} color={"#dbca57"} strokeWidth={2} />}
                   </Button>
                 </TooltipTrigger>
@@ -127,7 +127,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
       <>
         <div className="mt-8">
           <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
-            Top All-Time Publications
+            Top Publications
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild className="text-muted-foreground w-5">
