@@ -1,6 +1,7 @@
 import { GetAnalysesFavorites } from "@/store/client/interface/GetAnalysesFavorites";
 import { GetAnalysesRecents } from "@/store/client/interface/GetAnalysesRecents";
 import { GetAnalysis } from "@/store/client/interface/GetAnalysis";
+import { GetAnalysisInsights } from "@/store/client/interface/GetAnalysisInsights";
 import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
 import { AnalysisAction } from "./actions";
 
@@ -41,6 +42,16 @@ export type GetAnalysisNotFoundAction = SetNotFoundErrorAction<AnalysisAction.GE
 export type GetAnalysisHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.GET_ANALYSIS_HTTP_INTERNAL_ERROR>;
 export type GetAnalysisErrorAction = SetErrorAction<AnalysisAction.GET_ANALYSIS_ERROR>;
 
+/// Get Analysis Insights
+
+export type GetAnalysisInsightsSuccessAction = {
+  type: AnalysisAction.GET_ANALYSIS_INSIGHTS_SUCCESS;
+  payload: GetAnalysisInsights;
+};
+export type GetAnalysisInsightsNotFoundAction = SetNotFoundErrorAction<AnalysisAction.GET_ANALYSIS_INSIGHTS_NOT_FOUND>;
+export type GetAnalysisInsightsHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.GET_ANALYSIS_INSIGHTS_HTTP_INTERNAL_ERROR>;
+export type GetAnalysisInsightsErrorAction = SetErrorAction<AnalysisAction.GET_ANALYSIS_INSIGHTS_ERROR>;
+
 /// Post Analyses
 
 export type PostAnalysesSuccessAction = {
@@ -77,6 +88,10 @@ export type AnalysisActionTypes =
   | GetAnalysisNotFoundAction
   | GetAnalysisHttpInternalErrorAction
   | GetAnalysisErrorAction
+  | GetAnalysisInsightsSuccessAction
+  | GetAnalysisInsightsNotFoundAction
+  | GetAnalysisInsightsHttpInternalErrorAction
+  | GetAnalysisInsightsErrorAction
   | PostAnalysesSuccessAction
   | PostAnalysesNotFoundAction
   | PostAnalysesHttpInternalErrorAction

@@ -9,6 +9,7 @@ export enum ANALYSES {
   POST_ANALYSIS = "/analyses",
   POST_ANALYSIS_TO_FAVORITES = "/analysis/favorites",
   GET_ANALYSIS = "/analysis/%uuid%",
+  GET_ANALYSIS_INSIGHTS = "/analysis/%uuid%/insights",
   GET_ANALYSES_RECENTS = "/analyses/recents",
   GET_ANALYSES_FAVORITES = "/analyses/favorites",
 }

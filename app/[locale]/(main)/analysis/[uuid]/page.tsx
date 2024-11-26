@@ -11,8 +11,10 @@ import useAnalysisContext from "@/contexts/analyses/hooks";
 import { useCurrentLocale } from "@/locales/client";
 import { getAnalysesFavorites } from "@/store/analyses/getAnalysesFavorites";
 import { getAnalysis } from "@/store/analyses/getAnalysis";
+import { getAnalysisInsights } from "@/store/analyses/getAnalysisInsights";
 import { postAnalysisToFavorites } from "@/store/analyses/postAnalysisToFavorites";
 import { Analysis } from "@/store/client/interface/analysis";
+import { Insight } from "@/store/client/interface/insight";
 import { Info, Star, StarOff } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -23,6 +25,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
   const { uuid } = use(params);
   const { analysisDispatch } = useAnalysisContext();
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
+  const [insights, setInsights] = useState<Insight[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const router = useRouter();
@@ -44,14 +47,23 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
     }
   }, [analysisDispatch, data?.accessToken, locale, router, uuid]);
 
+  const fetchAnalysisInsights = useCallback(async () => {
+    if (uuid && data?.accessToken) {
+      getAnalysisInsights(`${data?.accessToken}`, uuid, analysisDispatch).then((response) => {
+        setInsights(response.data);
+      });
+    }
+  }, [analysisDispatch, data?.accessToken, uuid]);
+
   useEffect(() => {
     fetchAnalysis();
+    fetchAnalysisInsights();
     const interval = setInterval(() => {
       fetchAnalysis();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [analysisDispatch, fetchAnalysis, uuid]);
+  }, [analysisDispatch, fetchAnalysis, fetchAnalysisInsights, uuid]);
 
   if (isLoading || analysis?.status === "loading") {
     return (
@@ -110,7 +122,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
         </div>
       </div>
 
-      {analysis?.socialAccount && <LinkedinInsight socialAccount={analysis?.socialAccount} />}
+      {analysis?.socialAccount && <LinkedinInsight analysis={analysis} insights={insights ?? []} />}
 
       <>
         <div className="mt-8">

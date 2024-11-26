@@ -13,7 +13,16 @@ interface LinkedinInsightPanelProps {
   iconColor?: string;
 }
 
-export default function LinkedinInsightPanel({ label, value, option = "", icon: Icon, iconColor = "", type = "", hasTooltip = false, tooltipText = "" }: LinkedinInsightPanelProps) {
+export default function LinkedinInsightPanel({
+  label,
+  value,
+  option = "",
+  icon: Icon,
+  iconColor = "",
+  type = "",
+  hasTooltip = false,
+  tooltipText = "",
+}: LinkedinInsightPanelProps) {
   return (
     <>
       <Card className="shadow-none relative">

@@ -92,4 +92,15 @@ export default class ApiClient {
       return null;
     }
   }
+
+  public async getAnalysisInsights(uuid: string): Promise<AxiosResponse | null> {
+    try {
+      return await this.httpClient.get(ANALYSES.GET_ANALYSIS_INSIGHTS.replace("%uuid%", uuid));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response!;
+      }
+      return null;
+    }
+  }
 }
