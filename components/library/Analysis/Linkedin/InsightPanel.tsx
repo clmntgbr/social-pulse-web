@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Info, LucideIcon } from "lucide-react";
 
 interface LinkedinInsightPanelProps {
-  label: string;
+  title: string;
   value: string;
   type?: string;
   option?: string;
@@ -14,7 +14,7 @@ interface LinkedinInsightPanelProps {
 }
 
 export default function LinkedinInsightPanel({
-  label,
+  title,
   value,
   option = "",
   icon: Icon,
@@ -28,7 +28,7 @@ export default function LinkedinInsightPanel({
       <Card className="shadow-none relative">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium flex items-center gap-3">
-            {label}
+            {title}
             {hasTooltip && (
               <TooltipProvider>
                 <Tooltip>

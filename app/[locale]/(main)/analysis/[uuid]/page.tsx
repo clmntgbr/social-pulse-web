@@ -3,6 +3,7 @@
 import LinkedinDisplay from "@/components/library/Analysis/Linkedin/Display";
 import LinkedinInsight from "@/components/library/Analysis/Linkedin/Insight";
 import { ToastFail } from "@/components/library/Toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -141,6 +142,15 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
           </h2>
           <p className="text-muted-foreground">Explore the most impactful posts from your account’s history!</p>
         </div>
+
+        {analysis?.socialAccount?.topPosts && analysis?.socialAccount?.topPosts.length <= 0 && (
+          <>
+            <Alert className="mt-8" variant="default">
+              <AlertDescription>You dont have any publications yet.</AlertDescription>
+            </Alert>
+          </>
+        )}
+
         <>
           {/* Vue mobile : one column */}
           <div className="lg:hidden md:hidden space-y-4 mt-8">
@@ -199,6 +209,15 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
           <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">All Publications</h2>
           <p className="text-muted-foreground">Explore the most impactful posts from your account’s history!</p>
         </div>
+
+        {analysis?.socialAccount?.posts && analysis?.socialAccount?.posts.length <= 0 && (
+          <>
+            <Alert className="mt-8" variant="default">
+              <AlertDescription>You dont have any publications yet.</AlertDescription>
+            </Alert>
+          </>
+        )}
+
         <>
           {/* Vue mobile : one column */}
           <div className="2xl:hidden space-y-4 mt-8">

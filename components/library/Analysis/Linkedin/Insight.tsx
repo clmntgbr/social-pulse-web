@@ -25,10 +25,6 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
       primary: item[primaryKey],
       secondary: item[secondaryKey],
     }));
-
-    console.log("*********************");
-    console.log(inputData, data);
-
     return data;
   };
 
@@ -36,19 +32,19 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <LinkedinInsightPanel
-          label="Followers"
+          title="Followers"
           value={analysis?.socialAccount?.followerCount?.toString() ?? "~"}
           icon={Users}
           iconColor="text-pink-500"
         />
         <LinkedinInsightPanel
-          label="Followings"
+          title="Followings"
           value={analysis?.socialAccount?.followingCount?.toString() ?? "~"}
           icon={UserRoundCheck}
           iconColor="text-orange-500"
         />
         <LinkedinInsightPanel
-          label="Likes"
+          title="Likes"
           value={analysis?.socialAccount?.likeCount?.toString() ?? "~"}
           icon={Heart}
           hasTooltip={true}
@@ -56,7 +52,7 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
           tooltipText={`Based on last ${analysis?.socialAccount?.postCount} publications`}
         />
         <LinkedinInsightPanel
-          label="Comments"
+          title="Comments"
           value={analysis?.socialAccount?.commentCount?.toString() ?? "~"}
           icon={MessageCircleMore}
           iconColor="text-yellow-500"
@@ -64,7 +60,7 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
           tooltipText={`Based on last ${analysis?.socialAccount?.postCount} publications`}
         />
         <LinkedinInsightPanel
-          label="Reposts"
+          title="Reposts"
           value={analysis?.socialAccount?.shareCount?.toString() ?? "~"}
           icon={Share}
           iconColor="text-blue-500"
@@ -72,7 +68,7 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
           tooltipText={`Based on last ${analysis?.socialAccount?.postCount} publications`}
         />
         <LinkedinInsightPanel
-          label="Taux d'engagement"
+          title="Taux d'engagement"
           value={analysis?.socialAccount?.engagementRate?.toString() ?? "~"}
           type="%"
           hasTooltip={true}
@@ -87,24 +83,32 @@ export default function LinkedinInsight({ analysis, insights }: LinkedinInsightP
           title="Publications per month / likes"
           labelPrimary="Publications"
           labelSecondary="Likes"
+          hasTooltip={true}
+          tooltipText="Based on last six months"
           data={transformData(insights, "posts", "likes")}
         />
         <LinkedinInsightChartMultiple
           title="Publications per month / comments"
           labelPrimary="Publications"
           labelSecondary="Comments"
+          tooltipText="Based on last six months"
+          hasTooltip={true}
           data={transformData(insights, "posts", "comments")}
         />
         <LinkedinInsightChartMultiple
           title="Publications per month / reposts"
           labelPrimary="Publications"
           labelSecondary="Reposts"
+          tooltipText="Based on last six months"
+          hasTooltip={true}
           data={transformData(insights, "posts", "reposts")}
         />
         <LinkedinInsightChartMultiple
           title="Publications per month / engagement rate"
           labelPrimary="Publications"
           labelSecondary="Rate"
+          tooltipText="Based on last six months"
+          hasTooltip={true}
           data={transformData(insights, "posts", "engagementRate")}
         />
       </div>

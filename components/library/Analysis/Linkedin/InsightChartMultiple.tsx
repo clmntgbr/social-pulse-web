@@ -1,18 +1,28 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 interface LinkedinInsightChartMultipleProps {
   title: string;
   labelPrimary: string;
   labelSecondary: string;
+  hasTooltip: boolean;
+  tooltipText?: string;
   data: any;
 }
 
-export default function LinkedinInsightChartMultiple({ title, labelPrimary, labelSecondary, data }: LinkedinInsightChartMultipleProps) {
+export default function LinkedinInsightChartMultiple({
+  title,
+  labelPrimary,
+  hasTooltip,
+  tooltipText,
+  labelSecondary,
+  data,
+}: LinkedinInsightChartMultipleProps) {
   const chartConfig = {
     primary: {
       label: labelPrimary,
@@ -26,7 +36,23 @@ export default function LinkedinInsightChartMultiple({ title, labelPrimary, labe
 
   return (
     <Card className="">
-      <CardHeader className="text-sm font-medium flex items-center p-3">{title}</CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium flex items-center gap-3">
+          {title}
+          {hasTooltip && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild className="text-muted-foreground w-5">
+                  <Info strokeWidth={3} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{tooltipText}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </CardTitle>
+      </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={data}>

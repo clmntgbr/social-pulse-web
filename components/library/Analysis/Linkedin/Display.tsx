@@ -3,7 +3,9 @@ import { Post } from "@/store/client/interface/post";
 import { SocialAccount } from "@/store/client/interface/social-account";
 import { DateTime } from "luxon";
 import Image from "next/image";
+import LinkedinArticle from "./Article";
 import LinkedinBody from "./Body";
+import LinkedinDocument from "./Document";
 import LinkedinImage from "./Image";
 
 interface LinkedinDisplayProps {
@@ -19,9 +21,9 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
 
   return (
     <Card className="shadow-none relative">
-      <CardContent className="p-6">
+      <CardContent className="p-6 px-0">
         <span className="absolute right-6 top-6 font-sans font-medium text-gray-400">#{index}</span>
-        <div className="flex items-start gap-3 group">
+        <div className="flex items-start gap-3 group px-6">
           <div className="font-semibold">
             <Image
               src={socialAccount.profilePicture ?? "https://ui.shadcn.com/avatars/01.png"}
@@ -38,7 +40,7 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
                   {socialAccount?.name}
                 </a>
                 <p className="text-sm text-gray-400">{socialAccount?.headline}</p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 font-bold">
                   Publié le {DateTime.fromISO(post.postAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")} • 🌐
                 </p>
               </div>
@@ -46,7 +48,7 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
           </div>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 px-6">
           <LinkedinBody post={post} />
         </div>
 
@@ -54,7 +56,15 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
           <LinkedinImage post={post} />
         </div>
 
-        <div className="flex items-center justify-between text-sm text-gray-500 mt-4">
+        <div className="mt-4">
+          <LinkedinArticle post={post} />
+        </div>
+
+        <div className="mt-4">
+          <LinkedinDocument post={post} />
+        </div>
+
+        <div className="flex items-center justify-between text-sm text-gray-500 mt-4 px-6">
           <div className="flex items-center gap-1">
             <Image src={"/images/linkedin/like.svg"} alt="like" width={20} height={20} />
             <span>{post.likeCount ?? 0}</span>
