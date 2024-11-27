@@ -219,15 +219,26 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
         )}
 
         <>
-          {/* Vue mobile : one column */}
-          <div className="2xl:hidden space-y-4 mt-8">
-            {analysis?.socialAccount?.posts?.map((post, index) => (
-              <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index + 1} />
-            ))}
+          {/* Vue intermediaire : deux colonnes */}
+          <div className="hidden md:flex xl:hidden gap-4 mt-8">
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.posts
+                ?.filter((_, index) => index % 2 === 0)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 1} />
+                ))}
+            </div>
+            <div className="flex-1 space-y-4">
+              {analysis?.socialAccount?.posts
+                ?.filter((_, index) => index % 2 === 1)
+                .map((post, index) => (
+                  <LinkedinDisplay key={post.uuid} socialAccount={analysis.socialAccount} post={post} index={index * 2 + 2} />
+                ))}
+            </div>
           </div>
 
-          {/* Vue desktop : three columns */}
-          <div className="hidden 2xl:flex gap-4 mt-8">
+          {/* Vue desktop : trois colonnes */}
+          <div className="hidden xl:flex gap-4 mt-8">
             <div className="flex-1 space-y-4">
               {analysis?.socialAccount?.posts
                 ?.filter((_, index) => index % 3 === 0)

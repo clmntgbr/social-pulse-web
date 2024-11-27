@@ -7,6 +7,10 @@ interface LinkedinImageProps {
 export default function LinkedinDocument({ post }: LinkedinImageProps) {
   const { document } = post;
 
+  if (!document) {
+    return <></>;
+  }
+
   if (!document.title || !document.totalPageCount || !document.url) {
     return <></>;
   }
