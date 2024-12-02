@@ -1,11 +1,15 @@
 import { Post } from "@/store/client/interface/post";
 
-interface LinkedinImageProps {
+interface Props {
   post: Post;
 }
 
-export default function LinkedinArticle({ post }: LinkedinImageProps) {
+export default function LinkedinArticle({ post }: Props) {
   const { article } = post;
+
+  if (!article) {
+    return <></>;
+  }
 
   if (!article.link || !article.title || !article.subtitle) {
     return <></>;

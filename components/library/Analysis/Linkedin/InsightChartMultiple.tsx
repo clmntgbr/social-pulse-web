@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Info } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-interface LinkedinInsightChartMultipleProps {
+interface Props {
   title: string;
   labelPrimary: string;
   labelSecondary: string;
@@ -15,14 +15,7 @@ interface LinkedinInsightChartMultipleProps {
   data: any;
 }
 
-export default function LinkedinInsightChartMultiple({
-  title,
-  labelPrimary,
-  hasTooltip,
-  tooltipText,
-  labelSecondary,
-  data,
-}: LinkedinInsightChartMultipleProps) {
+export default function LinkedinInsightChartMultiple({ title, labelPrimary, hasTooltip, tooltipText, labelSecondary, data }: Props) {
   const chartConfig = {
     primary: {
       label: labelPrimary,

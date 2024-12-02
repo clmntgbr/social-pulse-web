@@ -1,17 +1,16 @@
 "use client";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
-interface LinkedinInsightChartProps {
+interface Props {
   title: string;
   label: string;
   data: any;
 }
 
-export default function LinkedinInsightChart({ title, label, data }: LinkedinInsightChartProps) {
+export default function LinkedinInsightChart({ title, label, data }: Props) {
   const chartConfig = {
     desktop: {
       label,

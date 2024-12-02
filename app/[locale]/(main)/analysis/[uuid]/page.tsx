@@ -1,6 +1,7 @@
 "use client";
 
 import LinkedinDisplay from "@/components/library/Analysis/Linkedin/Display";
+import LinkedinEducation from "@/components/library/Analysis/Linkedin/Education";
 import LinkedinInsight from "@/components/library/Analysis/Linkedin/Insight";
 import { ToastFail } from "@/components/library/Toast";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -61,7 +62,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
     fetchAnalysisInsights();
     const interval = setInterval(() => {
       fetchAnalysis();
-    }, 5000);
+    }, 5000000);
 
     return () => clearInterval(interval);
   }, [analysisDispatch, fetchAnalysis, fetchAnalysisInsights, uuid, analysis?.status]);
@@ -205,9 +206,25 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
       </>
 
       <>
+        <div className="mt-8 mb-8">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">Education History</h2>
+          <p className="text-muted-foreground">Browse through {analysis?.socialAccount?.name} educational background and achievements</p>
+        </div>
+
+        {analysis?.socialAccount && <LinkedinEducation socialAccount={analysis?.socialAccount} />}
+      </>
+
+      <>
         <div className="mt-8">
-          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">All Publications</h2>
-          <p className="text-muted-foreground">Explore the most impactful posts from your account’s history!</p>
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">Professional Experience</h2>
+          <p className="text-muted-foreground">Discover {analysis?.socialAccount?.name} career journey and professional accomplishments</p>
+        </div>
+      </>
+
+      <>
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold tracking-tight">Publications</h2>
+          <p className="text-muted-foreground">Browse through {analysis?.socialAccount?.name} complete collection of published works.</p>
         </div>
 
         {analysis?.socialAccount?.posts && analysis?.socialAccount?.posts.length <= 0 && (
@@ -218,8 +235,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
           </>
         )}
 
-        <>
-          {/* Vue intermediaire : deux colonnes */}
+        {/* <>
           <div className="hidden md:flex xl:hidden gap-4 mt-8">
             <div className="flex-1 space-y-4">
               {analysis?.socialAccount?.posts
@@ -237,7 +253,6 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
             </div>
           </div>
 
-          {/* Vue desktop : trois colonnes */}
           <div className="hidden xl:flex gap-4 mt-8">
             <div className="flex-1 space-y-4">
               {analysis?.socialAccount?.posts
@@ -261,7 +276,7 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
                 ))}
             </div>
           </div>
-        </>
+        </> */}
       </>
     </>
   );

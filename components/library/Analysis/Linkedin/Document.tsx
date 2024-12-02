@@ -1,10 +1,10 @@
 import { Post } from "@/store/client/interface/post";
 
-interface LinkedinImageProps {
+interface Props {
   post: Post;
 }
 
-export default function LinkedinDocument({ post }: LinkedinImageProps) {
+export default function LinkedinDocument({ post }: Props) {
   const { document } = post;
 
   if (!document) {

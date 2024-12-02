@@ -93,6 +93,14 @@ export default class ApiClient {
     }
   }
 
+  public async getAnalysesPlatforms(): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.get(ANALYSES.GET_ANALYSES_PLATFORMS);
+    } catch {
+      return null;
+    }
+  }
+
   public async getAnalysisInsights(uuid: string): Promise<AxiosResponse | null> {
     try {
       return await this.httpClient.get(ANALYSES.GET_ANALYSIS_INSIGHTS.replace("%uuid%", uuid));

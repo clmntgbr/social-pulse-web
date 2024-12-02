@@ -1,4 +1,5 @@
 import { GetAnalysesFavorites } from "@/store/client/interface/GetAnalysesFavorites";
+import { GetAnalysesPlatforms } from "@/store/client/interface/GetAnalysesPlatforms";
 import { GetAnalysesRecents } from "@/store/client/interface/GetAnalysesRecents";
 import { GetAnalysis } from "@/store/client/interface/GetAnalysis";
 import { GetAnalysisInsights } from "@/store/client/interface/GetAnalysisInsights";
@@ -73,6 +74,16 @@ export type PostAnalysisToFavoritesHttpInternalErrorAction =
   SetHttpInternalServerErrorAction<AnalysisAction.POST_ANALYSIS_TO_FAVORITES_HTTP_INTERNAL_ERROR>;
 export type PostAnalysisToFavoritesErrorAction = SetErrorAction<AnalysisAction.POST_ANALYSIS_TO_FAVORITES_ERROR>;
 
+/// Get Analyses Platforms
+
+export type GetAnalysesPlatformsSuccessAction = {
+  type: AnalysisAction.GET_ANALYSES_PLATFORMS_SUCCESS;
+  payload: GetAnalysesPlatforms;
+};
+export type GetAnalysesPlatformsNotFoundAction = SetNotFoundErrorAction<AnalysisAction.GET_ANALYSES_PLATFORMS_NOT_FOUND>;
+export type GetAnalysesPlatformsHttpInternalErrorAction = SetHttpInternalServerErrorAction<AnalysisAction.GET_ANALYSES_PLATFORMS_HTTP_INTERNAL_ERROR>;
+export type GetAnalysesPlatformsErrorAction = SetErrorAction<AnalysisAction.GET_ANALYSES_PLATFORMS_ERROR>;
+
 export type AnalysisActionTypes =
   | SetLoadingStartAction
   | SetLoadingEndAction
@@ -99,4 +110,8 @@ export type AnalysisActionTypes =
   | PostAnalysisToFavoritesSuccessAction
   | PostAnalysisToFavoritesNotFoundAction
   | PostAnalysisToFavoritesHttpInternalErrorAction
-  | PostAnalysisToFavoritesErrorAction;
+  | PostAnalysisToFavoritesErrorAction
+  | GetAnalysesPlatformsSuccessAction
+  | GetAnalysesPlatformsErrorAction
+  | GetAnalysesPlatformsNotFoundAction
+  | GetAnalysesPlatformsHttpInternalErrorAction;

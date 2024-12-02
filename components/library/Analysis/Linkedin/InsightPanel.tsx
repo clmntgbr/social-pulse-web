@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info, LucideIcon } from "lucide-react";
 
-interface LinkedinInsightPanelProps {
+interface Props {
   title: string;
   value: string;
   type?: string;
@@ -22,7 +22,7 @@ export default function LinkedinInsightPanel({
   type = "",
   hasTooltip = false,
   tooltipText = "",
-}: LinkedinInsightPanelProps) {
+}: Props) {
   return (
     <>
       <Card className="shadow-none relative">

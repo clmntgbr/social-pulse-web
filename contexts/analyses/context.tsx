@@ -1,7 +1,8 @@
 "use client";
 
-import { getAnalysesRecents } from "@/store/analyses/getAnalysesRecents";
 import { getAnalysesFavorites } from "@/store/analyses/getAnalysesFavorites";
+import { getAnalysesPlatforms } from "@/store/analyses/getAnalysesPlatforms";
+import { getAnalysesRecents } from "@/store/analyses/getAnalysesRecents";
 import { useSession } from "next-auth/react";
 import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
 import { analysisReducer, AnalysisState, initialAnalysisState } from "./reducer";
@@ -29,6 +30,7 @@ export const AnalysisProvider: React.FC<PropsWithChildren> = ({ children }) => {
       if (data && data.accessToken) {
         await getAnalysesRecents(`${data?.accessToken}`, analysisDispatch);
         await getAnalysesFavorites(`${data?.accessToken}`, analysisDispatch);
+        await getAnalysesPlatforms(`${data?.accessToken}`, analysisDispatch);
       }
     };
 

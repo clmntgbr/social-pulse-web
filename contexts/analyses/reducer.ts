@@ -1,4 +1,5 @@
 import { GetAnalysesFavorites } from "@/store/client/interface/GetAnalysesFavorites";
+import { GetAnalysesPlatforms } from "@/store/client/interface/GetAnalysesPlatforms";
 import { GetAnalysesRecents } from "@/store/client/interface/GetAnalysesRecents";
 import { AnalysisAction } from "./actions";
 import { AnalysisActionTypes } from "./types";
@@ -8,6 +9,7 @@ export type AnalysisState = {
   loading: boolean;
   favorites: GetAnalysesFavorites | [];
   recents: GetAnalysesRecents | [];
+  platforms: GetAnalysesPlatforms | [];
 };
 
 export const initialAnalysisState: AnalysisState = {
@@ -15,6 +17,7 @@ export const initialAnalysisState: AnalysisState = {
   loading: true,
   recents: [],
   favorites: [],
+  platforms: [],
 };
 
 export function analysisReducer(state: AnalysisState, action: AnalysisActionTypes): AnalysisState {
@@ -48,9 +51,20 @@ export function analysisReducer(state: AnalysisState, action: AnalysisActionType
       };
     }
 
+    case AnalysisAction.GET_ANALYSES_PLATFORMS_SUCCESS: {
+      return {
+        ...state,
+        platforms: action.payload,
+      };
+    }
+
     case AnalysisAction.GET_ANALYSES_FAVORITES_ERROR:
     case AnalysisAction.GET_ANALYSES_FAVORITES_HTTP_INTERNAL_ERROR:
     case AnalysisAction.GET_ANALYSES_FAVORITES_NOT_FOUND:
+
+    case AnalysisAction.GET_ANALYSES_PLATFORMS_ERROR:
+    case AnalysisAction.GET_ANALYSES_PLATFORMS_HTTP_INTERNAL_ERROR:
+    case AnalysisAction.GET_ANALYSES_PLATFORMS_NOT_FOUND:
 
     case AnalysisAction.POST_ANALYSES_ERROR:
     case AnalysisAction.POST_ANALYSES_HTTP_INTERNAL_ERROR:

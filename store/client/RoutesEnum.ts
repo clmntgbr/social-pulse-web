@@ -12,4 +12,5 @@ export enum ANALYSES {
   GET_ANALYSIS_INSIGHTS = "/analysis/%uuid%/insights",
   GET_ANALYSES_RECENTS = "/analyses/recents",
   GET_ANALYSES_FAVORITES = "/analyses/favorites",
+  GET_ANALYSES_PLATFORMS = "/analyses/platforms",
 }

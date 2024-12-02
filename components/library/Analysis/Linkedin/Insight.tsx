@@ -7,12 +7,12 @@ import LinkedinInsightChart from "./InsightChart";
 import LinkedinInsightChartMultiple from "./InsightChartMultiple";
 import LinkedinInsightPanel from "./InsightPanel";
 
-interface LinkedinInsightProps {
+interface Props {
   analysis: Analysis;
   insights: Insight[];
 }
 
-export default function LinkedinInsight({ analysis, insights }: LinkedinInsightProps) {
+export default function LinkedinInsight({ analysis, insights }: Props) {
   const [chartData, setChartData] = useState<any>([]);
 
   useEffect(() => {

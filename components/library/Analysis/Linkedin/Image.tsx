@@ -1,11 +1,11 @@
 import { Post } from "@/store/client/interface/post";
 import Image from "next/image";
 
-interface LinkedinImageProps {
+interface Props {
   post: Post;
 }
 
-export default function LinkedinImage({ post }: LinkedinImageProps) {
+export default function LinkedinImage({ post }: Props) {
   const { images } = post;
 
   if (!images || images.length === 0) {

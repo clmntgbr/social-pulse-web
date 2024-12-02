@@ -6,21 +6,22 @@ import Image from "next/image";
 import LinkedinArticle from "./Article";
 import LinkedinBody from "./Body";
 import LinkedinDocument from "./Document";
+import ExpandableText from "./ExpandableText";
 import LinkedinImage from "./Image";
 
-interface LinkedinDisplayProps {
+interface Props {
   socialAccount: SocialAccount | null;
   index: number;
   post: Post;
 }
 
-export default function LinkedinDisplay({ socialAccount, post, index }: LinkedinDisplayProps) {
+export default function LinkedinDisplay({ socialAccount, post, index }: Props) {
   if (!socialAccount) {
     return <></>;
   }
 
   return (
-    <Card className="shadow-none relative">
+    <Card className="shadow-none relative text-wrap">
       <CardContent className="p-6 px-0">
         <span className="absolute right-6 top-6 font-sans font-medium text-gray-400">#{index}</span>
         <div className="flex items-start gap-3 group px-6">
@@ -39,9 +40,9 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
                 <a href={`https://www.linkedin.com/in/${socialAccount.username}`} className="font-semibold hover:underline" target="_blank">
                   {socialAccount?.name}
                 </a>
-                <p className="text-sm text-gray-400">{socialAccount?.headline}</p>
-                <p className="text-xs text-gray-400 font-bold">
-                  Publié le {DateTime.fromISO(post.postAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")} • 🌐
+                <p className="text-sm text-gray-400 line-clamp-1">{socialAccount?.headline}</p>
+                <p className="text-xs text-gray-300 font-extrabold">
+                  Publié le {DateTime.fromISO(post.postAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}
                 </p>
               </div>
             </div>
@@ -49,7 +50,9 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Linkedin
         </div>
 
         <div className="mt-4 px-6">
-          <LinkedinBody post={post} />
+          <ExpandableText>
+            <LinkedinBody post={post} />
+          </ExpandableText>
         </div>
 
         <div className="mt-4">

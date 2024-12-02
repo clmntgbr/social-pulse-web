@@ -1,11 +1,11 @@
 import { Post } from "@/store/client/interface/post";
 import { Fragment } from "react";
 
-interface LinkedinDisplayProps {
+interface Props {
   post: Post;
 }
 
-export default function LinkedinBody({ post }: LinkedinDisplayProps) {
+export default function LinkedinBody({ post }: Props) {
   const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/;
   const isUrl = (word: string) => urlRegex.test(word);
 
