@@ -1,12 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Post } from "@/store/client/interface/post";
 import { SocialAccount } from "@/store/client/interface/social-account";
+import { Ellipsis } from "lucide-react";
 import { DateTime } from "luxon";
 import Image from "next/image";
+import ExpandableText from "../../../ExpandableText";
 import LinkedinArticle from "./Article";
 import LinkedinBody from "./Body";
 import LinkedinDocument from "./Document";
-import ExpandableText from "./ExpandableText";
 import LinkedinImage from "./Image";
 
 interface Props {
@@ -37,9 +39,25 @@ export default function LinkedinDisplay({ socialAccount, post, index }: Props) {
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <div>
-                <a href={`https://www.linkedin.com/in/${socialAccount.username}`} className="font-semibold hover:underline" target="_blank">
-                  {socialAccount?.name}
-                </a>
+                <div className="flex gap-4">
+                  <a href={`https://www.linkedin.com/in/${socialAccount.username}`} className="font-semibold hover:underline" target="_blank">
+                    {socialAccount?.name}
+                  </a>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Ellipsis className="cursor-pointer" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                          <a href={post.url} target="_blank">
+                            See the publication
+                          </a>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
                 <p className="text-sm text-gray-400 line-clamp-1">{socialAccount?.headline}</p>
                 <p className="text-xs text-gray-300 font-extrabold">
                   Publié le {DateTime.fromISO(post.postAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}

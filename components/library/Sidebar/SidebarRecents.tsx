@@ -22,7 +22,7 @@ export function SidebarRecents() {
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Recents</SidebarGroupLabel>
+      <SidebarGroupLabel className="font-bold">Recents</SidebarGroupLabel>
       <SidebarMenu>
         {isLoading ? (
           <>

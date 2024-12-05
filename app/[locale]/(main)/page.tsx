@@ -76,7 +76,7 @@ export default function Page() {
                 <h1 className="text-6xl font-extrabold  tracking-tight dark:text-gray-100 text-gray-700">
                   Analysez les profils
                   <br />
-                  <span className={`bg-clip-text text-transparent bg-[${selectedPlatformColor}]`}>{Capitalize(`${platform}`)} avec précision</span>
+                  <span style={{ color: selectedPlatformColor ?? "#fff" }}>{Capitalize(`${platform}`)} avec précision</span>
                 </h1>
                 <p className="text-xl dark:text-gray-100 text-gray-700 font-bold max-w-2xl mx-auto">
                   Découvrez des insights détaillés et analysez les tendances à partir des données sociales

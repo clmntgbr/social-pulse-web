@@ -1,10 +1,11 @@
+import { formatNumber } from "@/components/FormatNumber";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info, LucideIcon } from "lucide-react";
 
 interface Props {
   title: string;
-  value: string;
+  value: number | null | undefined;
   type?: string;
   option?: string;
   hasTooltip?: boolean;
@@ -13,7 +14,7 @@ interface Props {
   iconColor?: string;
 }
 
-export default function LinkedinInsightPanel({
+export default function InstagramInsightPanel({
   title,
   value,
   option = "",
@@ -46,7 +47,7 @@ export default function LinkedinInsightPanel({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {value}
+            {value ? formatNumber(value) : "~"}
             {type}
           </div>
           {option && <p className="text-xs text-muted-foreground">{option}</p>}

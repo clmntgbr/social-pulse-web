@@ -15,7 +15,7 @@ interface Props {
   data: any;
 }
 
-export default function LinkedinInsightChartMultiple({ title, labelPrimary, hasTooltip, tooltipText, labelSecondary, data }: Props) {
+export default function ChartMultipleComponent({ title, labelPrimary, hasTooltip, tooltipText, labelSecondary, data }: Props) {
   const chartConfig = {
     primary: {
       label: labelPrimary,
@@ -36,7 +36,7 @@ export default function LinkedinInsightChartMultiple({ title, labelPrimary, hasT
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild className="text-muted-foreground w-5">
-                  <Info strokeWidth={3} />
+                  <Info strokeWidth={1.5} color="#000" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>{tooltipText}</p>

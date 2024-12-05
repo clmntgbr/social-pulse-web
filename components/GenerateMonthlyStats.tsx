@@ -34,9 +34,9 @@ export function generateMonthlyStats(posts: Post[]) {
 
   const chartData = Object.entries(monthlyCount)
     .reverse()
-    .map(([month, count]) => ({
-      month,
-      desktop: count,
+    .map(([key, count]) => ({
+      key,
+      value: count,
     }));
 
   return chartData;

@@ -22,7 +22,7 @@ export function SidebarFavorites() {
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Favorites</SidebarGroupLabel>
+      <SidebarGroupLabel className="font-bold">Favorites</SidebarGroupLabel>
       <SidebarMenu>
         {isLoading ? (
           <>

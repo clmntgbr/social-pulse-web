@@ -1,3 +1,11 @@
-import { Insight } from "./insight";
+import { InsightHourly, InsightMonthtly } from "./insight";
 
-export type GetAnalysisInsights = Insight[];
+type AnalysisInsights = {
+  hourlyStats: InsightHourly;
+  monthlyStats: InsightMonthtly[];
+  averageLikes: number;
+  averageComments: number;
+  averageReposts: number;
+};
+
+export type GetAnalysisInsights = AnalysisInsights;
