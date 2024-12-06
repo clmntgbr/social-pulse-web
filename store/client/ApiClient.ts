@@ -1,10 +1,8 @@
 import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
-import { PostAnalyses } from "./interface/body/PostAnalyses";
-import { PostAnalysisToFavorites } from "./interface/body/PostAnalysisToFavorites";
 import { GetToken } from "./interface/GetToken";
 import { GetUser } from "./interface/GetUser";
-import { ANALYSES, USERS } from "./RoutesEnum";
+import { ORGANIZATIONS, SOCIAL_NETWORKS, USERS } from "./RoutesEnum";
 
 export default class ApiClient {
   private httpClient: AxiosInstance;
@@ -44,70 +42,26 @@ export default class ApiClient {
     }
   }
 
-  public async getAnalysesRecents(): Promise<AxiosResponse<any> | null> {
+  public async getSocialNetworks(): Promise<AxiosResponse<any> | null> {
     try {
-      return await this.httpClient.get(ANALYSES.GET_ANALYSES_RECENTS);
+      return await this.httpClient.get(SOCIAL_NETWORKS.GET_SOCIAL_NETWORKS);
     } catch {
       return null;
     }
   }
 
-  public async getAnalysesFavorites(): Promise<AxiosResponse<any> | null> {
+  public async getOrganizations(): Promise<AxiosResponse<any> | null> {
     try {
-      return await this.httpClient.get(ANALYSES.GET_ANALYSES_FAVORITES);
+      return await this.httpClient.get(ORGANIZATIONS.GET_ORGANIZATIONS);
     } catch {
       return null;
     }
   }
 
-  public async postAnalyses(requestBody: PostAnalyses): Promise<AxiosResponse | null> {
+  public async getOrganization(): Promise<AxiosResponse<any> | null> {
     try {
-      return await this.httpClient.post(ANALYSES.POST_ANALYSIS, requestBody);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response!;
-      }
-      return null;
-    }
-  }
-
-  public async postAnalysisToFavorites(requestBody: PostAnalysisToFavorites): Promise<AxiosResponse | null> {
-    try {
-      return await this.httpClient.post(ANALYSES.POST_ANALYSIS_TO_FAVORITES, requestBody);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response!;
-      }
-      return null;
-    }
-  }
-
-  public async getAnalysis(uuid: string): Promise<AxiosResponse | null> {
-    try {
-      return await this.httpClient.get(ANALYSES.GET_ANALYSIS.replace("%uuid%", uuid));
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response!;
-      }
-      return null;
-    }
-  }
-
-  public async getAnalysesPlatforms(): Promise<AxiosResponse<any> | null> {
-    try {
-      return await this.httpClient.get(ANALYSES.GET_ANALYSES_PLATFORMS);
+      return await this.httpClient.get(ORGANIZATIONS.GET_ORGANIZATION);
     } catch {
-      return null;
-    }
-  }
-
-  public async getAnalysisInsights(uuid: string): Promise<AxiosResponse | null> {
-    try {
-      return await this.httpClient.get(ANALYSES.GET_ANALYSIS_INSIGHTS.replace("%uuid%", uuid));
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response!;
-      }
       return null;
     }
   }

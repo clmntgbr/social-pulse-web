@@ -17,6 +17,7 @@ export function LayoutAuth({ locale, children }: { locale: string; children: Rea
         router.push(`/${locale}/login`);
         return;
       }
+
       if (data && data.accessToken) {
         const token = decodeToken(`${data?.accessToken}`);
         if (!token || !isTokenValid(token)) {

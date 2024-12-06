@@ -6,5 +6,4 @@ export interface User {
   familyName: string | null;
   avatarUrl: string | null;
   name: string | null;
-  token: string | null;
 }

@@ -10,6 +10,10 @@ export async function GET() {
   const response = await client.getUser();
   const user = response?.data;
 
+  if (response?.status !== 200) {
+    return NextResponse.json({ user: null, accessToken: null }, { status: 200 });
+  }
+
   if (user) {
     user.id = user?.uuid;
   }

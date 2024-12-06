@@ -1,12 +1,15 @@
 import React, { PropsWithChildren } from "react";
-import { AnalysisProvider } from "./analyses";
+import { OrganizationsProvider } from "./organizations";
+import { SocialNetworksProvider } from "./social-networks";
 import { UserProvider } from "./users";
 
 const AppContextProviders: React.FC<PropsWithChildren> = ({ children }) => (
   <UserProvider>
-    <AnalysisProvider>
-      <AppHooksProvider>{children}</AppHooksProvider>
-    </AnalysisProvider>
+    <OrganizationsProvider>
+      <SocialNetworksProvider>
+        <AppHooksProvider>{children}</AppHooksProvider>
+      </SocialNetworksProvider>
+    </OrganizationsProvider>
   </UserProvider>
 );
 
