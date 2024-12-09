@@ -1,22 +1,20 @@
 "use client";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarRail } from "@/components/ui/sidebar";
-import { SidebarFavorites } from "./SidebarFavorites";
-import { SidebarRecents } from "./SidebarRecents";
+import SidebarOrganizationSwitcher from "./SidebarOrganizationSwitcher";
 import { SidebarSecondary } from "./SidebarSecondary";
-import { SidebarUser } from "./SidebarUser";
+import { SidebarSocialNetworks } from "./SidebarSocialNetworks";
 
 export function SidebarApp({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarUser />
+          <SidebarOrganizationSwitcher />
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarFavorites />
-        <SidebarRecents />
+        <SidebarSocialNetworks />
       </SidebarContent>
       <SidebarFooter>
         <SidebarSecondary className="mt-auto" />

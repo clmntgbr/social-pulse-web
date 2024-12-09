@@ -38,9 +38,19 @@ export function userReducer(state: UserState, action: UserActionTypes): UserStat
       };
     }
 
+    case UserAction.PATCH_USERS_ACTIVE_ORGANIZATION_SUCCESS: {
+      return {
+        ...state,
+        me: action.payload,
+      };
+    }
+
     case UserAction.GET_USER_NOT_FOUND:
     case UserAction.GET_USER_HTTP_INTERNAL_ERROR:
-    case UserAction.GET_USER_ERROR: {
+    case UserAction.GET_USER_ERROR:
+    case UserAction.PATCH_USERS_ACTIVE_ORGANIZATION_NOT_FOUND:
+    case UserAction.PATCH_USERS_ACTIVE_ORGANIZATION_ERROR:
+    case UserAction.PATCH_USERS_ACTIVE_ORGANIZATION_HTTP_INTERNAL_ERROR: {
       return {
         ...state,
         error: true,

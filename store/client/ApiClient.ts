@@ -1,7 +1,8 @@
-import axios, { AxiosError, AxiosResponse, type AxiosInstance } from "axios";
+import axios, { AxiosResponse, type AxiosInstance } from "axios";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
+import { PostOrganizations } from "./interface/body/PostOgarnizations";
+import { GetSocialNetworksConnect } from "./interface/GetSocialNetworksConnect";
 import { GetToken } from "./interface/GetToken";
-import { GetUser } from "./interface/GetUser";
 import { ORGANIZATIONS, SOCIAL_NETWORKS, USERS } from "./RoutesEnum";
 
 export default class ApiClient {
@@ -23,13 +24,18 @@ export default class ApiClient {
     });
   }
 
-  public async getUser(): Promise<AxiosResponse<GetUser> | null> {
+  public async getUser(): Promise<AxiosResponse<any> | null> {
     try {
       return await this.httpClient.get(USERS.GET_USER);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return error.response!;
-      }
+    } catch {
+      return null;
+    }
+  }
+
+  public async patchUserActiveOrganization(uuid: string): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.patch(USERS.PATCH_USERS_ACTIVE_ORGANIZATION.replace("{uuid}", uuid));
+    } catch {
       return null;
     }
   }
@@ -50,6 +56,16 @@ export default class ApiClient {
     }
   }
 
+  public async getSocialNetworksConnect(socialNetworksType: string, pathname: string): Promise<AxiosResponse<GetSocialNetworksConnect> | null> {
+    try {
+      return await this.httpClient.get(
+        SOCIAL_NETWORKS.GET_SOCIAL_NETWORKS_CONNECT.replace("{socialNetworksType}", socialNetworksType).replace("{pathname}", pathname)
+      );
+    } catch {
+      return null;
+    }
+  }
+
   public async getOrganizations(): Promise<AxiosResponse<any> | null> {
     try {
       return await this.httpClient.get(ORGANIZATIONS.GET_ORGANIZATIONS);
@@ -61,6 +77,14 @@ export default class ApiClient {
   public async getOrganization(): Promise<AxiosResponse<any> | null> {
     try {
       return await this.httpClient.get(ORGANIZATIONS.GET_ORGANIZATION);
+    } catch {
+      return null;
+    }
+  }
+
+  public async postOrganizations(body: PostOrganizations): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.post(ORGANIZATIONS.POST_ORGANIZATIONS, body);
     } catch {
       return null;
     }

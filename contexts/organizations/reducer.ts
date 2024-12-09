@@ -41,6 +41,13 @@ export function organizationsReducer(state: OrganizationsState, action: Organiza
       };
     }
 
+    case OrganizationsAction.POST_ORGANIZATIONS_SUCCESS: {
+      return {
+        ...state,
+        organizations: action.payload,
+      };
+    }
+
     case OrganizationsAction.GET_ORGANIZATION_SUCCESS: {
       return {
         ...state,

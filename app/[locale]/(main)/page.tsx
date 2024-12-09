@@ -10,10 +10,10 @@ export default function Page() {
   const { socialNetworks } = useSocialNetworksContext();
   return (
     <>
-      <pre>{JSON.stringify(user)}</pre>
+      {/* <pre>{JSON.stringify(user)}</pre>
       <pre>{JSON.stringify(organizations.organization)}</pre>
       <pre>{JSON.stringify(organizations.organizations)}</pre>
-      <pre>{JSON.stringify(socialNetworks.socialNetworks)}</pre>
+      <pre>{JSON.stringify(socialNetworks.socialNetworks)}</pre> */}
     </>
   );
 }

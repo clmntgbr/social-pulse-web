@@ -3,7 +3,7 @@ import { User } from "./user";
 
 export interface Organization {
   uuid: string;
-  label: string;
+  name: string;
   logoUrl: string;
   socialNetworks?: Partial<SocialNetwork[]>;
   users?: Partial<User[]>;

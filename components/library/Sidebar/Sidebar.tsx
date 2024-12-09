@@ -1,23 +1,24 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { ReactElement, useEffect, useState } from "react";
+import { DropdownMenuUser } from "../DropdownMenuUser";
+import { ThemeSwitcher } from "../ThemeSwitcher";
 import { SidebarApp } from "./SidebarApp";
-import { SidebarMenu } from "./SidebarMenu";
+import { SidebarNavigationMenu } from "./SidebarNavigationMenu";
 
 export function Sidebar({ children }: { children: ReactElement }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname().split("/")[2];
-  const [showTrigger, setShowTrigger] = useState(true);
 
   useEffect(() => {
-    if (!open) {
-      setShowTrigger(false);
-      const timer = setTimeout(() => {
-        setShowTrigger(true);
-      }, 500);
-      return () => clearTimeout(timer);
+    if (!localStorage.getItem("sidebarOpen")) {
+      setOpen(true);
+      return;
     }
-  }, [open]);
+
+    const storedValue = localStorage.getItem("sidebarOpen")?.toLowerCase() === "true";
+    setOpen(storedValue);
+  }, []);
 
   return (
     <>
@@ -29,30 +30,21 @@ export function Sidebar({ children }: { children: ReactElement }) {
           } as React.CSSProperties
         }
       >
-        <SidebarApp
-          onMouseLeave={() => {
-            if (open) {
-              setOpen(!open);
-            }
-          }}
-        />
-        <SidebarInset className="bg-transparent max-h-screen">
+        <SidebarApp variant="floating" className="border-gray-200" />
+        <SidebarInset className="bg-transparent max-h-screen border-gray-200">
           <header className="flex h-16 shrink-0 items-center px-4 border-b justify-between">
-            {!open && showTrigger && (
-              <SidebarTrigger
-                className="-ml-1"
-                onMouseEnter={() => {
-                  if (!open) {
-                    setOpen(!open);
-                  }
-                }}
-                onClick={() => {
-                  setOpen(!open);
-                }}
-              />
-            )}
-            <SidebarMenu />
-            {/* <ThemeSwitcher /> */}
+            <SidebarTrigger
+              className="-ml-1"
+              onClick={() => {
+                localStorage.setItem("sidebarOpen", (!open).toString());
+                setOpen(!open);
+              }}
+            />
+            <SidebarNavigationMenu />
+            <div className="flex items-center gap-3">
+              <ThemeSwitcher />
+              <DropdownMenuUser />
+            </div>
           </header>
           <div className={`flex flex-1 flex-col gap-4 page-${pathname}`}>
             <div className="flex-1 rounded-xl md:min-h-min p-8">{children}</div>

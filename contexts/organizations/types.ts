@@ -10,6 +10,8 @@ export type SetLoadingEndAction = {
   type: OrganizationsAction.ORGANIZATIONS_LOADING_END;
 };
 
+// Get Organizations
+
 export type GetOrganizationsSuccessAction = {
   type: OrganizationsAction.GET_ORGANIZATIONS_SUCCESS;
   payload: GetOrganizations;
@@ -17,6 +19,18 @@ export type GetOrganizationsSuccessAction = {
 export type GetOrganizationsNotFoundAction = SetNotFoundErrorAction<OrganizationsAction.GET_ORGANIZATIONS_NOT_FOUND>;
 export type GetOrganizationsHttpInternalErrorAction = SetHttpInternalServerErrorAction<OrganizationsAction.GET_ORGANIZATIONS_HTTP_INTERNAL_ERROR>;
 export type GetOrganizationsErrorAction = SetErrorAction<OrganizationsAction.GET_ORGANIZATIONS_ERROR>;
+
+// Post Organizations
+
+export type PostOrganizationsSuccessAction = {
+  type: OrganizationsAction.POST_ORGANIZATIONS_SUCCESS;
+  payload: GetOrganizations;
+};
+export type PostOrganizationsNotFoundAction = SetNotFoundErrorAction<OrganizationsAction.POST_ORGANIZATIONS_NOT_FOUND>;
+export type PostOrganizationsHttpInternalErrorAction = SetHttpInternalServerErrorAction<OrganizationsAction.POST_ORGANIZATIONS_HTTP_INTERNAL_ERROR>;
+export type PostOrganizationsErrorAction = SetErrorAction<OrganizationsAction.POST_ORGANIZATIONS_ERROR>;
+
+// Get Organization
 
 export type GetOrganizationSuccessAction = {
   type: OrganizationsAction.GET_ORGANIZATION_SUCCESS;
@@ -33,6 +47,10 @@ export type OrganizationsActionTypes =
   | GetOrganizationsNotFoundAction
   | GetOrganizationsHttpInternalErrorAction
   | GetOrganizationsErrorAction
+  | PostOrganizationsSuccessAction
+  | PostOrganizationsNotFoundAction
+  | PostOrganizationsHttpInternalErrorAction
+  | PostOrganizationsErrorAction
   | GetOrganizationSuccessAction
   | GetOrganizationNotFoundAction
   | GetOrganizationHttpInternalErrorAction
