@@ -86,6 +86,22 @@ body {
 .facebookButton:hover {
   cursor: pointer;
 }
+.instagramButton {
+  width: 101px;
+  height: 101px;
+  background-color: #e1306c;
+}
+.instagramButton:hover {
+  cursor: pointer;
+}
+.youtubeButton {
+  width: 101px;
+  height: 101px;
+  background-color: #ff0000;
+}
+.youtubeButton:hover {
+  cursor: pointer;
+}
 .twitterButton {
   width: 101px;
   height: 101px;

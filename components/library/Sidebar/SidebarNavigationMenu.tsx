@@ -1,8 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import * as React from "react";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,10 +14,11 @@ import { cn } from "@/lib/utils";
 import { useCurrentLocale } from "@/locales/client";
 import { getSocialNetworksConnect } from "@/store/social-networks/getSocialNetworksConnect";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { ToastFail } from "../Toast";
 
 const components: { title: string; href: string; description: string }[] = [
@@ -65,6 +63,8 @@ export function SidebarNavigationMenu() {
   const [isLoadingTwitter, setIsLoadingTwitter] = useState(false);
   const [isLoadingFacebook, setIsLoadingFacebook] = useState(false);
   const [isLoadingLinkedin, setIsLoadingLinkedin] = useState(false);
+  const [isLoadingYoutube, setIsLoadingYoutube] = useState(false);
+  const [isLoadingInstagram, setIsLoadingInstagram] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const onSocialNetworksConnect = async (socialNetworksType: string) => {
@@ -80,7 +80,15 @@ export function SidebarNavigationMenu() {
         }, 2000);
       })
       .catch(() => {
-        ToastFail();
+        setTimeout(() => {
+          setIsDisabled(false);
+          setIsLoadingFacebook(false);
+          setIsLoadingInstagram(false);
+          setIsLoadingLinkedin(false);
+          setIsLoadingTwitter(false);
+          setIsLoadingYoutube(false);
+          ToastFail();
+        }, 2000);
       });
   };
   return (
@@ -94,9 +102,10 @@ export function SidebarNavigationMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Social Networks</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid grid-cols-2 gap-2 p-2 w-[230px]">
+            <ul className="grid grid-cols-3 gap-2 p-2 w-[345px]">
               <li className="col-span-1">
                 <button
+                  disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingFacebook(true);
                     onSocialNetworksConnect("facebook");
@@ -104,14 +113,21 @@ export function SidebarNavigationMenu() {
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton"
                 >
                   {isLoadingFacebook ? (
-                    <ReloadIcon className="text-white h-10 w-10 animate-spin" />
+                    <ReloadIcon className="text-white h-7 w-7 animate-spin" />
                   ) : (
-                    <Facebook size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                    <Image
+                      src="/images/ri_facebook-fill.svg"
+                      alt="Facebook"
+                      width={10}
+                      height={10}
+                      className={`w-10 h-10 transition-all duration-200 invert brightness-0`}
+                    />
                   )}
                 </button>
               </li>
               <li className="col-span-1">
                 <button
+                  disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingTwitter(true);
                     onSocialNetworksConnect("twitter");
@@ -119,14 +135,43 @@ export function SidebarNavigationMenu() {
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton"
                 >
                   {isLoadingTwitter ? (
-                    <ReloadIcon className="text-white h-10 w-10 animate-spin" />
+                    <ReloadIcon className="text-white h-7 w-7 animate-spin" />
                   ) : (
-                    <Twitter size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                    <Image
+                      src="/images/ri_twitter-fill.svg"
+                      alt="Twitter"
+                      width={10}
+                      height={10}
+                      className={`w-10 h-10 transition-all duration-200 invert brightness-0`}
+                    />
+                  )}
+                </button>
+              </li>
+              <li className="col-span-1">
+                <button
+                  disabled={isDisabled}
+                  onClick={() => {
+                    setIsLoadingYoutube(true);
+                    onSocialNetworksConnect("youtube");
+                  }}
+                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl youtubeButton"
+                >
+                  {isLoadingYoutube ? (
+                    <ReloadIcon className="text-white h-7 w-7 animate-spin" />
+                  ) : (
+                    <Image
+                      src="/images/ri_youtube-fill.svg"
+                      alt="Youtube"
+                      width={10}
+                      height={10}
+                      className={`w-10 h-10 transition-all duration-200 invert brightness-0`}
+                    />
                   )}
                 </button>
               </li>
               <li className="col-span-2">
                 <button
+                  disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingLinkedin(true);
                     onSocialNetworksConnect("linkedin");
@@ -134,9 +179,37 @@ export function SidebarNavigationMenu() {
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton"
                 >
                   {isLoadingLinkedin ? (
-                    <ReloadIcon className="text-white h-10 w-10 animate-spin" />
+                    <ReloadIcon className="text-white h-7 w-7 animate-spin" />
                   ) : (
-                    <Linkedin size="40" strokeWidth="0.5" color="#ffffff" fill="#ffffff" />
+                    <Image
+                      src="/images/ri_linkedin-fill.svg"
+                      alt="Linkedin"
+                      width={10}
+                      height={10}
+                      className={`w-10 h-10 transition-all duration-200 invert brightness-0`}
+                    />
+                  )}
+                </button>
+              </li>
+              <li className="col-span-1">
+                <button
+                  disabled={isDisabled}
+                  onClick={() => {
+                    setIsLoadingInstagram(true);
+                    onSocialNetworksConnect("instagram");
+                  }}
+                  className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl instagramButton"
+                >
+                  {isLoadingInstagram ? (
+                    <ReloadIcon className="text-white h-7 w-7 animate-spin" />
+                  ) : (
+                    <Image
+                      src="/images/ri_instagram-fill.svg"
+                      alt="Instagram"
+                      width={10}
+                      height={10}
+                      className={`w-10 h-10 transition-all duration-200 invert brightness-0`}
+                    />
                   )}
                 </button>
               </li>
@@ -160,7 +233,7 @@ export function SidebarNavigationMenu() {
   );
 }
 
-const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(({ className, title, children, ...props }, ref) => {
+const ListItem = forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
