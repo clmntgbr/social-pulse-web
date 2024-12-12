@@ -41,9 +41,15 @@ export function socialNetworksReducer(state: SocialNetworksState, action: Social
     case SocialNetworksAction.GET_SOCIAL_NETWORKS_ERROR:
     case SocialNetworksAction.GET_SOCIAL_NETWORKS_HTTP_INTERNAL_ERROR:
     case SocialNetworksAction.GET_SOCIAL_NETWORKS_NOT_FOUND:
+    case SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_ERROR:
+    case SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_HTTP_INTERNAL_ERROR:
+    case SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_NOT_FOUND:
     case SocialNetworksAction.GET_SOCIAL_NETWORKS_CONNECT_ERROR:
     case SocialNetworksAction.GET_SOCIAL_NETWORKS_CONNECT_HTTP_INTERNAL_ERROR:
-    case SocialNetworksAction.GET_SOCIAL_NETWORKS_CONNECT_NOT_FOUND: {
+    case SocialNetworksAction.GET_SOCIAL_NETWORKS_CONNECT_NOT_FOUND:
+    case SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_ERROR:
+    case SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_HTTP_INTERNAL_ERROR:
+    case SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_NOT_FOUND: {
       return {
         ...state,
         error: true,

@@ -17,7 +17,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { forwardRef, useState } from "react";
 import { ToastFail } from "../Toast";
 
@@ -58,7 +58,6 @@ export function SidebarNavigationMenu() {
   const locale = useCurrentLocale();
   const { data } = useSession();
   const router = useRouter();
-  const pathname = usePathname();
   const { socialNetworksDispatch } = useSocialNetworksContext();
   const [isLoadingTwitter, setIsLoadingTwitter] = useState(false);
   const [isLoadingFacebook, setIsLoadingFacebook] = useState(false);
@@ -73,7 +72,7 @@ export function SidebarNavigationMenu() {
     }
 
     setIsDisabled(true);
-    getSocialNetworksConnect(`${data?.accessToken}`, socialNetworksType, pathname, socialNetworksDispatch)
+    getSocialNetworksConnect(`${data?.accessToken}`, socialNetworksType, locale, socialNetworksDispatch)
       .then((response) => {
         setTimeout(() => {
           router.push(response?.url ?? "");

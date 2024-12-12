@@ -12,5 +12,6 @@ export enum ORGANIZATIONS {
 }
 export enum SOCIAL_NETWORKS {
   GET_SOCIAL_NETWORKS = "/social_networks",
+  POST_SOCIAL_NETWORKS_VALIDATE = "/social_networks/validate/{code}",
   GET_SOCIAL_NETWORKS_CONNECT = "/social_networks/{socialNetworksType}/connect?path={pathname}",
 }

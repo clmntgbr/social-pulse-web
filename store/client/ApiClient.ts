@@ -50,7 +50,23 @@ export default class ApiClient {
 
   public async getSocialNetworks(): Promise<AxiosResponse<any> | null> {
     try {
-      return await this.httpClient.get(SOCIAL_NETWORKS.GET_SOCIAL_NETWORKS);
+      return await this.httpClient.get(SOCIAL_NETWORKS.GET_SOCIAL_NETWORKS.concat("?status=active"));
+    } catch {
+      return null;
+    }
+  }
+
+  public async getSocialNetworksByCode(code: string): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.get(SOCIAL_NETWORKS.GET_SOCIAL_NETWORKS.concat("?validate=").concat(code).concat("&status=").concat("temporary"));
+    } catch {
+      return null;
+    }
+  }
+
+  public async postSocialNetworksValidate(code: string, body: string[]): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.post(SOCIAL_NETWORKS.POST_SOCIAL_NETWORKS_VALIDATE.replace("{code}", code), body);
     } catch {
       return null;
     }

@@ -20,6 +20,28 @@ export type GetSocialNetworksNotFoundAction = SetNotFoundErrorAction<SocialNetwo
 export type GetSocialNetworksHttpInternalErrorAction = SetHttpInternalServerErrorAction<SocialNetworksAction.GET_SOCIAL_NETWORKS_HTTP_INTERNAL_ERROR>;
 export type GetSocialNetworksErrorAction = SetErrorAction<SocialNetworksAction.GET_SOCIAL_NETWORKS_ERROR>;
 
+/// Get Social Networks by Code
+
+export type GetSocialNetworksByCodeSuccessAction = {
+  type: SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_SUCCESS;
+  payload: GetSocialNetworks;
+};
+export type GetSocialNetworksByCodeNotFoundAction = SetNotFoundErrorAction<SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_NOT_FOUND>;
+export type GetSocialNetworksByCodeHttpInternalErrorAction =
+  SetHttpInternalServerErrorAction<SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_HTTP_INTERNAL_ERROR>;
+export type GetSocialNetworksByCodeErrorAction = SetErrorAction<SocialNetworksAction.GET_SOCIAL_NETWORKS_BY_CODE_ERROR>;
+
+/// Post Social Networks Validate
+
+export type PostSocialNetworksValidateSuccessAction = {
+  type: SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_SUCCESS;
+  payload: GetSocialNetworks;
+};
+export type PostSocialNetworksValidateNotFoundAction = SetNotFoundErrorAction<SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_NOT_FOUND>;
+export type PostSocialNetworksValidateHttpInternalErrorAction =
+  SetHttpInternalServerErrorAction<SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_HTTP_INTERNAL_ERROR>;
+export type PostSocialNetworksValidateErrorAction = SetErrorAction<SocialNetworksAction.POST_SOCIAL_NETWORKS_VALIDATE_ERROR>;
+
 /// Get Social Networks Connect
 
 export type GetSocialNetworksConnectSuccessAction = {
@@ -38,6 +60,14 @@ export type SocialNetworksActionTypes =
   | GetSocialNetworksNotFoundAction
   | GetSocialNetworksHttpInternalErrorAction
   | GetSocialNetworksErrorAction
+  | GetSocialNetworksByCodeSuccessAction
+  | GetSocialNetworksByCodeNotFoundAction
+  | GetSocialNetworksByCodeHttpInternalErrorAction
+  | GetSocialNetworksByCodeErrorAction
+  | PostSocialNetworksValidateSuccessAction
+  | PostSocialNetworksValidateNotFoundAction
+  | PostSocialNetworksValidateHttpInternalErrorAction
+  | PostSocialNetworksValidateErrorAction
   | GetSocialNetworksConnectSuccessAction
   | GetSocialNetworksConnectNotFoundAction
   | GetSocialNetworksConnectHttpInternalErrorAction
