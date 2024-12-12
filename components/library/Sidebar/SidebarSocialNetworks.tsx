@@ -7,7 +7,6 @@ import Image from "next/image";
 
 export function SidebarSocialNetworks() {
   const { socialNetworks } = useSocialNetworksContext();
-  console.log(socialNetworks);
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">

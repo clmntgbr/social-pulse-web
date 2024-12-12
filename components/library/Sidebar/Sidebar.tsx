@@ -47,7 +47,7 @@ export function Sidebar({ children }: { children: ReactElement }) {
             </div>
           </header>
           <div className={`flex flex-1 flex-col gap-4 page-${pathname}`}>
-            <div className="flex-1 rounded-xl md:min-h-min p-8">{children}</div>
+            <div className="flex-1 rounded-xl md:min-h-min">{children}</div>
           </div>
         </SidebarInset>
       </SidebarProvider>

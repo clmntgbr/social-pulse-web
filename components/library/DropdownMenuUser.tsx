@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
+import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import useUserContext from "@/contexts/users/hooks";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
@@ -17,7 +17,6 @@ import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "
 import { useEffect, useState } from "react";
 
 export function DropdownMenuUser() {
-  const { isMobile } = useSidebar();
   const { user } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
 
