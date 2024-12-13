@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import MonthView from "./MonthView";
@@ -65,7 +66,9 @@ const Calendar: React.FC = () => {
     const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
-    const daysFromPrevMonth = firstDay.getDay();
+    let daysFromPrevMonth = firstDay.getDay() - 1;
+    if (daysFromPrevMonth === -1) daysFromPrevMonth = 6;
+
     for (let i = daysFromPrevMonth; i > 0; i--) {
       const date = new Date(firstDay);
       date.setDate(date.getDate() - i);
@@ -102,6 +105,11 @@ const Calendar: React.FC = () => {
     return days;
   };
 
+  const today = () => {
+    const today = new Date();
+    setCurrentDate(today);
+  };
+
   const navigate = (direction: "prev" | "next") => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + (direction === "next" ? 1 : -1));
@@ -114,16 +122,23 @@ const Calendar: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-center py-3">
-        <h1 className="text-3xl font-semibold text-gray-800">
-          <button onClick={() => navigate("prev")} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <ChevronLeft className="w-6 h-6 text-gray-600" />
-          </button>
-          {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-          <button onClick={() => navigate("next")} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <ChevronRight className="w-6 h-6 text-gray-600" />
-          </button>
-        </h1>
+      <div className="flex items-center justify-between py-3">
+        <Button variant="secondary" className="rounded-lg ml-3" onClick={() => today()}>
+          Today
+        </Button>
+
+        <div className="flex items-center">
+          <Button variant="secondary" className="rounded-none rounded-l-lg" onClick={() => navigate("prev")}>
+            <ChevronLeft className="text-gray-600" />
+          </Button>
+          <Button variant="secondary" className="rounded-none w-36">
+            {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+          </Button>
+          <Button variant="secondary" className="rounded-none rounded-r-lg" onClick={() => navigate("next")}>
+            <ChevronRight className="text-gray-600" />
+          </Button>
+        </div>
+        <div className="w-[72px]"></div>
       </div>
       <div className="bg-white overflow-hidden border flex-1">
         <>
