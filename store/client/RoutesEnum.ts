@@ -10,6 +10,9 @@ export enum ORGANIZATIONS {
   GET_ORGANIZATIONS = "/organizations",
   POST_ORGANIZATIONS = "/organizations",
 }
+export enum PUBLICATIONS {
+  GET_PUBLICATIONS = "/publications",
+}
 export enum SOCIAL_NETWORKS {
   GET_SOCIAL_NETWORKS = "/social_networks",
   POST_SOCIAL_NETWORKS_VALIDATE = "/social_networks/validate/{code}",

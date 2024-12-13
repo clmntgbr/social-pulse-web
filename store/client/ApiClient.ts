@@ -3,7 +3,7 @@ import { LoginCredentials } from "./interface/body/LoginCredentials";
 import { PostOrganizations } from "./interface/body/PostOgarnizations";
 import { GetSocialNetworksConnect } from "./interface/GetSocialNetworksConnect";
 import { GetToken } from "./interface/GetToken";
-import { ORGANIZATIONS, SOCIAL_NETWORKS, USERS } from "./RoutesEnum";
+import { ORGANIZATIONS, PUBLICATIONS, SOCIAL_NETWORKS, USERS } from "./RoutesEnum";
 
 export default class ApiClient {
   private httpClient: AxiosInstance;
@@ -101,6 +101,14 @@ export default class ApiClient {
   public async postOrganizations(body: PostOrganizations): Promise<AxiosResponse<any> | null> {
     try {
       return await this.httpClient.post(ORGANIZATIONS.POST_ORGANIZATIONS, body);
+    } catch {
+      return null;
+    }
+  }
+
+  public async getPublications(): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.get(PUBLICATIONS.GET_PUBLICATIONS);
     } catch {
       return null;
     }
