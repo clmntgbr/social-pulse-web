@@ -89,9 +89,9 @@ const Calendar: React.FC = () => {
       </div>
       <div className="bg-white overflow-hidden border flex-1">
         <>
-          <div className="grid grid-cols-7 bg-gray-100 h-[30px]">
+          <div className="grid grid-cols-7 bg-secondary h-[30px]">
             {weekDaysShort.map((day) => (
-              <div key={day} className="py-1 text-center text-gray-600 font-semibold border-b">
+              <div key={day} className="py-1 text-center text-gray-600 dark:text-white font-semibold border-b">
                 {day}
               </div>
             ))}

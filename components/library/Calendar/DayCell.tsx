@@ -1,6 +1,8 @@
 import { getStatusColorPublication } from "@/components/Calendar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCurrentLocale } from "@/locales/client";
+import { DateTime } from "luxon";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CalendarDay } from "./types/calendar";
@@ -19,6 +21,8 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
   const locale = useCurrentLocale();
 
   const openDialog = () => setOpen(true);
+
+  const dateFormat = DateTime.fromISO(day.date.toISOString(), { zone: "utc" }).setLocale("fr").toFormat("cccc d MMMM");
 
   return (
     <>
@@ -51,13 +55,17 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
                   router.push(`/${locale}/publications/${event.uuid}`);
                 }}
                 key={event.uuid}
-                className="flex z-50 items-center text-sm cursor-pointer px-1 py-0.5 rounded truncate text-white gap-1 brightness-95 saturate-80 opacity-80 dark:opacity-100"
-                style={{ backgroundColor: event.socialNetwork?.socialNetworkType?.color }}
+                className={`border flex z-50 items-center cursor-pointer text-sm px-1 py-0.5 rounded truncate text-ellipsis gap-1 ${getStatusColorPublication(
+                  event.status
+                )}`}
               >
-                <span
-                  className="h-2 w-2 rounded-full flex-shrink-0 border border-white"
-                  style={{ backgroundColor: getStatusColorPublication(event.status) }}
-                ></span>
+                <Image
+                  src={`/images/${event.socialNetwork.socialNetworkType.name}-logo.png`}
+                  alt={event.uuid}
+                  width={10}
+                  height={10}
+                  className="flex-shrink-0 w-4 h-4 rounded-sm object-cover overflow-hidden"
+                />
                 <span>
                   {hours}:{minutes} {event.content}
                 </span>
@@ -65,7 +73,7 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
             );
           })}
           {remainingEvents > 0 && (
-            <div className="text-sm px-1 py-0.5 rounded cursor-pointer bg-gray-200 text-gray-700 hover:bg-gray-200 transition-colors text-center">
+            <div className="text-sm px-1 py-0.5 rounded cursor-pointer bg-gray-200 dark:bg-gray-400 text-gray-700 hover:bg-gray-200 transition-colors text-center">
               +{remainingEvents} more
             </div>
           )}
@@ -73,9 +81,9 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="block">
+        <DialogContent className="block min-h-96">
           <DialogHeader>
-            <DialogTitle className="font-normal">{day.date.getDate()}</DialogTitle>
+            <DialogTitle className="font-normal py-3">{dateFormat}</DialogTitle>
           </DialogHeader>
           <div className="mt-2 space-y-1 w-full">
             {day.events.map((event) => {
@@ -89,13 +97,17 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
                     router.push(`/${locale}/publications/${event.uuid}`);
                   }}
                   key={event.uuid}
-                  className="flex z-50 items-center cursor-pointer text-sm px-1 py-0.5 rounded truncate text-ellipsis text-white gap-1 brightness-95 saturate-80 opacity-80 dark:opacity-100"
-                  style={{ backgroundColor: event.socialNetwork?.socialNetworkType?.color }}
+                  className={`border flex z-50 items-center cursor-pointer text-sm px-1 py-0.5 rounded truncate text-ellipsis gap-1 ${getStatusColorPublication(
+                    event.status
+                  )}`}
                 >
-                  <span
-                    className="h-2 w-2 rounded-full flex-shrink-0 border border-white"
-                    style={{ backgroundColor: getStatusColorPublication(event.status) }}
-                  ></span>
+                  <Image
+                    src={`/images/${event.socialNetwork.socialNetworkType.name}-logo.png`}
+                    alt={event.uuid}
+                    width={10}
+                    height={10}
+                    className="flex-shrink-0 w-4 h-4 rounded-sm object-cover overflow-hidden"
+                  />
                   <span>
                     {hours}:{minutes} {event.content}
                   </span>
