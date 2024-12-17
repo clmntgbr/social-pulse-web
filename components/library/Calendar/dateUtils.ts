@@ -3,8 +3,9 @@ export const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin"
 export const weekDays = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 export const weekDaysShort = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
-export const isSameDay = (date1: Date, date2: Date): boolean => {
-  return date1.getDate() === date2.getDate() && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
+export const isSameDay = (date1: string, date2: Date): boolean => {
+  const date = new Date(date1);
+  return date.getDate() === date2.getDate() && date.getMonth() === date2.getMonth() && date.getFullYear() === date2.getFullYear();
 };
 
 export const formatTime = (date: Date): string => {

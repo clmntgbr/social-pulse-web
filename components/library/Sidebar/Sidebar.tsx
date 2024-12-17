@@ -8,7 +8,7 @@ import { SidebarNavigationMenu } from "./SidebarNavigationMenu";
 
 export function Sidebar({ children }: { children: ReactElement }) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname().split("/")[2];
+  const pathname = usePathname().split("/")[2] ?? "home";
 
   useEffect(() => {
     if (!localStorage.getItem("sidebarOpen")) {
@@ -46,7 +46,7 @@ export function Sidebar({ children }: { children: ReactElement }) {
               <DropdownMenuUser />
             </div>
           </header>
-          <div className={`flex flex-1 flex-col gap-4 page-${pathname}`}>
+          <div className={`flex flex-1 flex-col gap-4 page-${pathname}`} style={{ height: "calc(100vh - 4rem)" }}>
             <div className="flex-1 rounded-xl md:min-h-min">{children}</div>
           </div>
         </SidebarInset>

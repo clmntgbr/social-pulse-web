@@ -1,17 +1,8 @@
-export type CalendarView = "month" | "week" | "day";
-
-export interface Event {
-  id: string;
-  title: string;
-  description?: string;
-  start: Date;
-  end: Date;
-  color?: string;
-}
+import { Publication } from "@/store/client/interface/publication";
 
 export interface CalendarDay {
   date: Date;
-  events: Event[];
+  events: Publication[];
   isToday: boolean;
   isCurrentMonth: boolean;
 }

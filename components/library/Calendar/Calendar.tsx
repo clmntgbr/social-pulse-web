@@ -1,63 +1,14 @@
 import { Button } from "@/components/ui/button";
+import usePublicationsContext from "@/contexts/publications/hooks";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import MonthView from "./MonthView";
 import { isSameDay, monthNames, weekDaysShort } from "./dateUtils";
-import { CalendarDay, Event } from "./types/calendar";
+import { CalendarDay } from "./types/calendar";
 
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  const [events] = useState<Event[]>([
-    {
-      id: "1",
-      title: "Team Meeting",
-      description: "Weekly sync with the development team",
-      start: new Date(2024, 11, 12, 10, 0), // December 14th, 10 AM
-      end: new Date(2024, 11, 12, 11, 30),
-      color: "bg-blue-100 text-blue-800",
-    },
-    {
-      id: "2",
-      title: "Lunch with Client",
-      description: "Business lunch with potential client",
-      start: new Date(2024, 11, 12, 12, 30), // December 14th, 12:30 PM
-      end: new Date(2024, 11, 12, 14, 0),
-      color: "bg-green-100 text-green-800",
-    },
-    {
-      id: "3",
-      title: "Project Deadline",
-      description: "Final submission for Q4 project",
-      start: new Date(2024, 11, 14, 16, 0), // December 14th, 4 PM
-      end: new Date(2024, 11, 14, 17, 0),
-      color: "bg-red-100 text-red-800",
-    },
-    {
-      id: "4",
-      title: "Holiday Party",
-      description: "Annual company holiday celebration",
-      start: new Date(2024, 11, 20, 18, 0),
-      end: new Date(2024, 11, 20, 22, 0),
-      color: "bg-purple-100 text-purple-800",
-    },
-    {
-      id: "5",
-      title: "Year-End Review",
-      description: "Annual performance review",
-      start: new Date(2024, 11, 18, 14, 0),
-      end: new Date(2024, 11, 18, 15, 0),
-      color: "bg-yellow-100 text-yellow-800",
-    },
-    {
-      id: "6",
-      title: "Training Session",
-      description: "New software training",
-      start: new Date(2024, 11, 15, 9, 0),
-      end: new Date(2024, 11, 15, 12, 0),
-      color: "bg-indigo-100 text-indigo-800",
-    },
-  ]);
+  const { publications } = usePublicationsContext();
 
   const generateDays = (): CalendarDay[] => {
     const days: CalendarDay[] = [];
@@ -74,8 +25,8 @@ const Calendar: React.FC = () => {
       date.setDate(date.getDate() - i);
       days.push({
         date,
-        events: events.filter((event) => isSameDay(event.start, date)),
-        isToday: isSameDay(date, today),
+        events: publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [],
+        isToday: isSameDay(date.toISOString(), today),
         isCurrentMonth: false,
       });
     }
@@ -84,8 +35,8 @@ const Calendar: React.FC = () => {
       const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
       days.push({
         date,
-        events: events.filter((event) => isSameDay(event.start, date)),
-        isToday: isSameDay(date, today),
+        events: publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [],
+        isToday: isSameDay(date.toISOString(), today),
         isCurrentMonth: true,
       });
     }
@@ -96,8 +47,8 @@ const Calendar: React.FC = () => {
       date.setDate(date.getDate() + i);
       days.push({
         date,
-        events: events.filter((event) => isSameDay(event.start, date)),
-        isToday: isSameDay(date, today),
+        events: publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [],
+        isToday: isSameDay(date.toISOString(), today),
         isCurrentMonth: false,
       });
     }
@@ -114,10 +65,6 @@ const Calendar: React.FC = () => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + (direction === "next" ? 1 : -1));
     setCurrentDate(newDate);
-  };
-
-  const handleDayClick = (date: Date) => {
-    setCurrentDate(date);
   };
 
   return (
@@ -142,14 +89,14 @@ const Calendar: React.FC = () => {
       </div>
       <div className="bg-white overflow-hidden border flex-1">
         <>
-          <div className="grid grid-cols-7 bg-gray-100">
+          <div className="grid grid-cols-7 bg-gray-100 h-[30px]">
             {weekDaysShort.map((day) => (
-              <div key={day} className="py-4 text-center text-gray-600 font-semibold border-b">
+              <div key={day} className="py-1 text-center text-gray-600 font-semibold border-b">
                 {day}
               </div>
             ))}
           </div>
-          <MonthView days={generateDays()} onDayClick={handleDayClick} />
+          <MonthView days={generateDays()} />
         </>
       </div>
     </div>

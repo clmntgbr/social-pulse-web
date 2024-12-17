@@ -4,14 +4,13 @@ import { CalendarDay } from "./types/calendar";
 
 interface MonthViewProps {
   days: CalendarDay[];
-  onDayClick: (date: Date) => void;
 }
 
-const MonthView: React.FC<MonthViewProps> = ({ days, onDayClick }) => {
+const MonthView: React.FC<MonthViewProps> = ({ days }) => {
   return (
-    <div className="grid grid-cols-7 gap-px bg-gray-200 h-full">
-      {days.map((day, index) => (
-        <DayCell key={index} day={day} onClick={() => onDayClick(day.date)} />
+    <div className="grid grid-cols-7 divide-x divide-y [&>*]:border-[hsl(var(--border))]" style={{ height: "calc(100% - 30px)" }}>
+      {days.map((day) => (
+        <DayCell key={crypto.randomUUID()} day={day} />
       ))}
     </div>
   );

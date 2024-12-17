@@ -1,7 +1,6 @@
 export type SocialNetwork = {
   uuid: string;
   socialNetworkId: string;
-  socialNetworkType: string;
   avatarUrl: string;
   username: string;
   createdAt: string;
@@ -16,6 +15,7 @@ export type SocialNetwork = {
   token: string;
   organization: string;
   verified: boolean;
+  socialNetworkType: SocialNetworkType;
 } & Partial<LinkedinSocialNetwork> &
   Partial<FacebookSocialNetwork>;
 

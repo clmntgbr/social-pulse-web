@@ -29,7 +29,7 @@ export function SidebarSocialNetworks() {
                   className="flex-shrink-0 w-7 h-7 rounded-full object-cover overflow-hidden"
                 />
                 <Image
-                  src={`/images/${item.socialNetworkType}-logo.png`}
+                  src={`/images/${item.socialNetworkType.name}-logo.png`}
                   alt={item.username}
                   width={10}
                   height={10}

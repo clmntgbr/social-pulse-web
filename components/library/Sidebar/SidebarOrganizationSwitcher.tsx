@@ -9,12 +9,14 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import useOrganizationsContext from "@/contexts/organizations/hooks";
+import usePublicationsContext from "@/contexts/publications/hooks";
 import useSocialNetworksContext from "@/contexts/social-networks/hooks";
 import useUserContext from "@/contexts/users/hooks";
 import { cn } from "@/lib/utils";
 import { imageBase64 } from "@/public/imageBase64";
 import { Organization } from "@/store/client/interface/organization";
 import { postOrganizations } from "@/store/organizations/postOrganizations";
+import { getPublications } from "@/store/publications/getOrganizations";
 import { getSocialNetworks } from "@/store/social-networks/getSocialNetworks";
 import { patchUserActiveOrganization } from "@/store/users/patchUserActiveOrganization";
 import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
@@ -30,6 +32,7 @@ export default function SidebarOrganizationSwitcher() {
   const { userDispatch } = useUserContext();
   const { organizations, organizationsDispatch } = useOrganizationsContext();
   const { socialNetworks, socialNetworksDispatch } = useSocialNetworksContext();
+  const { publicationsDispatch } = usePublicationsContext();
   const [open, setOpen] = useState(false);
   const { data } = useSession();
   const [file64, setFile64] = useState<string>(imageBase64);
@@ -96,15 +99,13 @@ export default function SidebarOrganizationSwitcher() {
     patchUserActiveOrganization(`${data?.accessToken}`, organization.uuid, userDispatch)
       .then(() => {
         getSocialNetworks(`${data?.accessToken}`, socialNetworksDispatch);
+        getPublications(`${data?.accessToken}`, publicationsDispatch);
       })
       .catch(() => {
         ToastFail("Something went wrong.", "There was a problem with your request.");
       });
 
     setSelectedOrganization(organization);
-    getSocialNetworks(`${data?.accessToken}`, socialNetworksDispatch)
-      .then(() => {})
-      .catch(() => {});
   };
 
   const convertToBase64 = (file: File) => {

@@ -57,7 +57,7 @@ export function SocialNetworksValidateCard({ account, checked, onCheckChange }: 
         </div>
         <div className="space-y-1">
           <div className="font-medium">{account.name}</div>
-          <div className="text-sm text-muted-foreground">{Capitalize(account.socialNetworkType)}</div>
+          <div className="text-sm text-muted-foreground">{Capitalize(account.socialNetworkType.name)}</div>
         </div>
       </div>
       <Checkbox checked={checked} className={cn("h-5 w-5 transition-opacity")} onCheckedChange={onCheckChange} onClick={(e) => e.stopPropagation()} />
