@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import usePublicationsContext from "@/contexts/publications/hooks";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
+import { CalendarDay } from "../../types/calendar";
+import CreatePublication from "../Publications/DialogPublications";
 import MonthView from "./MonthView";
 import { isSameDay, monthNames, weekDaysShort } from "./dateUtils";
-import { CalendarDay } from "./types/calendar";
 
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { publications } = usePublicationsContext();
+  const [open, setOpen] = useState(false);
 
   const generateDays = (): CalendarDay[] => {
     const days: CalendarDay[] = [];
@@ -61,6 +64,10 @@ const Calendar: React.FC = () => {
     setCurrentDate(today);
   };
 
+  const onCreatePublication = () => {
+    setOpen(true);
+  };
+
   const navigate = (direction: "prev" | "next") => {
     const newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + (direction === "next" ? 1 : -1));
@@ -69,12 +76,13 @@ const Calendar: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between py-3">
-        <Button variant="secondary" className="rounded-lg ml-3" onClick={() => today()}>
-          Today
-        </Button>
-
-        <div className="flex items-center">
+      <div className="flex items-center justify-between p-3">
+        <div>
+          <Button variant="secondary" className="rounded-lg" onClick={() => today()}>
+            Today
+          </Button>
+        </div>
+        <div className="flex items-center mx-auto">
           <Button variant="secondary" className="rounded-none rounded-l-lg" onClick={() => navigate("prev")}>
             <ChevronLeft className="text-gray-600" />
           </Button>
@@ -85,7 +93,11 @@ const Calendar: React.FC = () => {
             <ChevronRight className="text-gray-600" />
           </Button>
         </div>
-        <div className="w-[72px]"></div>
+        <div>
+          <Button className="rounded-lg" onClick={() => onCreatePublication()}>
+            Create a publication
+          </Button>
+        </div>
       </div>
       <div className="bg-white overflow-hidden border flex-1">
         <>
@@ -99,6 +111,16 @@ const Calendar: React.FC = () => {
           <MonthView days={generateDays()} />
         </>
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="w-[100vw] h-[100vh] max-w-[100vw] max-h-[100vh] sm:rounded-none rounded-none">
+          <DialogHeader className="hidden">
+            <DialogTitle className="hidden">Create your publication</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+          <CreatePublication onCancel={() => setOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

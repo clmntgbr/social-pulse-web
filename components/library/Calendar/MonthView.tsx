@@ -1,6 +1,6 @@
 import React from "react";
+import { CalendarDay } from "../../types/calendar";
 import DayCell from "./DayCell";
-import { CalendarDay } from "./types/calendar";
 
 interface MonthViewProps {
   days: CalendarDay[];

@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { CalendarDay } from "./types/calendar";
+import { CalendarDay } from "../../types/calendar";
 
 interface DayCellProps {
   day: CalendarDay;
@@ -60,7 +60,7 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
                 )}`}
               >
                 <Image
-                  src={`/images/${event.socialNetwork.socialNetworkType.name}-logo.png`}
+                  src={`/images/${event.socialNetwork?.socialNetworkType.name}-logo.png`}
                   alt={event.uuid}
                   width={10}
                   height={10}
@@ -81,7 +81,7 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="block min-h-96">
+        <DialogContent className="block w-[50vw] max-w-[50vw]">
           <DialogHeader>
             <DialogTitle className="font-normal py-3">{dateFormat}</DialogTitle>
           </DialogHeader>
@@ -97,12 +97,12 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
                     router.push(`/${locale}/publications/${event.uuid}`);
                   }}
                   key={event.uuid}
-                  className={`border flex z-50 items-center cursor-pointer text-sm px-1 py-0.5 rounded truncate text-ellipsis gap-1 ${getStatusColorPublication(
+                  className={`border flex z-50 py-2 items-center cursor-pointer text-sm px-1 rounded truncate text-ellipsis gap-1 ${getStatusColorPublication(
                     event.status
                   )}`}
                 >
                   <Image
-                    src={`/images/${event.socialNetwork.socialNetworkType.name}-logo.png`}
+                    src={`/images/${event.socialNetwork?.socialNetworkType.name}-logo.png`}
                     alt={event.uuid}
                     width={10}
                     height={10}
