@@ -1,69 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  calendarFilterPublicationsStatusOptions,
+  calendarFilterSocialNetworksOptions,
+  calendarMonthNames,
+  calendarWeekDaysShort,
+} from "@/Composables/Calendar";
 import usePublicationsContext from "@/contexts/publications/hooks";
+import { Publication } from "@/store/client/interface/publication";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CalendarDay } from "../../types/calendar";
 import CreatePublication from "../Publications/DialogPublications";
+import { CalendarFilter } from "./CalendarFilter";
 import CalendarMonthView from "./CalendarMonthView";
-
-const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-const weekDaysShort = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { publications } = usePublicationsContext();
   const [open, setOpen] = useState(false);
+  const [days, setDays] = useState<CalendarDay[]>([]);
+  const [filterSocialNetworks, setFilterSocialNetworks] = useState<string[]>([]);
+  const [filterPublicationsStatus, setFilterPublicationsStatus] = useState<string[]>([]);
 
-  const generateDays = (): CalendarDay[] => {
-    const days: CalendarDay[] = [];
-    const today = new Date();
+  const handleFilterSocialNetworks = (values: string[]) => {
+    setFilterSocialNetworks(values);
+  };
 
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
-    let daysFromPrevMonth = firstDay.getDay() - 1;
-    if (daysFromPrevMonth === -1) daysFromPrevMonth = 6;
-
-    const isSameDay = (date1: string, date2: Date): boolean => {
-      const date = new Date(date1);
-      return date.getDate() === date2.getDate() && date.getMonth() === date2.getMonth() && date.getFullYear() === date2.getFullYear();
-    };
-
-    for (let i = daysFromPrevMonth; i > 0; i--) {
-      const date = new Date(firstDay);
-      date.setDate(date.getDate() - i);
-      days.push({
-        date,
-        events: publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [],
-        isToday: isSameDay(date.toISOString(), today),
-        isCurrentMonth: false,
-      });
-    }
-
-    for (let i = 1; i <= lastDay.getDate(); i++) {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
-      days.push({
-        date,
-        events: publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [],
-        isToday: isSameDay(date.toISOString(), today),
-        isCurrentMonth: true,
-      });
-    }
-
-    const remainingDays = 42 - days.length;
-    for (let i = 1; i <= remainingDays; i++) {
-      const date = new Date(lastDay);
-      date.setDate(date.getDate() + i);
-      days.push({
-        date,
-        events: publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [],
-        isToday: isSameDay(date.toISOString(), today),
-        isCurrentMonth: false,
-      });
-    }
-
-    return days;
+  const handleFilterPublicationsStatus = (values: string[]) => {
+    setFilterPublicationsStatus(values);
   };
 
   const today = () => {
@@ -81,26 +46,100 @@ const Calendar: React.FC = () => {
     setCurrentDate(newDate);
   };
 
+  const generateDays = useCallback((): CalendarDay[] => {
+    const days: CalendarDay[] = [];
+    const today = new Date();
+
+    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    let daysFromPrevMonth = firstDay.getDay() - 1;
+    if (daysFromPrevMonth === -1) daysFromPrevMonth = 6;
+
+    const isSameDay = (date1: string, date2: Date): boolean => {
+      const date = new Date(date1);
+      return date.getDate() === date2.getDate() && date.getMonth() === date2.getMonth() && date.getFullYear() === date2.getFullYear();
+    };
+
+    const filterEvents = (events: Publication[]) => {
+      return events.filter((event) => {
+        const matchesSocialNetwork =
+          filterSocialNetworks.length === 0 || filterSocialNetworks.includes(event.socialNetwork?.socialNetworkType.name ?? "");
+
+        const matchesStatus = filterPublicationsStatus.length === 0 || filterPublicationsStatus.includes(event.status);
+
+        return matchesSocialNetwork && matchesStatus;
+      });
+    };
+
+    for (let i = daysFromPrevMonth; i > 0; i--) {
+      const date = new Date(firstDay);
+      date.setDate(date.getDate() - i);
+      const dateEvents = publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [];
+
+      days.push({
+        date,
+        events: filterEvents(dateEvents),
+        isToday: isSameDay(date.toISOString(), today),
+        isCurrentMonth: false,
+      });
+    }
+
+    for (let i = 1; i <= lastDay.getDate(); i++) {
+      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+      const dateEvents = publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [];
+
+      days.push({
+        date,
+        events: filterEvents(dateEvents),
+        isToday: isSameDay(date.toISOString(), today),
+        isCurrentMonth: true,
+      });
+    }
+
+    const remainingDays = 42 - days.length;
+    for (let i = 1; i <= remainingDays; i++) {
+      const date = new Date(lastDay);
+      date.setDate(date.getDate() + i);
+      const dateEvents = publications.publications?.filter((event) => isSameDay(event.publishedAt, date)) ?? [];
+
+      days.push({
+        date,
+        events: filterEvents(dateEvents),
+        isToday: isSameDay(date.toISOString(), today),
+        isCurrentMonth: false,
+      });
+    }
+
+    return days;
+  }, [currentDate, publications.publications, filterSocialNetworks, filterPublicationsStatus]);
+
+  useEffect(() => {
+    setDays(generateDays());
+  }, [generateDays]);
+
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-3">
-        <div>
+      <div className="grid grid-cols-3 items-center p-3 gap-4">
+        <div className="flex items-center gap-3">
           <Button variant="secondary" className="rounded-lg" onClick={() => today()}>
             Today
           </Button>
+          <CalendarFilter options={calendarFilterSocialNetworksOptions} title="Social Network" onChange={handleFilterSocialNetworks} />
+          <CalendarFilter options={calendarFilterPublicationsStatusOptions} title="Status" onChange={handleFilterPublicationsStatus} />
         </div>
-        <div className="flex items-center mx-auto">
+        <div className="flex items-center justify-center">
           <Button variant="secondary" className="rounded-none rounded-l-lg" onClick={() => navigate("prev")}>
             <ChevronLeft className="text-gray-600" />
           </Button>
           <Button variant="secondary" className="rounded-none w-36">
-            {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+            {calendarMonthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </Button>
           <Button variant="secondary" className="rounded-none rounded-r-lg" onClick={() => navigate("next")}>
             <ChevronRight className="text-gray-600" />
           </Button>
         </div>
-        <div>
+        <div className="flex justify-end">
           <Button className="rounded-lg" onClick={() => onCreatePublication()}>
             Create a publication
           </Button>
@@ -109,13 +148,13 @@ const Calendar: React.FC = () => {
       <div className="bg-white overflow-hidden border flex-1">
         <>
           <div className="grid grid-cols-7 bg-secondary h-[30px]">
-            {weekDaysShort.map((day) => (
+            {calendarWeekDaysShort.map((day) => (
               <div key={day} className="py-1 text-center text-gray-600 dark:text-white font-semibold border-b">
                 {day}
               </div>
             ))}
           </div>
-          <CalendarMonthView days={generateDays()} />
+          <CalendarMonthView days={days} />
         </>
       </div>
 
