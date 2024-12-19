@@ -5,7 +5,7 @@ import {
   calendarFilterSocialNetworksOptions,
   calendarMonthNames,
   calendarWeekDaysShort,
-} from "@/Composables/Calendar";
+} from "@/composables/Calendar";
 import usePublicationsContext from "@/contexts/publications/hooks";
 import { Publication } from "@/store/client/interface/publication";
 import { ChevronLeft, ChevronRight } from "lucide-react";

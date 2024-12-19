@@ -11,6 +11,7 @@ import * as Yup from "yup";
 
 export default function Page() {
   console.log(`${process.env.NEXT_PUBLIC_API_URL}api`);
+  console.log(`${process.env.PUBLIC_API_URL}api`);
   const locale = useCurrentLocale();
 
   const formik = useFormik({
