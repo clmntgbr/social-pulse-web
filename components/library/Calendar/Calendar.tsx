@@ -5,8 +5,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import { CalendarDay } from "../../types/calendar";
 import CreatePublication from "../Publications/DialogPublications";
-import MonthView from "./MonthView";
-import { isSameDay, monthNames, weekDaysShort } from "./dateUtils";
+import CalendarMonthView from "./CalendarMonthView";
+
+const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+const weekDaysShort = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -22,6 +24,11 @@ const Calendar: React.FC = () => {
 
     let daysFromPrevMonth = firstDay.getDay() - 1;
     if (daysFromPrevMonth === -1) daysFromPrevMonth = 6;
+
+    const isSameDay = (date1: string, date2: Date): boolean => {
+      const date = new Date(date1);
+      return date.getDate() === date2.getDate() && date.getMonth() === date2.getMonth() && date.getFullYear() === date2.getFullYear();
+    };
 
     for (let i = daysFromPrevMonth; i > 0; i--) {
       const date = new Date(firstDay);
@@ -108,12 +115,12 @@ const Calendar: React.FC = () => {
               </div>
             ))}
           </div>
-          <MonthView days={generateDays()} />
+          <CalendarMonthView days={generateDays()} />
         </>
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="w-[100vw] h-[100vh] max-w-[100vw] max-h-[100vh] sm:rounded-none rounded-none">
+        <DialogContent className="w-[100vw] h-[100vh] max-w-[100vw] max-h-[100vh] sm:rounded-none rounded-none shadow-none">
           <DialogHeader className="hidden">
             <DialogTitle className="hidden">Create your publication</DialogTitle>
             <DialogDescription></DialogDescription>

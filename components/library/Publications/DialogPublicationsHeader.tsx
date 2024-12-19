@@ -26,8 +26,8 @@ export function DialogPublicationsHeader({ onSelectSocialNetwork }: DialogPublic
             <Image
               src={`${item.avatarUrl}`}
               alt={item.username}
-              width={150}
-              height={150}
+              width={10}
+              height={10}
               className={`flex-shrink-0 w-14 h-14 rounded-full object-cover overflow-hidden border-4 border-white ${
                 selectedSocialNetwork?.uuid === item.uuid ? "border-blue-400" : ""
               }`}
@@ -35,9 +35,10 @@ export function DialogPublicationsHeader({ onSelectSocialNetwork }: DialogPublic
             <Image
               src={`/images/${item.socialNetworkType.name}-logo.png`}
               alt={item.username}
-              width={50}
-              height={50}
-              className="absolute -bottom-[5px] left-[30px] flex-shrink-0 w-6 h-6 object-cover overflow-hidden border-white border-4 rounded-full"
+              width={20}
+              quality={100}
+              height={20}
+              className="flex-shrink-0 w-6 h-6 object-cover absolute -bottom-[5px] left-[30px] overflow-hidden border-white border-4 rounded-full"
             />
           </div>
         ))}

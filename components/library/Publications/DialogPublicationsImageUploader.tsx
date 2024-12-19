@@ -6,14 +6,15 @@ interface DialogPublicationsImageUploaderProps {
 }
 
 export function DialogPublicationsImageUploader({ onImageUpload, isDisabled }: DialogPublicationsImageUploaderProps) {
+  console.log(isDisabled);
   return (
-    <div className="mb-4 absolute ml-2 mt-2 flex gap-2">
+    <div className={`mb-4 absolute ml-2 mt-2 flex gap-2`}>
       <>
         <label
           htmlFor="image-upload"
           className={`${
-            isDisabled ? "cursor-not-allowed " : ""
-          }flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg cursor-pointer w-fit transition-colors`}
+            isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+          } flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg w-fit transition-colors`}
         >
           <ImagePlus size={20} />
         </label>

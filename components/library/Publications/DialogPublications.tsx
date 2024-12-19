@@ -48,7 +48,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                     }`}
                     value={text}
                     disabled={!publication.socialNetwork}
-                    placeholder="Start writing"
+                    placeholder="type here ..."
                     onChange={(e) => setText(e.target.value)}
                   />
                 </div>

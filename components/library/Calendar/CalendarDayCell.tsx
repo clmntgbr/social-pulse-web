@@ -13,7 +13,7 @@ interface DayCellProps {
 
 const MAX_EVENTS = 2;
 
-const DayCell: React.FC<DayCellProps> = ({ day }) => {
+const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
   const visibleEvents = day.events.slice(0, MAX_EVENTS);
   const remainingEvents = day.events.length - MAX_EVENTS;
   const [open, setOpen] = useState(false);
@@ -121,4 +121,4 @@ const DayCell: React.FC<DayCellProps> = ({ day }) => {
   );
 };
 
-export default DayCell;
+export default CalendarDayCell;
