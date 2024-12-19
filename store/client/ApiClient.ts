@@ -17,6 +17,8 @@ export default class ApiClient {
       headers.Authorization = `Bearer ${token}`;
     }
 
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}api`);
+
     this.httpClient = axios.create({
       baseURL: `${process.env.NEXT_PUBLIC_API_URL}api`,
       timeout: 30000,
