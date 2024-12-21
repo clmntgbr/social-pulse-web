@@ -52,7 +52,7 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
               <div
                 onClick={(e) => {
                   e.stopPropagation();
-                  router.push(`/${locale}/publications/${event.uuid}`);
+                  router.push(`/${locale}/publications/${event.threadUuid}`);
                 }}
                 key={event.uuid}
                 className={`border flex z-50 items-center cursor-pointer text-sm px-1 py-0.5 rounded truncate text-ellipsis gap-1 ${getStatusColorPublication(
@@ -94,7 +94,7 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
-                    router.push(`/${locale}/publications/${event.uuid}`);
+                    router.push(`/${locale}/publications/${event.threadUuid}`);
                   }}
                   key={event.uuid}
                   className={`border flex z-50 py-2 items-center cursor-pointer text-sm px-1 rounded truncate text-ellipsis gap-1 ${getStatusColorPublication(

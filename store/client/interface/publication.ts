@@ -14,14 +14,14 @@ export interface Publication {
   pictures: string[];
 }
 
-export function initializePublication(index: number): Publication {
+export function initializePublication(index: number, threadType: string | null): Publication {
   return {
     uuid: crypto.randomUUID(),
     id: index,
     publicationType: null,
     publicationId: null,
     threadUuid: null,
-    threadType: "primary",
+    threadType: threadType ?? "primary",
     publishedAt: new Date().toISOString(),
     content: "",
     status: "draft",
@@ -31,7 +31,7 @@ export function initializePublication(index: number): Publication {
 }
 
 export function initializeCreatePublication(): CreatePublication {
-  const publication = initializePublication(1);
+  const publication = initializePublication(1, null);
   return {
     socialNetwork: null,
     publications: [publication],

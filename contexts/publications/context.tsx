@@ -1,6 +1,6 @@
 "use client";
 
-import { getPublications } from "@/store/publications/getOrganizations";
+import { getPublications } from "@/store/publications/getPublications";
 import { useSession } from "next-auth/react";
 import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
 import { initialPublicationsState, publicationsReducer, PublicationsState } from "./reducer";

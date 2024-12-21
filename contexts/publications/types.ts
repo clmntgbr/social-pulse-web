@@ -1,3 +1,4 @@
+import { GetPublication } from "@/store/client/interface/GetPublication";
 import { GetPublications } from "@/store/client/interface/GetPublications";
 import { SetErrorAction, SetHttpInternalServerErrorAction, SetNotFoundErrorAction } from "../ActionErrorTypes";
 import { PublicationsAction } from "./actions";
@@ -19,6 +20,16 @@ export type GetPublicationsNotFoundAction = SetNotFoundErrorAction<PublicationsA
 export type GetPublicationsHttpInternalErrorAction = SetHttpInternalServerErrorAction<PublicationsAction.GET_PUBLICATIONS_HTTP_INTERNAL_ERROR>;
 export type GetPublicationsErrorAction = SetErrorAction<PublicationsAction.GET_PUBLICATIONS_ERROR>;
 
+/// Get Publication
+
+export type GetPublicationSuccessAction = {
+  type: PublicationsAction.GET_PUBLICATION_SUCCESS;
+  payload: GetPublication;
+};
+export type GetPublicationNotFoundAction = SetNotFoundErrorAction<PublicationsAction.GET_PUBLICATION_NOT_FOUND>;
+export type GetPublicationHttpInternalErrorAction = SetHttpInternalServerErrorAction<PublicationsAction.GET_PUBLICATION_HTTP_INTERNAL_ERROR>;
+export type GetPublicationErrorAction = SetErrorAction<PublicationsAction.GET_PUBLICATION_ERROR>;
+
 /// Post Publications
 
 export type PostPublicationsSuccessAction = {
@@ -36,6 +47,10 @@ export type PublicationsActionTypes =
   | GetPublicationsNotFoundAction
   | GetPublicationsHttpInternalErrorAction
   | GetPublicationsErrorAction
+  | GetPublicationSuccessAction
+  | GetPublicationNotFoundAction
+  | GetPublicationHttpInternalErrorAction
+  | GetPublicationErrorAction
   | PostPublicationsSuccessAction
   | PostPublicationsNotFoundAction
   | PostPublicationsHttpInternalErrorAction

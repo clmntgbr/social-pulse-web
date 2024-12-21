@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { convertFileToBase64 } from "@/composables/ConvertFileToBase64";
 import usePublicationsContext from "@/contexts/publications/hooks";
 import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
-import { CreatePublication, initializeCreatePublication, initializePublication } from "@/store/client/interface/publication";
+import { CreatePublication, initializeCreatePublication, initializePublication, Publication } from "@/store/client/interface/publication";
 import { SocialNetwork } from "@/store/client/interface/social-network";
 import { postPublications } from "@/store/publications/postPublications";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -48,7 +48,14 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   const handleAddThread = () => {
     setCreatePublication({
       ...createPublication,
-      publications: [...createPublication.publications, initializePublication(createPublication.publications.length + 1)],
+      publications: [
+        ...createPublication.publications,
+        {
+          ...initializePublication(createPublication.publications.length + 1, "secondary"),
+          socialNetwork: createPublication.socialNetwork,
+          publicationType: createPublication.socialNetwork?.socialNetworkType.name || null,
+        },
+      ],
     });
   };
 
@@ -70,6 +77,13 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     });
   };
 
+  const handlePublicationSelect = (selectedPublication: Publication) => {
+    setCreatePublication({
+      ...createPublication,
+      selected: selectedPublication,
+    });
+  };
+
   const handleSocialNetworkSelect = (selectedSocialNetwork: SocialNetwork) => {
     setCreatePublication({
       ...createPublication,
@@ -79,11 +93,11 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
         publicationType: selectedSocialNetwork.socialNetworkType.name,
         socialNetwork: selectedSocialNetwork,
       },
-      publications: createPublication.publications.map((pub) =>
-        pub.uuid === createPublication.selected.uuid
-          ? { ...pub, socialNetwork: selectedSocialNetwork, publicationType: selectedSocialNetwork.socialNetworkType.name }
-          : pub
-      ),
+      publications: createPublication.publications.map((pub) => ({
+        ...pub,
+        socialNetwork: selectedSocialNetwork,
+        publicationType: selectedSocialNetwork.socialNetworkType.name,
+      })),
     });
   };
 
@@ -112,17 +126,25 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   };
 
   const handleValidate = async () => {
+    const date = new Date().toISOString();
+
     setIsLoading(true);
+    setCreatePublication({
+      ...createPublication,
+      selected: {
+        ...createPublication.selected,
+        publishedAt: new Date().toISOString(),
+      },
+      publications: createPublication.publications.map((pub) => ({
+        ...pub,
+        publishedAt: date,
+      })),
+    });
 
-    let publications = createPublication.publications;
-
-    if (createPublication.socialNetwork?.socialNetworkType.name !== SocialNetworkTypeEnum.TWITTER) {
-      publications = [createPublication.publications[0]];
-    }
-
-    postPublications(`${data?.accessToken}`, publications, publicationsDispatch)
+    postPublications(`${data?.accessToken}`, createPublication.publications, publicationsDispatch)
       .then(() => {
         setTimeout(() => {
+          console.log("success");
           setIsLoading(false);
           ToastSuccess();
           onCancel();
@@ -130,6 +152,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
       })
       .catch(() => {
         setTimeout(() => {
+          console.log("error");
           setIsLoading(false);
           ToastFail();
         }, 2000);
@@ -148,11 +171,9 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                   <div className="mb-4 absolute ml-2 mt-2 flex gap-2">
                     <DialogPublicationsImageUploader onImageUpload={handleImageUpload} isDisabled={!createPublication.socialNetwork} />
                     <EmojiPicker onEmojiSelect={handleEmojiSelect} isDisabled={!createPublication.socialNetwork} />
-                    {createPublication.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER && (
-                      <Button variant="secondary" onClick={handleAddThread}>
-                        Add a thread
-                      </Button>
-                    )}
+                    <Button variant="secondary" onClick={handleAddThread}>
+                      Add a {createPublication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
+                    </Button>
                   </div>
                   <textarea
                     className={`w-full h-full pt-14 p-4 border rounded-lg resize-none focus:outline-none focus:ring-0 ${
@@ -172,7 +193,11 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
           </div>
 
           <div className="w-1/2 bg-gray-100 rounded-lg p-4 overflow-y-auto custom-scrollbar">
-            <PublicationsPreview publications={createPublication.publications} socialNetwork={createPublication.socialNetwork} />
+            <PublicationsPreview
+              publications={createPublication.publications}
+              socialNetwork={createPublication.socialNetwork}
+              onSelect={handlePublicationSelect}
+            />
           </div>
         </div>
 

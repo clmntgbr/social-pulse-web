@@ -7,11 +7,12 @@ import LinkedinImage from "./LinkedinImage";
 
 interface LinkedinViewProps {
   publication: Publication;
+  onSelect: (publication: Publication) => void;
 }
 
-export default function LinkedinView({ publication }: LinkedinViewProps) {
+export default function LinkedinView({ publication, onSelect }: LinkedinViewProps) {
   return (
-    <Card className="shadow-none relative text-wrap w-[500px]">
+    <Card className="shadow-none relative text-wrap w-[500px]" onClick={() => onSelect(publication)}>
       <CardContent className="p-6 px-0">
         <div className="flex items-start gap-3 group px-6">
           <div className="font-semibold">

@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { imageBase64 } from "@/public/imageBase64";
 import { Organization } from "@/store/client/interface/organization";
 import { postOrganizations } from "@/store/organizations/postOrganizations";
-import { getPublications } from "@/store/publications/getOrganizations";
+import { getPublications } from "@/store/publications/getPublications";
 import { getSocialNetworks } from "@/store/social-networks/getSocialNetworks";
 import { patchUserActiveOrganization } from "@/store/users/patchUserActiveOrganization";
 import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
