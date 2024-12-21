@@ -10,6 +10,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import useSocialNetworksContext from "@/contexts/social-networks/hooks";
+import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
 import { cn } from "@/lib/utils";
 import { useCurrentLocale } from "@/locales/client";
 import { getSocialNetworksConnect } from "@/store/social-networks/getSocialNetworksConnect";
@@ -107,7 +108,7 @@ export function SidebarNavigationMenu() {
                   disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingFacebook(true);
-                    onSocialNetworksConnect("facebook");
+                    onSocialNetworksConnect(SocialNetworkTypeEnum.FACEBOOK);
                   }}
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl facebookButton"
                 >
@@ -129,7 +130,7 @@ export function SidebarNavigationMenu() {
                   disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingTwitter(true);
-                    onSocialNetworksConnect("twitter");
+                    onSocialNetworksConnect(SocialNetworkTypeEnum.TWITTER);
                   }}
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl twitterButton"
                 >
@@ -151,7 +152,7 @@ export function SidebarNavigationMenu() {
                   disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingYoutube(true);
-                    onSocialNetworksConnect("youtube");
+                    onSocialNetworksConnect(SocialNetworkTypeEnum.YOUTUBE);
                   }}
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl youtubeButton"
                 >
@@ -173,7 +174,7 @@ export function SidebarNavigationMenu() {
                   disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingLinkedin(true);
-                    onSocialNetworksConnect("linkedin");
+                    onSocialNetworksConnect(SocialNetworkTypeEnum.LINKEDIN);
                   }}
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl linkedinButton"
                 >
@@ -195,7 +196,7 @@ export function SidebarNavigationMenu() {
                   disabled={isDisabled}
                   onClick={() => {
                     setIsLoadingInstagram(true);
-                    onSocialNetworksConnect("instagram");
+                    onSocialNetworksConnect(SocialNetworkTypeEnum.INSTAGRAM);
                   }}
                   className="flex h-full w-full select-none flex-col justify-center items-center rounded-xl instagramButton"
                 >

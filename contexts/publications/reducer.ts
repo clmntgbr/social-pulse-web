@@ -31,7 +31,8 @@ export function publicationsReducer(state: PublicationsState, action: Publicatio
       };
     }
 
-    case PublicationsAction.GET_PUBLICATIONS_SUCCESS: {
+    case PublicationsAction.GET_PUBLICATIONS_SUCCESS:
+    case PublicationsAction.POST_PUBLICATIONS_SUCCESS: {
       return {
         ...state,
         publications: action.payload,
@@ -40,7 +41,10 @@ export function publicationsReducer(state: PublicationsState, action: Publicatio
 
     case PublicationsAction.GET_PUBLICATIONS_ERROR:
     case PublicationsAction.GET_PUBLICATIONS_HTTP_INTERNAL_ERROR:
-    case PublicationsAction.GET_PUBLICATIONS_NOT_FOUND: {
+    case PublicationsAction.GET_PUBLICATIONS_NOT_FOUND:
+    case PublicationsAction.POST_PUBLICATIONS_ERROR:
+    case PublicationsAction.POST_PUBLICATIONS_HTTP_INTERNAL_ERROR:
+    case PublicationsAction.POST_PUBLICATIONS_NOT_FOUND: {
       return {
         ...state,
         error: true,

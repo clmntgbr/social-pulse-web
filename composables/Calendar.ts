@@ -1,23 +1,26 @@
+import { Capitalize } from "@/components/Capitalize";
+import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
+
 export const calendarFilterSocialNetworksOptions = [
   {
-    label: "Facebook",
-    value: "facebook",
+    label: Capitalize(SocialNetworkTypeEnum.FACEBOOK),
+    value: SocialNetworkTypeEnum.FACEBOOK,
   },
   {
-    label: "Twitter",
-    value: "twitter",
+    label: Capitalize(SocialNetworkTypeEnum.TWITTER),
+    value: SocialNetworkTypeEnum.TWITTER,
   },
   {
-    label: "Instagram",
-    value: "instagram",
+    label: Capitalize(SocialNetworkTypeEnum.INSTAGRAM),
+    value: SocialNetworkTypeEnum.INSTAGRAM,
   },
   {
-    label: "Linkedin",
-    value: "linkedin",
+    label: Capitalize(SocialNetworkTypeEnum.LINKEDIN),
+    value: SocialNetworkTypeEnum.LINKEDIN,
   },
   {
-    label: "Youtube",
-    value: "youtube",
+    label: Capitalize(SocialNetworkTypeEnum.YOUTUBE),
+    value: SocialNetworkTypeEnum.YOUTUBE,
   },
 ];
 

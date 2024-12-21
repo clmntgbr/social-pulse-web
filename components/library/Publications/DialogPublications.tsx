@@ -1,35 +1,139 @@
 import { Button } from "@/components/ui/button";
-import { initializePublication, Publication } from "@/store/client/interface/publication";
+import { convertFileToBase64 } from "@/composables/ConvertFileToBase64";
+import usePublicationsContext from "@/contexts/publications/hooks";
+import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
+import { CreatePublication, initializeCreatePublication, initializePublication } from "@/store/client/interface/publication";
 import { SocialNetwork } from "@/store/client/interface/social-network";
+import { postPublications } from "@/store/publications/postPublications";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { EmojiPicker } from "../EmojiPicker";
+import { ToastFail, ToastSuccess } from "../Toast";
 import { DialogPublicationsHeader } from "./DialogPublicationsHeader";
 import { DialogPublicationsImageGallery } from "./DialogPublicationsImageGallery";
 import { DialogPublicationsImageUploader } from "./DialogPublicationsImageUploader";
-import { DialogPublicationsPreview } from "./DialogPublicationsPreview";
+import { PublicationsPreview } from "./PublicationsPreview";
 
 interface DialogPublicationsProps {
   onCancel: () => void;
 }
 
 export function DialogPublications({ onCancel }: DialogPublicationsProps) {
-  const [text, setText] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [publication, setPublication] = useState<Publication>(initializePublication());
+  const [createPublication, setCreatePublication] = useState<CreatePublication>(initializeCreatePublication());
+  const { publicationsDispatch } = usePublicationsContext();
+  const { data } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleImageUpload = (files: FileList) => {
-    const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
-    setImages((prev) => [...prev, ...newImages]);
+  const handleImageUpload = async (files: FileList) => {
+    const base64Images = await Promise.all(
+      Array.from(files).map(async (file) => {
+        const base64 = await convertFileToBase64(file);
+        return base64 as string;
+      })
+    );
+
+    setCreatePublication({
+      ...createPublication,
+      selected: {
+        ...createPublication.selected,
+        pictures: [...(createPublication.selected.pictures || []), ...base64Images],
+      },
+      publications: createPublication.publications.map((pub) =>
+        pub.uuid === createPublication.selected.uuid ? { ...pub, pictures: [...(pub.pictures || []), ...base64Images] } : pub
+      ),
+    });
+  };
+
+  const handleAddThread = () => {
+    setCreatePublication({
+      ...createPublication,
+      publications: [...createPublication.publications, initializePublication(createPublication.publications.length + 1)],
+    });
   };
 
   const handleRemoveImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setCreatePublication({
+      ...createPublication,
+      selected: {
+        ...createPublication.selected,
+        pictures: createPublication.selected.pictures.filter((_, i) => i !== index),
+      },
+      publications: createPublication.publications.map((pub) =>
+        pub.uuid === createPublication.selected.uuid
+          ? {
+              ...pub,
+              pictures: pub.pictures.filter((_, i) => i !== index),
+            }
+          : pub
+      ),
+    });
   };
 
   const handleSocialNetworkSelect = (selectedSocialNetwork: SocialNetwork) => {
-    setPublication({
-      ...publication,
+    setCreatePublication({
+      ...createPublication,
       socialNetwork: selectedSocialNetwork,
+      selected: {
+        ...createPublication.selected,
+        publicationType: selectedSocialNetwork.socialNetworkType.name,
+        socialNetwork: selectedSocialNetwork,
+      },
+      publications: createPublication.publications.map((pub) =>
+        pub.uuid === createPublication.selected.uuid
+          ? { ...pub, socialNetwork: selectedSocialNetwork, publicationType: selectedSocialNetwork.socialNetworkType.name }
+          : pub
+      ),
     });
+  };
+
+  const handleTextChange = (value: string) => {
+    setCreatePublication({
+      ...createPublication,
+      selected: {
+        ...createPublication.selected,
+        content: value,
+      },
+      publications: createPublication.publications.map((pub) => (pub.uuid === createPublication.selected.uuid ? { ...pub, content: value } : pub)),
+    });
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    setCreatePublication({
+      ...createPublication,
+      selected: {
+        ...createPublication.selected,
+        content: createPublication.selected.content + emoji,
+      },
+      publications: createPublication.publications.map((pub) =>
+        pub.uuid === createPublication.selected.uuid ? { ...pub, content: createPublication.selected.content + emoji } : pub
+      ),
+    });
+  };
+
+  const handleValidate = async () => {
+    setIsLoading(true);
+
+    let publications = createPublication.publications;
+
+    if (createPublication.socialNetwork?.socialNetworkType.name !== SocialNetworkTypeEnum.TWITTER) {
+      publications = [createPublication.publications[0]];
+    }
+
+    postPublications(`${data?.accessToken}`, publications, publicationsDispatch)
+      .then(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+          ToastSuccess();
+          onCancel();
+        }, 2000);
+      })
+      .catch(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+          ToastFail();
+        }, 2000);
+      });
   };
 
   return (
@@ -41,38 +145,48 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
             <div className="h-full flex flex-col">
               <div className="flex-1 flex flex-col min-h-0">
                 <div className="flex-1 min-h-0">
-                  <DialogPublicationsImageUploader onImageUpload={handleImageUpload} isDisabled={!publication.socialNetwork} />
+                  <div className="mb-4 absolute ml-2 mt-2 flex gap-2">
+                    <DialogPublicationsImageUploader onImageUpload={handleImageUpload} isDisabled={!createPublication.socialNetwork} />
+                    <EmojiPicker onEmojiSelect={handleEmojiSelect} isDisabled={!createPublication.socialNetwork} />
+                    {createPublication.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER && (
+                      <Button variant="secondary" onClick={handleAddThread}>
+                        Add a thread
+                      </Button>
+                    )}
+                  </div>
                   <textarea
                     className={`w-full h-full pt-14 p-4 border rounded-lg resize-none focus:outline-none focus:ring-0 ${
-                      !publication.socialNetwork ? "cursor-not-allowed" : ""
+                      !createPublication.socialNetwork ? "cursor-not-allowed" : ""
                     }`}
-                    value={text}
-                    disabled={!publication.socialNetwork}
-                    placeholder="type here ..."
-                    onChange={(e) => setText(e.target.value)}
+                    value={createPublication.selected.content ?? ""}
+                    disabled={!createPublication.socialNetwork}
+                    placeholder={`${!createPublication.socialNetwork ? "You have to choose a social network first." : "Type here"}`}
+                    onChange={(e) => handleTextChange(e.target.value)}
                   />
                 </div>
                 <div className="h-[200px] mt-4 overflow-y-auto custom-scrollbar">
-                  <DialogPublicationsImageGallery images={images} onRemoveImage={handleRemoveImage} />
+                  <DialogPublicationsImageGallery images={createPublication.selected.pictures} onRemoveImage={handleRemoveImage} />
                 </div>
               </div>
             </div>
           </div>
 
           <div className="w-1/2 bg-gray-100 rounded-lg p-4 overflow-y-auto custom-scrollbar">
-            <DialogPublicationsPreview content={text} />
+            <PublicationsPreview publications={createPublication.publications} socialNetwork={createPublication.socialNetwork} />
           </div>
         </div>
 
         <div className="flex justify-end pt-4 gap-3">
-          <Button variant="outline" className="px-6 py-2 rounded-lg transition-colors" onClick={onCancel}>
+          <Button variant="outline" disabled={isLoading} className="px-6 py-2 rounded-lg transition-colors" onClick={onCancel}>
             Cancel
           </Button>
           <Button
-            className={`px-6 py-2 text-white rounded-lg transition-colors ${!publication.socialNetwork ? "cursor-not-allowed" : ""}`}
-            disabled={!publication.socialNetwork}
+            onClick={handleValidate}
+            className={`px-6 py-2 text-white rounded-lg transition-colors ${!createPublication.socialNetwork ? "cursor-not-allowed" : ""}`}
+            disabled={!createPublication.socialNetwork || isLoading}
           >
             Validate
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
           </Button>
         </div>
       </div>

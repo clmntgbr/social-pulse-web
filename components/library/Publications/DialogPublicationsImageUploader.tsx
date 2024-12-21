@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { ImagePlus } from "lucide-react";
 
 interface DialogPublicationsImageUploaderProps {
@@ -6,28 +7,22 @@ interface DialogPublicationsImageUploaderProps {
 }
 
 export function DialogPublicationsImageUploader({ onImageUpload, isDisabled }: DialogPublicationsImageUploaderProps) {
-  console.log(isDisabled);
   return (
-    <div className={`mb-4 absolute ml-2 mt-2 flex gap-2`}>
-      <>
-        <label
-          htmlFor="image-upload"
-          className={`${
-            isDisabled ? "cursor-not-allowed" : "cursor-pointer"
-          } flex items-center gap-2 px-2 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg w-fit transition-colors`}
-        >
+    <>
+      <Button variant="secondary" disabled={isDisabled} className="cursor-pointer px-0 py-0">
+        <label htmlFor="image-upload" className="cursor-pointer px-4">
           <ImagePlus size={20} />
         </label>
-        <input
-          disabled={isDisabled}
-          id="image-upload"
-          type="file"
-          accept="image/*"
-          multiple
-          className={`hidden`}
-          onChange={(e) => e.target.files && onImageUpload(e.target.files)}
-        />
-      </>
-    </div>
+      </Button>
+      <input
+        disabled={isDisabled}
+        id="image-upload"
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => e.target.files && onImageUpload(e.target.files)}
+      />
+    </>
   );
 }

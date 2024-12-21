@@ -12,6 +12,7 @@ export enum ORGANIZATIONS {
 }
 export enum PUBLICATIONS {
   GET_PUBLICATIONS = "/publications",
+  POST_PUBLICATIONS = "/publications",
 }
 export enum SOCIAL_NETWORKS {
   GET_SOCIAL_NETWORKS = "/social_networks",

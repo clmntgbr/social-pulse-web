@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
 import { PostOrganizations } from "./interface/body/PostOgarnizations";
+import { PostPublications } from "./interface/body/PostPublications";
 import { GetSocialNetworksConnect } from "./interface/GetSocialNetworksConnect";
 import { GetToken } from "./interface/GetToken";
 import { ORGANIZATIONS, PUBLICATIONS, SOCIAL_NETWORKS, USERS } from "./RoutesEnum";
@@ -109,6 +110,14 @@ export default class ApiClient {
   public async getPublications(): Promise<AxiosResponse<any> | null> {
     try {
       return await this.httpClient.get(PUBLICATIONS.GET_PUBLICATIONS);
+    } catch {
+      return null;
+    }
+  }
+
+  public async postPublications(body: PostPublications): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.post(PUBLICATIONS.POST_PUBLICATIONS, body);
     } catch {
       return null;
     }

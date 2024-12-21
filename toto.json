@@ -1,0 +1,37 @@
+[
+  {
+    "uuid": "6e6e4448-1416-42d0-ba83-60ae18cbf556",
+    "publicationType": "linkedin",
+    "publicationId": null,
+    "threadUuid": null,
+    "threadType": "primary",
+    "publishedAt": "2024-12-20T21:52:41.679Z",
+    "content": "",
+    "status": "draft",
+    "pictures": [],
+    "socialNetwork": {
+      "country": null,
+      "language": null,
+      "createdAt": "2024-12-20T19:13:36+00:00",
+      "updatedAt": "2024-12-20T19:13:36+00:00",
+      "socialNetworkType": {
+        "name": "linkedin",
+        "color": "#0e76a8",
+        "uuid": "e6c76b8c-8662-41e5-8692-4a9fcde848e4"
+      },
+      "followers": 0,
+      "followings": 0,
+      "shares": 0,
+      "comments": 0,
+      "likes": 0,
+      "isVerified": false,
+      "avatarUrl": "https://avatar.vercel.sh/personal.png",
+      "username": "dullrich",
+      "name": "emilia.stark",
+      "email": null,
+      "status": "active",
+      "validate": null,
+      "uuid": "848566cb-dc2f-4858-860a-cee7c320ad44"
+    }
+  }
+]

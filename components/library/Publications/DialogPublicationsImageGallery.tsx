@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { X } from "lucide-react";
 import Image from "next/image";
@@ -23,17 +24,18 @@ export function DialogPublicationsImageGallery({ images, onRemoveImage }: Dialog
         >
           <CarouselContent>
             {images.map((image, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 relative">
                 <div className="p-1">
                   <Image width={60} height={60} src={image} alt={`Uploaded ${index + 1}`} className="w-48 h-48 object-cover rounded-lg m-auto" />
                 </div>
-                <button
+                <Button
                   onClick={() => onRemoveImage(index)}
-                  className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-white rounded-full shadow-md opacity-0 group-hover/image:opacity-100 transition-all duration-200 transform hover:scale-110"
+                  variant="outline"
+                  className="absolute top-0 right-4 rounded-full w-9 h-9"
                   aria-label={`Remove image ${index + 1}`}
                 >
                   <X size={16} />
-                </button>
+                </Button>
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -41,20 +43,6 @@ export function DialogPublicationsImageGallery({ images, onRemoveImage }: Dialog
           <CarouselNext />
         </Carousel>
       </div>
-
-      {/* <div className="grid grid-cols-3 gap-4 p-2">
-        {images.map((image, index) => (
-          <div key={index} className="relative group">
-            <img src={image} alt={`Uploaded ${index + 1}`} className="w-full h-32 object-cover rounded-lg" />
-            <button
-              onClick={() => onRemoveImage(index)}
-              className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <X size={16} />
-            </button>
-          </div>
-        ))}
-      </div> */}
     </>
   );
 }

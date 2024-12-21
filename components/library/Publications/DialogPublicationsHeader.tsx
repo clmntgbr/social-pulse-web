@@ -28,8 +28,8 @@ export function DialogPublicationsHeader({ onSelectSocialNetwork }: DialogPublic
               alt={item.username}
               width={100}
               height={100}
-              className={`flex-shrink-0 w-14 h-14 rounded-full object-cover overflow-hidden border-4 border-white ${
-                selectedSocialNetwork?.uuid === item.uuid ? "border-blue-400" : ""
+              className={`flex-shrink-0 w-14 h-14 rounded-full object-cover overflow-hidden border-4 ${
+                selectedSocialNetwork?.uuid === item.uuid ? "border-blue-400" : "border-white"
               }`}
             />
             <Image
