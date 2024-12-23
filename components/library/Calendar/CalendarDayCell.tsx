@@ -29,10 +29,10 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
       <div
         onClick={openDialog}
         className={`
-        min-h-[100px] p-2 bg-white dark:bg-black
-        ${!day.isCurrentMonth && "bg-gray-50 text-gray-400 dark:bg-black dark:text-white"}
+        min-h-[100px] p-2 bg-white dark:bg-background
+        ${!day.isCurrentMonth && "bg-gray-50 text-gray-400 dark:bg-background dark:text-white"}
         ${day.isToday && "bg-blue-50"}
-        hover:bg-gray-50 cursor-pointer
+        hover:bg-gray-50 dark:hover:bg-black cursor-pointer
       `}
       >
         <div
@@ -46,8 +46,8 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
         <div className="mt-2 space-y-1">
           {visibleEvents.map((event) => {
             const date = new Date(event.publishedAt);
-            const hours = date.getUTCHours().toString().padStart(2, "0");
-            const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+            const hours = date.getHours().toString().padStart(2, "0");
+            const minutes = date.getMinutes().toString().padStart(2, "0");
             return (
               <div
                 onClick={(e) => {
@@ -88,8 +88,8 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
           <div className="mt-2 space-y-1 w-full">
             {day.events.map((event) => {
               const date = new Date(event.publishedAt);
-              const hours = date.getUTCHours().toString().padStart(2, "0");
-              const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+              const hours = date.getHours().toString().padStart(2, "0");
+              const minutes = date.getMinutes().toString().padStart(2, "0");
               return (
                 <div
                   onClick={(e) => {

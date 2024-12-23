@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+.bg-dark {
+  background-color: hsl(0 0% 7.23%);
 }
 
 @layer base {

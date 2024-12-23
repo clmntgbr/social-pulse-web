@@ -34,7 +34,7 @@ export function Sidebar({ children }: { children: ReactElement }) {
         <SidebarInset className="bg-transparent max-h-screen border-gray-200">
           <header className="flex h-16 shrink-0 items-center px-4 border-b justify-between">
             <SidebarTrigger
-              className="-ml-1"
+              className="-ml-1 hover:text-blue-400"
               onClick={() => {
                 localStorage.setItem("sidebarOpen", (!open).toString());
                 setOpen(!open);

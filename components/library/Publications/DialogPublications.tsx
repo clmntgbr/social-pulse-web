@@ -20,7 +20,7 @@ interface DialogPublicationsProps {
 }
 
 export function DialogPublications({ onCancel }: DialogPublicationsProps) {
-  const [createPublication, setCreatePublication] = useState<CreatePublication>(initializeCreatePublication());
+  const [createPublication, setCreatePublication] = useState<CreatePublication>(initializeCreatePublication);
   const { publicationsDispatch } = usePublicationsContext();
   const { data } = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -112,6 +112,24 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     });
   };
 
+  const handleOnDelete = (publication: Publication) => {
+    setCreatePublication((prev) => {
+      const currentIndex = prev.publications.findIndex((pub) => pub.uuid === publication.uuid);
+      const newPublications = prev.publications.filter((pub) => pub.uuid !== publication.uuid);
+
+      let newSelected = prev.selected;
+      if (prev.selected?.uuid === publication.uuid) {
+        newSelected = newPublications[Math.max(0, currentIndex - 1)] || null;
+      }
+
+      return {
+        ...prev,
+        publications: newPublications,
+        selected: newSelected,
+      };
+    });
+  };
+
   const handleEmojiSelect = (emoji: string) => {
     setCreatePublication({
       ...createPublication,
@@ -194,6 +212,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
           <div className="w-1/2 bg-gray-100 dark:bg-secondary rounded-lg p-4 overflow-y-auto custom-scrollbar">
             <PublicationsPreview
+              onDelete={handleOnDelete}
               selected={createPublication.selected}
               publications={createPublication.publications}
               socialNetwork={createPublication.socialNetwork}
@@ -208,7 +227,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
           </Button>
           <Button
             onClick={handleValidate}
-            className={`px-6 py-2 text-white rounded-lg transition-colors ${!createPublication.socialNetwork ? "cursor-not-allowed" : ""}`}
+            className={`px-6 py-2 rounded-lg transition-colors ${!createPublication.socialNetwork ? "cursor-not-allowed" : ""}`}
             disabled={!createPublication.socialNetwork || isLoading}
           >
             Validate

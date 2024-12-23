@@ -23,7 +23,7 @@ export function CalendarFilter({ options, title, onChange }: CalendarFilterProps
     <>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="secondary" size="sm" className="h-8">
+          <Button variant="secondary" size="sm" className="h-8 hover:text-blue-400">
             <SlidersHorizontal />
             {title}
             {selectedValues?.length > 0 && (

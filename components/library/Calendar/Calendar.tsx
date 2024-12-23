@@ -122,7 +122,7 @@ const Calendar: React.FC = () => {
     <div className="flex flex-col h-full">
       <div className="grid grid-cols-3 items-center p-3 gap-4">
         <div className="flex items-center gap-3">
-          <Button variant="secondary" className="rounded-lg" onClick={() => today()}>
+          <Button variant="secondary" className="rounded-lg hover:text-blue-400" onClick={() => today()}>
             Today
           </Button>
           <CalendarFilter options={calendarFilterSocialNetworksOptions} title="Social Network" onChange={handleFilterSocialNetworks} />
@@ -132,11 +132,11 @@ const Calendar: React.FC = () => {
           <Button variant="secondary" className="rounded-none rounded-l-lg" onClick={() => navigate("prev")}>
             <ChevronLeft className="text-gray-600" />
           </Button>
-          <Button variant="secondary" className="rounded-none w-36">
+          <Button variant="secondary" className="rounded-none w-36 hover:text-blue-400">
             {calendarMonthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </Button>
           <Button variant="secondary" className="rounded-none rounded-r-lg" onClick={() => navigate("next")}>
-            <ChevronRight className="text-gray-600" />
+            <ChevronRight className="text-gray-600 hover:text-blue-400" />
           </Button>
         </div>
         <div className="flex justify-end">

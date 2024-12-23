@@ -1,7 +1,6 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GeistSans } from "geist/font/sans";
 import { LoaderIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { Suspense } from "react";
@@ -19,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.className} antialiased`}>
+      <body className={`font-sans antialiased`}>
         <ThemeProvider>
           <Suspense fallback={<LoaderIcon></LoaderIcon>}>{children}</Suspense>
           <Toaster />

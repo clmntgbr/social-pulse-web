@@ -1,3 +1,4 @@
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import useSocialNetworksContext from "@/contexts/social-networks/hooks";
 import { SocialNetwork } from "@/store/client/interface/social-network";
 import Image from "next/image";
@@ -23,23 +24,34 @@ export function DialogPublicationsHeader({ onSelectSocialNetwork }: DialogPublic
               onSelectSocialNetwork(item);
             }}
           >
-            <Image
-              src={`${item.avatarUrl}`}
-              alt={item.username}
-              width={100}
-              height={100}
-              className={`flex-shrink-0 w-14 h-14 rounded-full object-cover overflow-hidden border-4 ${
-                selectedSocialNetwork?.uuid === item.uuid ? "border-blue-400" : "border-white dark:border-black"
-              }`}
-            />
-            <Image
-              src={`/images/${item.socialNetworkType.name}-logo.png`}
-              alt={item.username}
-              width={20}
-              quality={100}
-              height={20}
-              className="flex-shrink-0 w-6 h-6 object-cover absolute -bottom-[5px] left-[30px] overflow-hidden dark:border-black border-white border-4 rounded-full"
-            />
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-pointer">
+                    <Image
+                      src={`${item.avatarUrl}`}
+                      alt={item.username}
+                      width={100}
+                      height={100}
+                      className={`flex-shrink-0 w-14 h-14 rounded-full object-cover overflow-hidden border-4 ${
+                        selectedSocialNetwork?.uuid === item.uuid ? "border-blue-400" : "border-white dark:border-black"
+                      }`}
+                    />
+                    <Image
+                      src={`/images/${item.socialNetworkType.name}-logo.png`}
+                      alt={item.username}
+                      width={20}
+                      quality={100}
+                      height={20}
+                      className="flex-shrink-0 w-6 h-6 object-cover absolute -bottom-[5px] left-[30px] overflow-hidden dark:border-black border-white border-4 rounded-full"
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent sideOffset={5}>
+                  <p>@{item.username}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         ))}
       </div>

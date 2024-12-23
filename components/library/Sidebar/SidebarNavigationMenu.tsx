@@ -92,7 +92,7 @@ export function SidebarNavigationMenu() {
       });
   };
   return (
-    <NavigationMenu className="absolute left-1/2 transform -translate-x-1/2">
+    <NavigationMenu className="absolute left-1/2 transform -translate-x-1/2 ">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href={`/${locale}`} legacyBehavior passHref>
@@ -100,7 +100,7 @@ export function SidebarNavigationMenu() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Social Networks</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="font-semibold hover:text-blue-400">Social Networks</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid grid-cols-3 gap-2 p-2 w-[345px]">
               <li className="col-span-1">
@@ -217,7 +217,7 @@ export function SidebarNavigationMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="font-semibold hover:text-blue-400">Components</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (

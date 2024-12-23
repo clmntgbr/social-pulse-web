@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Publication } from "@/store/client/interface/publication";
+import { Dot, Earth } from "lucide-react";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import LinkedinBody from "./LinkedinBody";
@@ -14,7 +15,7 @@ interface LinkedinViewProps {
 export default function LinkedinView({ publication, onSelect, isSelected }: LinkedinViewProps) {
   return (
     <Card
-      className={`shadow-none relative text-wrap w-[500px] ${isSelected ? "border-dashed border-gray-400" : ""}`}
+      className={`shadow-none relative text-wrap w-[500px] z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
       onClick={() => onSelect(publication)}
     >
       <CardContent className="p-6 px-0">
@@ -40,9 +41,15 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
                     {publication.socialNetwork?.name}
                   </a>
                 </div>
-                <p className="text-xs text-gray-400 font-semibold">
-                  Publié le {DateTime.fromISO(publication.publishedAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="text-xs text-gray-400 font-normal">Headline</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <p className="text-xs text-gray-400 font-normal">
+                    {DateTime.fromISO(publication.publishedAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}
+                  </p>
+                  <Earth size={15} strokeWidth={2} className="text-gray-400" />
+                </div>
               </div>
             </div>
           </div>
@@ -61,12 +68,18 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
         )}
 
         <div className="flex items-center justify-between text-sm text-gray-500 mt-4 px-6">
-          <div className="flex items-center gap-1">
-            <Image src={"/images/linkedin/like.svg"} alt="like" width={20} height={20} />
+          <div className="flex items-center gap-2">
+            <div className="flex items-center -space-x-1">
+              <Image src={"/images/linkedin/love.svg"} alt="love" width={20} height={20} />
+              <Image src={"/images/linkedin/like.svg"} alt="like" width={20} height={20} />
+              <Image src={"/images/linkedin/celebrate.svg"} alt="celebrate" width={20} height={20} />
+              <Image src={"/images/linkedin/support.svg"} alt="support" width={20} height={20} />
+            </div>
             <span>0</span>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-1 items-center">
             <span>0 comments</span>
+            <Dot className="w-3" />
             <span>0 reposts</span>
           </div>
         </div>
