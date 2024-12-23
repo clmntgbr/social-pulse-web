@@ -189,7 +189,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                   <div className="mb-4 absolute ml-2 mt-2 flex gap-2">
                     <DialogPublicationsImageUploader onImageUpload={handleImageUpload} isDisabled={!createPublication.socialNetwork} />
                     <EmojiPicker onEmojiSelect={handleEmojiSelect} isDisabled={!createPublication.socialNetwork} />
-                    <Button variant="secondary" onClick={handleAddThread} disabled={!createPublication.socialNetwork}>
+                    <Button variant="secondary" className="hover:text-primary" onClick={handleAddThread} disabled={!createPublication.socialNetwork}>
                       Add a {createPublication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
                     </Button>
                   </div>
@@ -210,7 +210,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
             </div>
           </div>
 
-          <div className="w-1/2 bg-gray-100 dark:bg-secondary rounded-lg p-4 overflow-y-auto custom-scrollbar">
+          <div className="w-1/2 bg-gray-100 dark:bg-secondary rounded-lg p-4 border overflow-y-auto custom-scrollbar">
             <PublicationsPreview
               onDelete={handleOnDelete}
               selected={createPublication.selected}

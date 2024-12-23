@@ -100,7 +100,7 @@ export function SidebarNavigationMenu() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="font-semibold hover:text-blue-400">Social Networks</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="font-semibold hover:text-primary">Social Networks</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid grid-cols-3 gap-2 p-2 w-[345px]">
               <li className="col-span-1">
@@ -217,7 +217,7 @@ export function SidebarNavigationMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="font-semibold hover:text-blue-400">Components</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="font-semibold hover:text-primary">Components</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {components.map((component) => (

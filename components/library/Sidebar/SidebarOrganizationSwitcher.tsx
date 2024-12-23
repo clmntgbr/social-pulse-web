@@ -150,7 +150,7 @@ export default function SidebarOrganizationSwitcher() {
                     onSelect={() => {
                       onChangeActiveOrganization(organization);
                     }}
-                    className="text-sm font-light px-4 cursor-pointer"
+                    className="text-sm font-normal px-4 cursor-pointer"
                   >
                     <Avatar className="mr-2 h-5 w-5">
                       <AvatarImage src={organization.logoUrl} alt={organization.name} />

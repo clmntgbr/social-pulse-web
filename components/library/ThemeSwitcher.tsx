@@ -27,7 +27,7 @@ export function ThemeSwitcher() {
 
   return (
     <Fragment>
-      <Button variant="ghost" size="icon" className="hover:text-blue-400" onClick={() => handleSetTheme()}>
+      <Button variant="ghost" size="icon" className="hover:text-primary" onClick={() => handleSetTheme()}>
         {name === ThemeEnum.DARK && <Sun />}
         {name === ThemeEnum.LIGHT && <Moon />}
       </Button>

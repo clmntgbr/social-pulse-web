@@ -13,10 +13,9 @@ export function EmojiPicker({ onEmojiSelect, isDisabled }: EmojiPickerProps) {
 
   return (
     <div className="relative">
-      <Button variant="secondary" disabled={isDisabled} onClick={() => setShowPicker(!showPicker)}>
+      <Button variant="secondary" className="hover:text-primary" disabled={isDisabled} onClick={() => setShowPicker(!showPicker)}>
         <SmileIcon size={30} />
       </Button>
-
       {showPicker && (
         <>
           <div className="fixed inset-0" onClick={() => setShowPicker(false)} />
