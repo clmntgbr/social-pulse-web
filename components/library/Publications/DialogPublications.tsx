@@ -162,7 +162,6 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     postPublications(`${data?.accessToken}`, createPublication.publications, publicationsDispatch)
       .then(() => {
         setTimeout(() => {
-          console.log("success");
           setIsLoading(false);
           ToastSuccess();
           onCancel();
@@ -170,7 +169,6 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
       })
       .catch(() => {
         setTimeout(() => {
-          console.log("error");
           setIsLoading(false);
           ToastFail();
         }, 2000);
