@@ -4,6 +4,7 @@ import { toast } from "@/hooks/use-toast";
 
 export function ToastSuccess() {
   toast({
+    variant: "default",
     title: "Great Success!",
     description: "Your request was completed successfully.",
   });

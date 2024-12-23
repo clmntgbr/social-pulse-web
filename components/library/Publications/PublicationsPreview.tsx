@@ -9,16 +9,22 @@ import YoutubeView from "./Youtube/YoutubeView";
 
 interface PreviewPanelProps {
   publications: Publication[];
+  selected: Publication;
   socialNetwork: SocialNetwork | null;
   onSelect: (publication: Publication) => void;
 }
 
-export function PublicationsPreview({ publications, socialNetwork, onSelect }: PreviewPanelProps) {
+export function PublicationsPreview({ publications, socialNetwork, onSelect, selected }: PreviewPanelProps) {
   if (socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.LINKEDIN) {
     return (
       <div className="flex flex-col space-y-1 items-center justify-center">
         {publications.map((publication) => (
-          <LinkedinView key={publication.id} publication={publication} onSelect={onSelect} />
+          <LinkedinView
+            key={publication.id}
+            publication={publication}
+            onSelect={onSelect}
+            isSelected={selected.uuid === publication.uuid && publications.length > 1}
+          />
         ))}
       </div>
     );
