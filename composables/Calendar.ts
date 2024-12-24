@@ -30,8 +30,8 @@ export const calendarFilterPublicationsStatusOptions = [
     value: "posted",
   },
   {
-    label: "Programmed",
-    value: "programmed",
+    label: "Scheduled",
+    value: "scheduled",
   },
   {
     label: "Failed",

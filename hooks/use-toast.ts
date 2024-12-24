@@ -1,9 +1,7 @@
 "use client";
 
-// Inspired by react-hot-toast library
-import * as React from "react";
-
 import type { ToastActionElement, ToastProps } from "@/components/ui/toast";
+import * as React from "react";
 
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
@@ -129,17 +127,17 @@ const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };
 
-function dispatch(action: Action) {
+export function dispatch(action: Action) {
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
     listener(memoryState);
   });
 }
 
-type Toast = Omit<ToasterToast, "id">;
+type Toast = ToasterToast;
 
 function toast({ ...props }: Toast) {
-  const id = genId();
+  const id = props.id ?? genId();
 
   const update = (props: ToasterToast) =>
     dispatch({

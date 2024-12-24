@@ -42,7 +42,7 @@ export default function FacebookView({ publication, onSelect, isSelected }: Face
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs text-gray-400 font-normal">
-                    {DateTime.fromISO(publication.publishedAt).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}
+                    {DateTime.fromISO(new Date().toISOString()).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}
                   </p>
                   <Earth size={15} strokeWidth={2} className="text-gray-400" />
                 </div>

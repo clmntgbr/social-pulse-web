@@ -7,6 +7,7 @@ import {
   calendarWeekDaysShort,
 } from "@/composables/Calendar";
 import usePublicationsContext from "@/contexts/publications/hooks";
+import { dispatch } from "@/hooks/use-toast";
 import { Publication } from "@/store/client/interface/publication";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
@@ -37,6 +38,8 @@ const Calendar: React.FC = () => {
   };
 
   const onCreatePublication = () => {
+    dispatch({ type: "DISMISS_TOAST", toastId: "success" });
+    dispatch({ type: "DISMISS_TOAST", toastId: "fail" });
     setOpen(true);
   };
 

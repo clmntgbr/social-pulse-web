@@ -5,7 +5,6 @@ import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
 import { CreatePublication, initializeCreatePublication, initializePublication, Publication } from "@/store/client/interface/publication";
 import { SocialNetwork } from "@/store/client/interface/social-network";
 import { postPublications } from "@/store/publications/postPublications";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { EmojiPicker } from "../EmojiPicker";
@@ -13,6 +12,7 @@ import { ToastFail, ToastSuccess } from "../Toast";
 import { DialogPublicationsHeader } from "./DialogPublicationsHeader";
 import { DialogPublicationsImageGallery } from "./DialogPublicationsImageGallery";
 import { DialogPublicationsImageUploader } from "./DialogPublicationsImageUploader";
+import { PublicationsButton } from "./PublicationsButton";
 import { PublicationsPreview } from "./PublicationsPreview";
 
 interface DialogPublicationsProps {
@@ -143,23 +143,25 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     });
   };
 
-  const handleValidate = async () => {
-    const date = new Date().toISOString();
-
+  const handleSelect = (value: string, scheduledDate: Date) => {
     setIsLoading(true);
-    setCreatePublication({
-      ...createPublication,
-      selected: {
-        ...createPublication.selected,
-        publishedAt: new Date().toISOString(),
-      },
-      publications: createPublication.publications.map((pub) => ({
+
+    if (value === "now") {
+      value = "scheduled";
+    }
+
+    const isoDate = scheduledDate.toISOString();
+
+    const updatedPublications = createPublication.publications.map((pub) => {
+      const updatedPub = {
         ...pub,
-        publishedAt: date,
-      })),
+        publishedAt: isoDate,
+        status: value,
+      };
+      return updatedPub;
     });
 
-    postPublications(`${data?.accessToken}`, createPublication.publications, publicationsDispatch)
+    postPublications(`${data?.accessToken}`, updatedPublications, publicationsDispatch)
       .then(() => {
         setTimeout(() => {
           setIsLoading(false);
@@ -223,14 +225,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
           <Button variant="outline" disabled={isLoading} className="px-6 py-2 rounded-lg transition-colors" onClick={onCancel}>
             Cancel
           </Button>
-          <Button
-            onClick={handleValidate}
-            className={`px-6 py-2 rounded-lg transition-colors ${!createPublication.socialNetwork ? "cursor-not-allowed" : ""}`}
-            disabled={!createPublication.socialNetwork || isLoading}
-          >
-            Validate
-            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-          </Button>
+          <PublicationsButton onSelect={handleSelect} isDisabled={!createPublication.socialNetwork || isLoading} isLoading={isLoading} />
         </div>
       </div>
     </div>
