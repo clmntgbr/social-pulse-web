@@ -4,13 +4,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import * as React from "react";
 
 interface DateTimePickerProps {
-  onSchedule: (date: Date) => void;
+  init?: Date;
+  onSchedule: (initDate: Date) => void;
 }
 
-export function DateTimePicker({ onSchedule }: DateTimePickerProps) {
+export function DateTimePicker({ onSchedule, init }: DateTimePickerProps) {
   const [date, setDate] = React.useState<Date>();
   const [hour, setHour] = React.useState("12");
   const [minute, setMinute] = React.useState("00");
+
+  React.useEffect(() => {
+    if (init) {
+      setDate(init);
+    }
+  }, [init]);
 
   const handleSchedule = () => {
     if (date) {
@@ -23,7 +30,7 @@ export function DateTimePicker({ onSchedule }: DateTimePickerProps) {
   return (
     <div className="absolute bottom-0 mt-2 p-6 bg-white rounded-lg shadow-lg border z-50">
       <div className="space-y-4">
-        <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+        <Calendar mode="single" selected={date} onSelect={setDate} initialFocus required disabled={{ before: new Date() }} />
         <div className="flex gap-2">
           <Select value={hour} onValueChange={setHour}>
             <SelectTrigger>

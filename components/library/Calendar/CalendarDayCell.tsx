@@ -16,7 +16,7 @@ const MAX_EVENTS = 2;
 const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
   const visibleEvents = day.events.slice(0, MAX_EVENTS);
   const remainingEvents = day.events.length - MAX_EVENTS;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const locale = useCurrentLocale();
 
@@ -24,6 +24,7 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day }) => {
 
   const dateFormat = DateTime.fromISO(day.date.toISOString(), { zone: "utc" }).setLocale("fr").toFormat("cccc d MMMM");
 
+  console.log("modale is open", open);
   return (
     <>
       <div

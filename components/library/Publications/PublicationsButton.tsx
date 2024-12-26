@@ -71,7 +71,7 @@ export function PublicationsButton({ onSelect, isDisabled, isLoading }: Publicat
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      {showDatePicker && <DateTimePicker onSchedule={handleSchedule} />}
+      {showDatePicker && <DateTimePicker onSchedule={handleSchedule} init={date} />}
     </>
   );
 }
