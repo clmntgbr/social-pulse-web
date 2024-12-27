@@ -17,8 +17,8 @@ export default function FacebookView({ publication, onSelect, isSelected }: Face
       className={`shadow-none relative text-wrap w-[500px] ${isSelected ? "border-dashed border-gray-400" : ""}`}
       onClick={() => onSelect(publication)}
     >
-      <CardContent className="p-6 px-0">
-        <div className="flex items-start gap-3 group px-6">
+      <CardContent className="p-4 px-0">
+        <div className="flex items-start gap-3 group px-4">
           <div className="font-semibold">
             <Image
               src={publication.socialNetwork?.avatarUrl ?? "https://ui.shadcn.com/avatars/01.png"}
@@ -52,14 +52,14 @@ export default function FacebookView({ publication, onSelect, isSelected }: Face
         </div>
 
         {publication.content && (
-          <div className="mt-4 px-6">
+          <div className="mt-4 px-4">
             <FacebookBody content={publication.content ?? ""} />
           </div>
         )}
 
-        {publication.pictures.length > 0 && <div className="mt-4 px-6">{/* <FacebookImage pictures={publication.pictures ?? []} /> */}</div>}
+        {publication.pictures.length > 0 && <div className="mt-4 px-4">{/* <FacebookImage pictures={publication.pictures ?? []} /> */}</div>}
 
-        <div className="flex items-center justify-between text-sm text-gray-500 mt-4 px-6">
+        <div className="flex items-center justify-between text-sm text-gray-500 mt-4 px-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center -space-x-1">
               <Image src={"/images/facebook/angry.png"} alt="angry" width={20} height={20} />

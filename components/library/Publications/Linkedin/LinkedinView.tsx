@@ -18,8 +18,8 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
       className={`shadow-none relative text-wrap w-[500px] z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
       onClick={() => onSelect(publication)}
     >
-      <CardContent className="p-6 px-0">
-        <div className="flex items-start gap-3 group px-6">
+      <CardContent className="p-4 px-0">
+        <div className="flex items-start gap-3 group px-4">
           <div className="font-semibold">
             <Image
               src={publication.socialNetwork?.avatarUrl ?? "https://ui.shadcn.com/avatars/01.png"}
@@ -56,18 +56,18 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
         </div>
 
         {publication.content && (
-          <div className="mt-4 px-6">
+          <div className="mt-4 px-4">
             <LinkedinBody content={publication.content ?? ""} />
           </div>
         )}
 
         {publication.pictures.length > 0 && (
-          <div className="mt-4 px-6">
+          <div className="mt-4 px-4">
             <LinkedinImage pictures={publication.pictures ?? []} />
           </div>
         )}
 
-        <div className="flex items-center justify-between text-sm text-gray-500 mt-4 px-6">
+        <div className="flex items-center justify-between text-sm text-gray-500 mt-4 px-4">
           <div className="flex items-center gap-2">
             <div className="flex items-center -space-x-1">
               <Image src={"/images/linkedin/love.svg"} alt="love" width={20} height={20} />

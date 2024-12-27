@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { PublicationThreadType } from "@/enums/PublicationThreadType";
 import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
 import { Publication } from "@/store/client/interface/publication";
 import { SocialNetwork } from "@/store/client/interface/social-network";
@@ -6,7 +7,8 @@ import { Trash2 } from "lucide-react";
 import FacebookView from "./Facebook/FacebookView";
 import InstagramView from "./Instagram/InstagramView";
 import LinkedinView from "./Linkedin/LinkedinView";
-import TwitterView from "./Twitter/TwitterView";
+import TwitterViewPrimary from "./Twitter/TwitterViewPrimary";
+import TwitterViewSecondary from "./Twitter/TwitterViewSecondary";
 import YoutubeView from "./Youtube/YoutubeView";
 
 interface PreviewPanelProps {
@@ -20,7 +22,7 @@ interface PreviewPanelProps {
 export function PublicationsPreview({ publications, socialNetwork, onSelect, onDelete, selected }: PreviewPanelProps) {
   if (socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.LINKEDIN) {
     return (
-      <div className="flex flex-col space-y-1 items-center justify-center">
+      <div className="flex flex-col space-y-2 items-center justify-center">
         {publications.map((publication) => (
           <div key={publication.id} className="relative">
             <LinkedinView publication={publication} onSelect={onSelect} isSelected={selected.uuid === publication.uuid && publications.length > 1} />
@@ -37,7 +39,7 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
 
   if (socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.FACEBOOK) {
     return (
-      <div className="flex flex-col space-y-1 items-center justify-center">
+      <div className="flex flex-col space-y-2 items-center justify-center">
         {publications.map((publication) => (
           <FacebookView
             key={publication.id}
@@ -50,9 +52,39 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
     );
   }
 
+  if (socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER) {
+    return (
+      <div className="flex flex-col items-center justify-center">
+        {publications.map((publication) => {
+          switch (publication.threadType) {
+            case PublicationThreadType.PRIMARY:
+              return (
+                <TwitterViewPrimary
+                  key={publication.id}
+                  publication={publication}
+                  onSelect={onSelect}
+                  isSelected={selected.uuid === publication.uuid && publications.length > 1}
+                />
+              );
+            case PublicationThreadType.SECONDARY:
+              return (
+                <TwitterViewSecondary
+                  key={publication.id}
+                  publication={publication}
+                  onSelect={onSelect}
+                  isSelected={selected.uuid === publication.uuid && publications.length > 1}
+                />
+              );
+            default:
+              return <></>;
+          }
+        })}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4 items-center justify-center flex">
-      {socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER && <TwitterView publications={publications} />}
       {socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.INSTAGRAM && <InstagramView publication={publications[0]} />}
       {socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.YOUTUBE && <YoutubeView publication={publications[0]} />}
     </div>
