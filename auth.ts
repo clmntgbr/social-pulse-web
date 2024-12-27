@@ -11,19 +11,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        const client = new SocialPulseClient();
-        const token = client.getToken(credentials as LoginCredentials).then((response) => {
-          const user: AuthUser = {
+        try {
+          const client = new SocialPulseClient();
+          const response = await client.getToken(credentials as LoginCredentials);
+
+          if (!response?.data?.token) {
+            throw new Error("Invalid token response");
+          }
+
+          return {
             name: credentials.email as string,
             email: credentials.email as string,
             emailVerified: false,
-            token: response?.data.token as string,
+            token: response.data.token,
           };
-
-          return user;
-        });
-
-        return token;
+        } catch {
+          throw new Error("Authentication failed");
+        }
       },
     }),
   ],
