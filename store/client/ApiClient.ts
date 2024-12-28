@@ -20,7 +20,7 @@ export default class ApiClient {
 
     this.httpClient = axios.create({
       baseURL: `${process.env.NEXT_PUBLIC_API_URL}api`,
-      timeout: 30000,
+      timeout: 50000,
       headers,
     });
   }

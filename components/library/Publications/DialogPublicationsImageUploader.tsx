@@ -10,7 +10,7 @@ export function DialogPublicationsImageUploader({ onImageUpload, isDisabled }: D
   return (
     <>
       <Button variant="secondary" disabled={isDisabled} className="cursor-pointer px-0 py-0 hover:text-primary">
-        <label htmlFor="image-upload" className="cursor-pointer px-4">
+        <label htmlFor="image-upload" className="cursor-pointer p-4">
           <ImagePlus size={20} />
         </label>
       </Button>

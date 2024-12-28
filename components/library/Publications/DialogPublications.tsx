@@ -178,7 +178,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   };
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-white  dark:bg-black flex flex-col" style={{ height: "calc(100vh - 2.5rem)" }}>
+    <div className="h-screen max-h-screen overflow-hidden bg-white  dark:bg-background flex flex-col" style={{ height: "calc(100vh - 2.5rem)" }}>
       <DialogPublicationsHeader onSelectSocialNetwork={handleSocialNetworkSelect} />
       <div className="flex-1 px-0 pt-4 flex flex-col min-h-0">
         <div className="flex-1 flex gap-4 min-h-0">
@@ -194,7 +194,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                     </Button>
                   </div>
                   <textarea
-                    className={`w-full h-full pt-14 p-4 border rounded-lg resize-none dark:bg-black  focus:outline-none focus:ring-0 ${
+                    className={`w-full h-full pt-14 p-4 border rounded-lg resize-none dark:bg-background  focus:outline-none focus:ring-0 ${
                       !createPublication.socialNetwork ? "cursor-not-allowed" : ""
                     }`}
                     value={createPublication.selected.content ?? ""}

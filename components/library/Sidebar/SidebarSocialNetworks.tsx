@@ -32,7 +32,7 @@ export function SidebarSocialNetworks() {
                   alt={item.username}
                   width={10}
                   height={10}
-                  className="absolute -bottom-[4px] left-[23px] flex-shrink-0 w-4 h-4 object-cover overflow-hidden border-white border-2 rounded-full"
+                  className="absolute -bottom-[4px] left-[23px] flex-shrink-0 w-4 h-4 object-cover overflow-hidden border-white dark:border-card border-2 rounded-full"
                 />
                 <span className="font-medium">{item.username}</span>
               </div>

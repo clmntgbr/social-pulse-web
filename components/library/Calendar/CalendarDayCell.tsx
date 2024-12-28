@@ -1,4 +1,5 @@
 import { getStatusColorPublication } from "@/components/Calendar";
+import { dispatch } from "@/hooks/use-toast";
 import { useCurrentLocale } from "@/locales/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,8 @@ const CalendarDayCell: React.FC<DayCellProps> = ({ day, onClick }) => {
   const locale = useCurrentLocale();
 
   const openDialog = () => {
+    dispatch({ type: "DISMISS_TOAST", toastId: "success" });
+    dispatch({ type: "DISMISS_TOAST", toastId: "fail" });
     onClick(day);
   };
 

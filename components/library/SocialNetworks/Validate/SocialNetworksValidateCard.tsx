@@ -1,13 +1,10 @@
 "use client";
 
-import { Capitalize } from "@/components/Capitalize";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { SocialNetwork } from "@/store/client/interface/social-network";
-import { User } from "lucide-react";
+import Image from "next/image";
 
 interface SocialNetworksValidateCardProps {
   account: SocialNetwork;
@@ -41,23 +38,24 @@ export function SocialNetworksValidateCard({ account, checked, onCheckChange }: 
     >
       <div className="flex items-center gap-4">
         <div className="relative">
-          <Avatar className="h-16 w-16 border-2 border-transparent transition-colors">
-            <AvatarImage src={account.avatarUrl} alt={account.name} />
-            <AvatarFallback className="bg-primary/10">
-              <User className="h-8 w-8 text-primary" />
-            </AvatarFallback>
-          </Avatar>
-          {checked && (
-            <Badge variant="default" className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full p-0 flex items-center justify-center">
-              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </svg>
-            </Badge>
-          )}
+          <Image
+            src={`${account.avatarUrl}`}
+            alt={account.username}
+            width={100}
+            height={100}
+            className="flex-shrink-0 w-14 h-14 rounded-full object-cover overflow-hidden"
+          />
+          <Image
+            src={`/images/${account.socialNetworkType.name}-logo.png`}
+            alt={account.username}
+            width={10}
+            height={10}
+            className="absolute -bottom-[7px] left-[35px] flex-shrink-0 w-6 h-6 object-cover overflow-hidden border-white dark:border-card border-2 rounded-full"
+          />
         </div>
         <div className="space-y-1">
           <div className="font-medium">{account.name}</div>
-          <div className="text-sm text-muted-foreground">{Capitalize(account.socialNetworkType.name)}</div>
+          {account.username !== account.name && <div className="text-sm text-muted-foreground">{account.username}</div>}
         </div>
       </div>
       <Checkbox checked={checked} className={cn("h-5 w-5 transition-opacity")} onCheckedChange={onCheckChange} onClick={(e) => e.stopPropagation()} />
