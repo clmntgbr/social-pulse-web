@@ -9,7 +9,7 @@ export default function TwitterBody({ content }: Props) {
   const isUrl = (word: string) => urlRegex.test(word);
 
   return (
-    <div className="text-sm break-words">
+    <div className="text-sm break-all">
       {content.split("\n").map((line, index) => (
         <Fragment key={index}>
           {line.split(" ").map((word, wordIndex) => (

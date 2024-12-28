@@ -26,7 +26,7 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       if (data && data.accessToken) {
-        await getUser(`${data?.accessToken}`, userDispatch);
+        getUser(`${data?.accessToken}`, userDispatch);
       }
     };
 

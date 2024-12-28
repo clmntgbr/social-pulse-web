@@ -32,9 +32,9 @@ export const PublicationsProvider: React.FC<PropsWithChildren> = ({ children }) 
 
     fetchPublications();
 
-    const interval = setInterval(() => {
+    setInterval(() => {
       fetchPublications();
-    }, 10000);
+    }, 30000);
   }, [data]);
 
   return <PublicationsContext.Provider value={{ publications, publicationsDispatch }}>{children}</PublicationsContext.Provider>;

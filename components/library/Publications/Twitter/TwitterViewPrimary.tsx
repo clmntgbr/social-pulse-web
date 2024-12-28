@@ -12,7 +12,7 @@ interface TwitterViewProps {
 export default function TwitterViewPrimary({ publication, onSelect, isSelected }: TwitterViewProps) {
   return (
     <Card
-      className={`shadow-none relative text-wrap w-[500px] z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
+      className={`shadow-none relative text-wrap w-[500px] cursor-pointer z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
       onClick={() => onSelect(publication)}
     >
       <CardContent className="p-4 px-0">
@@ -47,7 +47,7 @@ export default function TwitterViewPrimary({ publication, onSelect, isSelected }
         </div>
 
         {publication.content && (
-          <div className="mt-4 px-4">
+          <div className="mt-2 px-4">
             <TwitterBody content={publication.content ?? ""} />
           </div>
         )}
