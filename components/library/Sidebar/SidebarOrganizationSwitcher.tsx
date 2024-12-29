@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { convertFileToBase64 } from "@/composables/ConvertFileToBase64";
+import { compressImage } from "@/composables/ConvertFileToBase64";
 import useOrganizationsContext from "@/contexts/organizations/hooks";
 import usePublicationsContext from "@/contexts/publications/hooks";
 import useSocialNetworksContext from "@/contexts/social-networks/hooks";
@@ -111,7 +111,7 @@ export default function SidebarOrganizationSwitcher() {
 
   const handleFileChange = async (event: any) => {
     const selectedFile = event.target.files[0];
-    const image = await convertFileToBase64(selectedFile);
+    const image = await compressImage(selectedFile);
     setFile64(image as string);
   };
 
