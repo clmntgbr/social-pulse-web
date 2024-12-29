@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { convertFileToBase64 } from "@/composables/ConvertFileToBase64";
+import { compressImage, convertFileToBase64 } from "@/composables/ConvertFileToBase64";
 import usePublicationsContext from "@/contexts/publications/hooks";
 import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
 import { CreatePublication, initializeCreatePublication, initializePublication, Publication } from "@/store/client/interface/publication";
@@ -26,6 +26,8 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = async (files: FileList) => {
+    const encodedImages = await Promise.all(Array.from(files).map(compressImage));
+
     const base64Images = await Promise.all(
       Array.from(files).map(async (file) => {
         const base64 = await convertFileToBase64(file);
@@ -33,17 +35,27 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
       })
     );
 
+    console.log(getBase64Size(base64Images[0]));
+    console.log(getBase64Size(encodedImages[0]));
+
+    console.log(encodedImages);
+    console.log(base64Images);
+
     setCreatePublication({
       ...createPublication,
       selected: {
         ...createPublication.selected,
-        pictures: [...(createPublication.selected.pictures || []), ...base64Images],
+        pictures: [...(createPublication.selected.pictures || []), ...encodedImages],
       },
       publications: createPublication.publications.map((pub) =>
-        pub.uuid === createPublication.selected.uuid ? { ...pub, pictures: [...(pub.pictures || []), ...base64Images] } : pub
+        pub.uuid === createPublication.selected.uuid ? { ...pub, pictures: [...(pub.pictures || []), ...encodedImages] } : pub
       ),
     });
   };
+
+  function getBase64Size(base64String: string) {
+    return (base64String.length * 3) / 4; // Taille approximative en octets
+  }
 
   const handleAddThread = () => {
     setCreatePublication({
