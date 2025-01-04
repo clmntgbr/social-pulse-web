@@ -33,10 +33,8 @@ export default class ApiClient {
 
   public async getUser(): Promise<AxiosResponse<any> | null> {
     try {
-      console.log(USERS.GET_USER);
       return await this.httpClient.get(USERS.GET_USER);
-    } catch (error) {
-      console.log(error);
+    } catch {
       return null;
     }
   }
@@ -51,11 +49,8 @@ export default class ApiClient {
 
   public async getToken(requestBody: LoginCredentials): Promise<AxiosResponse<GetToken> | null> {
     try {
-      console.log(requestBody);
-      console.log(USERS.GET_LOGIN);
       return await this.httpClient.post(USERS.GET_LOGIN, requestBody);
-    } catch (error) {
-      console.log(error);
+    } catch {
       return null;
     }
   }

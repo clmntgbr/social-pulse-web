@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { compressImage, convertFileToBase64 } from "@/composables/ConvertFileToBase64";
+import { compressImage } from "@/composables/ConvertFileToBase64";
 import usePublicationsContext from "@/contexts/publications/hooks";
 import { SocialNetworkTypeEnum } from "@/enums/SocialNetworkType";
 import { CreatePublication, initializeCreatePublication, initializePublication, Publication } from "@/store/client/interface/publication";
@@ -27,20 +27,6 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   const handleImageUpload = async (files: FileList) => {
     const encodedImages = await Promise.all(Array.from(files).map(compressImage));
-
-    const base64Images = await Promise.all(
-      Array.from(files).map(async (file) => {
-        const base64 = await convertFileToBase64(file);
-        return base64 as string;
-      })
-    );
-
-    console.log(getBase64Size(base64Images[0]));
-    console.log(getBase64Size(encodedImages[0]));
-
-    console.log(encodedImages);
-    console.log(base64Images);
-
     setCreatePublication({
       ...createPublication,
       selected: {
@@ -52,10 +38,6 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
       ),
     });
   };
-
-  function getBase64Size(base64String: string) {
-    return (base64String.length * 3) / 4; // Taille approximative en octets
-  }
 
   const handleAddThread = () => {
     setCreatePublication({
@@ -119,8 +101,11 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
       selected: {
         ...createPublication.selected,
         content: value,
+        characters: value.length,
       },
-      publications: createPublication.publications.map((pub) => (pub.uuid === createPublication.selected.uuid ? { ...pub, content: value } : pub)),
+      publications: createPublication.publications.map((pub) =>
+        pub.uuid === createPublication.selected.uuid ? { ...pub, content: value, characters: value.length } : pub
+      ),
     });
   };
 
@@ -191,6 +176,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   return (
     <div className="h-screen max-h-screen overflow-hidden bg-white  dark:bg-background flex flex-col" style={{ height: "calc(100vh - 2.5rem)" }}>
+      {JSON.stringify(createPublication.selected)}
       <DialogPublicationsHeader onSelectSocialNetwork={handleSocialNetworkSelect} />
       <div className="flex-1 px-0 pt-4 flex flex-col min-h-0">
         <div className="flex-1 flex gap-4 min-h-0">
@@ -203,6 +189,9 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                     <EmojiPicker onEmojiSelect={handleEmojiSelect} isDisabled={!createPublication.socialNetwork} />
                     <Button variant="secondary" className="hover:text-primary" onClick={handleAddThread} disabled={!createPublication.socialNetwork}>
                       Add a {createPublication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
+                    </Button>
+                    <Button variant="secondary" className="hover:text-primary">
+                      {createPublication.selected.characters} / {createPublication.selected.socialNetwork?.maxCharacter}
                     </Button>
                   </div>
                   <textarea

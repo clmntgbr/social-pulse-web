@@ -4,6 +4,7 @@ export type SocialNetwork = {
   avatarUrl: string;
   username: string;
   createdAt: string;
+  maxCharacter: number;
   updatedAt: string;
   followers: boolean;
   followings: boolean;

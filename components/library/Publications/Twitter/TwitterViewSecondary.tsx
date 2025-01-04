@@ -15,7 +15,7 @@ export default function TwitterViewSecondary({ publication, onSelect, isSelected
       className={`shadow-none relative text-wrap w-[500px] cursor-pointer z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
       onClick={() => onSelect(publication)}
     >
-      <CardContent className="p-4 px-0">
+      <CardContent className="p-0 pt-4 px-0">
         <div className="flex gap-3 px-4">
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0 w-10">
@@ -30,7 +30,7 @@ export default function TwitterViewSecondary({ publication, onSelect, isSelected
             <div className="w-0.5 bg-gray-200 grow mt-2"></div>
           </div>
 
-          <div className="flex-grow min-w-0">
+          <div className="flex-grow min-w-0 mb-4">
             <div className="flex items-center gap-2">
               <a
                 href={`https://www.linkedin.com/in/${publication.socialNetwork?.username}`}

@@ -1,6 +1,6 @@
 import { SocialNetwork } from "./social-network";
 
-export interface Publication {
+export type Publication = {
   uuid: string;
   id: number | null;
   publicationType: string | null;
@@ -12,7 +12,9 @@ export interface Publication {
   status: string;
   socialNetwork: SocialNetwork | null;
   pictures: string[];
-}
+} & Partial<{
+  characters: number;
+}>;
 
 export function initializePublication(index: number, threadType: string | null): Publication {
   return {
@@ -21,10 +23,10 @@ export function initializePublication(index: number, threadType: string | null):
     publicationType: null,
     publicationId: null,
     threadUuid: null,
+    characters: 0,
     threadType: threadType ?? "primary",
     publishedAt: new Date().toISOString(),
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    content: "",
     status: "draft",
     pictures: [],
     socialNetwork: null,
