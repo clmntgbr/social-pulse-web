@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, type AxiosInstance } from "axios";
+import https from "https";
 import { LoginCredentials } from "./interface/body/LoginCredentials";
 import { PostOrganizations } from "./interface/body/PostOgarnizations";
 import { PostPublications } from "./interface/body/PostPublications";
@@ -18,17 +19,24 @@ export default class ApiClient {
       headers.Authorization = `Bearer ${token}`;
     }
 
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+
     this.httpClient = axios.create({
       baseURL: `${process.env.NEXT_PUBLIC_API_URL}api`,
       timeout: 50000,
+      httpsAgent: agent,
       headers,
     });
   }
 
   public async getUser(): Promise<AxiosResponse<any> | null> {
     try {
+      console.log(USERS.GET_USER);
       return await this.httpClient.get(USERS.GET_USER);
-    } catch {
+    } catch (error) {
+      console.log(error);
       return null;
     }
   }
@@ -43,8 +51,11 @@ export default class ApiClient {
 
   public async getToken(requestBody: LoginCredentials): Promise<AxiosResponse<GetToken> | null> {
     try {
+      console.log(requestBody);
+      console.log(USERS.GET_LOGIN);
       return await this.httpClient.post(USERS.GET_LOGIN, requestBody);
-    } catch {
+    } catch (error) {
+      console.log(error);
       return null;
     }
   }

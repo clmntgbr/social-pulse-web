@@ -5,12 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCurrentLocale } from "@/locales/client";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as Yup from "yup";
 
 export default function Page() {
   const locale = useCurrentLocale();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -22,12 +25,14 @@ export default function Page() {
       password: Yup.string(),
     }),
     onSubmit: async (values) => {
+      setIsLoading(true);
       axios
         .post("/api/signin", values)
         .then(() => {
           window.location.href = `/${locale}`;
         })
         .catch(() => {
+          setIsLoading(false);
           ToastFail("Something went wrong.", "There was a problem with your request.");
         });
     },
@@ -65,7 +70,7 @@ export default function Page() {
             />
           </div>
         </div>
-        <Button type="submit">Login</Button>
+        <Button type="submit">Login {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}</Button>
       </form>
     </>
   );
