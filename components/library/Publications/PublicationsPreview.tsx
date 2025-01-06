@@ -41,12 +41,14 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
     return (
       <div className="flex flex-col space-y-2 items-center justify-center">
         {publications.map((publication) => (
-          <FacebookView
-            key={publication.id}
-            publication={publication}
-            onSelect={onSelect}
-            isSelected={selected.uuid === publication.uuid && publications.length > 1}
-          />
+          <div key={publication.id} className="relative">
+            <FacebookView publication={publication} onSelect={onSelect} isSelected={selected.uuid === publication.uuid && publications.length > 1} />
+            {publication.id !== 1 && (
+              <Button className="absolute -right-4 z-50 top-1/2 -translate-y-1/2 rounded-full w-8 h-8" onClick={() => onDelete(publication)}>
+                <Trash2 size={16} strokeWidth={2.5} />
+              </Button>
+            )}
+          </div>
         ))}
       </div>
     );
@@ -68,12 +70,18 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
               );
             case PublicationThreadType.SECONDARY:
               return (
-                <TwitterViewSecondary
-                  key={publication.id}
-                  publication={publication}
-                  onSelect={onSelect}
-                  isSelected={selected.uuid === publication.uuid && publications.length > 1}
-                />
+                <div key={publication.id} className="relative">
+                  {publication.id !== 1 && (
+                    <Button className="absolute -right-4 z-50 top-1/2 -translate-y-1/2 rounded-full w-8 h-8" onClick={() => onDelete(publication)}>
+                      <Trash2 size={16} strokeWidth={2.5} />
+                    </Button>
+                  )}
+                  <TwitterViewSecondary
+                    publication={publication}
+                    onSelect={onSelect}
+                    isSelected={selected.uuid === publication.uuid && publications.length > 1}
+                  />
+                </div>
               );
             default:
               return <></>;

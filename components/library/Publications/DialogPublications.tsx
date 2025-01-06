@@ -176,7 +176,6 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   return (
     <div className="h-screen max-h-screen overflow-hidden bg-white  dark:bg-background flex flex-col" style={{ height: "calc(100vh - 2.5rem)" }}>
-      {JSON.stringify(createPublication.selected)}
       <DialogPublicationsHeader onSelectSocialNetwork={handleSocialNetworkSelect} />
       <div className="flex-1 px-0 pt-4 flex flex-col min-h-0">
         <div className="flex-1 flex gap-4 min-h-0">
@@ -190,9 +189,11 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                     <Button variant="secondary" className="hover:text-primary" onClick={handleAddThread} disabled={!createPublication.socialNetwork}>
                       Add a {createPublication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
                     </Button>
-                    <Button variant="secondary" className="hover:text-primary">
-                      {createPublication.selected.characters} / {createPublication.selected.socialNetwork?.maxCharacter}
-                    </Button>
+                    {createPublication.socialNetwork && (
+                      <Button variant="secondary" className="hover:text-primary">
+                        {createPublication.selected.characters} / {createPublication.selected.socialNetwork?.maxCharacter}
+                      </Button>
+                    )}
                   </div>
                   <textarea
                     className={`w-full h-full pt-14 p-4 border rounded-lg resize-none dark:bg-background  focus:outline-none focus:ring-0 ${
