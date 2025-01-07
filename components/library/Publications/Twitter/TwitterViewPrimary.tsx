@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Publication } from "@/store/client/interface/publication";
 import Image from "next/image";
+import TwitterAction from "./TwitterAction";
 import TwitterBody from "./TwitterBody";
 
 interface TwitterViewProps {
@@ -51,6 +52,7 @@ export default function TwitterViewPrimary({ publication, onSelect, isSelected }
             <TwitterBody content={publication.content ?? ""} />
           </div>
         )}
+        <TwitterAction />
       </CardContent>
     </Card>
   );
