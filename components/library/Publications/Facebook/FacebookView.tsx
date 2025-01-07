@@ -3,6 +3,7 @@ import { Publication } from "@/store/client/interface/publication";
 import { Earth } from "lucide-react";
 import { DateTime } from "luxon";
 import Image from "next/image";
+import FacebookAction from "./FacebookAction";
 import FacebookBody from "./FacebookBody";
 
 interface FacebookViewProps {
@@ -74,6 +75,7 @@ export default function FacebookView({ publication, onSelect, isSelected }: Face
             <span>0 shares</span>
           </div>
         </div>
+        <FacebookAction />
       </CardContent>
     </Card>
   );

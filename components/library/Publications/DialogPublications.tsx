@@ -20,34 +20,46 @@ interface DialogPublicationsProps {
 }
 
 export function DialogPublications({ onCancel }: DialogPublicationsProps) {
-  const [createPublication, setCreatePublication] = useState<CreatePublication>(initializeCreatePublication);
+  const [publication, setCreatePublication] = useState<CreatePublication>(initializeCreatePublication);
   const { publicationsDispatch } = usePublicationsContext();
   const { data } = useSession();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = async (files: FileList) => {
+    const imagesCount = publication.selected.pictures.length + files.length;
+
+    if (publication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER && imagesCount > 4) {
+      ToastFail("Something went wrong.", "Please choose up to 4 photos, videos, or GIFs.");
+      return;
+    }
+
+    if (publication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.LINKEDIN && imagesCount > 20) {
+      ToastFail("Something went wrong.", "Please choose up to 20 photos, videos, or GIFs.");
+      return;
+    }
+
     const encodedImages = await Promise.all(Array.from(files).map(compressImage));
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       selected: {
-        ...createPublication.selected,
-        pictures: [...(createPublication.selected.pictures || []), ...encodedImages],
+        ...publication.selected,
+        pictures: [...(publication.selected.pictures || []), ...encodedImages],
       },
-      publications: createPublication.publications.map((pub) =>
-        pub.uuid === createPublication.selected.uuid ? { ...pub, pictures: [...(pub.pictures || []), ...encodedImages] } : pub
+      publications: publication.publications.map((pub) =>
+        pub.uuid === publication.selected.uuid ? { ...pub, pictures: [...(pub.pictures || []), ...encodedImages] } : pub
       ),
     });
   };
 
   const handleAddThread = () => {
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       publications: [
-        ...createPublication.publications,
+        ...publication.publications,
         {
-          ...initializePublication(createPublication.publications.length + 1, "secondary"),
-          socialNetwork: createPublication.socialNetwork,
-          publicationType: createPublication.socialNetwork?.socialNetworkType.name || null,
+          ...initializePublication(publication.publications.length + 1, "secondary"),
+          socialNetwork: publication.socialNetwork,
+          publicationType: publication.socialNetwork?.socialNetworkType.name || null,
         },
       ],
     });
@@ -55,13 +67,13 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   const handleRemoveImage = (index: number) => {
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       selected: {
-        ...createPublication.selected,
-        pictures: createPublication.selected.pictures.filter((_, i) => i !== index),
+        ...publication.selected,
+        pictures: publication.selected.pictures.filter((_, i) => i !== index),
       },
-      publications: createPublication.publications.map((pub) =>
-        pub.uuid === createPublication.selected.uuid
+      publications: publication.publications.map((pub) =>
+        pub.uuid === publication.selected.uuid
           ? {
               ...pub,
               pictures: pub.pictures.filter((_, i) => i !== index),
@@ -73,21 +85,21 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   const handlePublicationSelect = (selectedPublication: Publication) => {
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       selected: selectedPublication,
     });
   };
 
   const handleSocialNetworkSelect = (selectedSocialNetwork: SocialNetwork) => {
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       socialNetwork: selectedSocialNetwork,
       selected: {
-        ...createPublication.selected,
+        ...publication.selected,
         publicationType: selectedSocialNetwork.socialNetworkType.name,
         socialNetwork: selectedSocialNetwork,
       },
-      publications: createPublication.publications.map((pub) => ({
+      publications: publication.publications.map((pub) => ({
         ...pub,
         socialNetwork: selectedSocialNetwork,
         publicationType: selectedSocialNetwork.socialNetworkType.name,
@@ -97,14 +109,14 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   const handleTextChange = (value: string) => {
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       selected: {
-        ...createPublication.selected,
+        ...publication.selected,
         content: value,
         characters: value.length,
       },
-      publications: createPublication.publications.map((pub) =>
-        pub.uuid === createPublication.selected.uuid ? { ...pub, content: value, characters: value.length } : pub
+      publications: publication.publications.map((pub) =>
+        pub.uuid === publication.selected.uuid ? { ...pub, content: value, characters: value.length } : pub
       ),
     });
   };
@@ -129,13 +141,13 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
   const handleEmojiSelect = (emoji: string) => {
     setCreatePublication({
-      ...createPublication,
+      ...publication,
       selected: {
-        ...createPublication.selected,
-        content: createPublication.selected.content + emoji,
+        ...publication.selected,
+        content: publication.selected.content + emoji,
       },
-      publications: createPublication.publications.map((pub) =>
-        pub.uuid === createPublication.selected.uuid ? { ...pub, content: createPublication.selected.content + emoji } : pub
+      publications: publication.publications.map((pub) =>
+        pub.uuid === publication.selected.uuid ? { ...pub, content: publication.selected.content + emoji } : pub
       ),
     });
   };
@@ -149,7 +161,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
 
     const isoDate = scheduledDate.toISOString();
 
-    const updatedPublications = createPublication.publications.map((pub) => {
+    const updatedPublications = publication.publications.map((pub) => {
       const updatedPub = {
         ...pub,
         publishedAt: isoDate,
@@ -184,29 +196,29 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
               <div className="flex-1 flex flex-col min-h-0">
                 <div className="flex-1 min-h-0">
                   <div className="mb-4 absolute ml-2 mt-2 flex gap-2">
-                    <DialogPublicationsImageUploader onImageUpload={handleImageUpload} isDisabled={!createPublication.socialNetwork} />
-                    <EmojiPicker onEmojiSelect={handleEmojiSelect} isDisabled={!createPublication.socialNetwork} />
-                    <Button variant="secondary" className="hover:text-primary" onClick={handleAddThread} disabled={!createPublication.socialNetwork}>
-                      Add a {createPublication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
+                    <DialogPublicationsImageUploader onImageUpload={handleImageUpload} isDisabled={!publication.socialNetwork} />
+                    <EmojiPicker onEmojiSelect={handleEmojiSelect} isDisabled={!publication.socialNetwork} />
+                    <Button variant="secondary" className="hover:text-primary" onClick={handleAddThread} disabled={!publication.socialNetwork}>
+                      Add a {publication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
                     </Button>
-                    {createPublication.socialNetwork && (
+                    {publication.socialNetwork && (
                       <Button variant="secondary" className="hover:text-primary">
-                        {createPublication.selected.characters} / {createPublication.selected.socialNetwork?.maxCharacter}
+                        {publication.selected.characters} / {publication.selected.socialNetwork?.maxCharacter}
                       </Button>
                     )}
                   </div>
                   <textarea
                     className={`w-full h-full pt-14 p-4 border rounded-lg resize-none dark:bg-background  focus:outline-none focus:ring-0 ${
-                      !createPublication.socialNetwork ? "cursor-not-allowed" : ""
+                      !publication.socialNetwork ? "cursor-not-allowed" : ""
                     }`}
-                    value={createPublication.selected.content ?? ""}
-                    disabled={!createPublication.socialNetwork}
-                    placeholder={`${!createPublication.socialNetwork ? "You have to choose a social network first." : "Type here"}`}
+                    value={publication.selected.content ?? ""}
+                    disabled={!publication.socialNetwork}
+                    placeholder={`${!publication.socialNetwork ? "You have to choose a social network first." : "Type here"}`}
                     onChange={(e) => handleTextChange(e.target.value)}
                   />
                 </div>
                 <div className="h-[200px] mt-4 overflow-y-auto custom-scrollbar">
-                  <DialogPublicationsImageGallery images={createPublication.selected.pictures} onRemoveImage={handleRemoveImage} />
+                  <DialogPublicationsImageGallery images={publication.selected.pictures} onRemoveImage={handleRemoveImage} />
                 </div>
               </div>
             </div>
@@ -215,9 +227,9 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
           <div className="w-1/2 bg-gray-100 dark:bg-secondary rounded-lg p-4 border overflow-y-auto custom-scrollbar">
             <PublicationsPreview
               onDelete={handleOnDelete}
-              selected={createPublication.selected}
-              publications={createPublication.publications}
-              socialNetwork={createPublication.socialNetwork}
+              selected={publication.selected}
+              publications={publication.publications}
+              socialNetwork={publication.socialNetwork}
               onSelect={handlePublicationSelect}
             />
           </div>
@@ -227,7 +239,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
           <Button variant="outline" disabled={isLoading} className="px-6 py-2 rounded-lg transition-colors" onClick={onCancel}>
             Cancel
           </Button>
-          <PublicationsButton onSelect={handleSelect} isDisabled={!createPublication.socialNetwork || isLoading} isLoading={isLoading} />
+          <PublicationsButton onSelect={handleSelect} isDisabled={!publication.socialNetwork || isLoading} isLoading={isLoading} />
         </div>
       </div>
     </div>

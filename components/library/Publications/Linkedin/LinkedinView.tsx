@@ -3,6 +3,7 @@ import { Publication } from "@/store/client/interface/publication";
 import { Dot, Earth } from "lucide-react";
 import { DateTime } from "luxon";
 import Image from "next/image";
+import LinkedinAction from "./LinkedinAction";
 import LinkedinBody from "./LinkedinBody";
 import LinkedinImage from "./LinkedinImage";
 
@@ -83,6 +84,8 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
             <span>0 reposts</span>
           </div>
         </div>
+
+        <LinkedinAction />
       </CardContent>
     </Card>
   );

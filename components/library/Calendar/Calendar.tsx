@@ -9,7 +9,7 @@ import {
 import usePublicationsContext from "@/contexts/publications/hooks";
 import { dispatch } from "@/hooks/use-toast";
 import { Publication } from "@/store/client/interface/publication";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { CalendarDay } from "../../types/calendar";
 import CreatePublication from "../Publications/DialogPublications";
@@ -144,7 +144,7 @@ const Calendar: React.FC = () => {
         </div>
         <div className="flex justify-end">
           <Button className="rounded-lg" onClick={() => onCreatePublication()}>
-            Create a publication
+            <CirclePlus /> Create a publication
           </Button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Publication } from "@/store/client/interface/publication";
 import Image from "next/image";
 import TwitterAction from "./TwitterAction";
 import TwitterBody from "./TwitterBody";
+import TwitterImage from "./TwitterImage";
 
 interface TwitterViewProps {
   publication: Publication;
@@ -52,6 +53,13 @@ export default function TwitterViewPrimary({ publication, onSelect, isSelected }
             <TwitterBody content={publication.content ?? ""} />
           </div>
         )}
+
+        {publication.pictures.length > 0 && (
+          <div className="mt-4 px-4">
+            <TwitterImage pictures={publication.pictures ?? []} />
+          </div>
+        )}
+
         <TwitterAction />
       </CardContent>
     </Card>
