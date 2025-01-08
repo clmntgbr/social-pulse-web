@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   calendarFilterPublicationsStatusOptions,
   calendarFilterSocialNetworksOptions,
@@ -7,6 +8,7 @@ import {
   calendarWeekDaysShort,
 } from "@/composables/Calendar";
 import usePublicationsContext from "@/contexts/publications/hooks";
+import useSocialNetworksContext from "@/contexts/social-networks/hooks";
 import { dispatch } from "@/hooks/use-toast";
 import { Publication } from "@/store/client/interface/publication";
 import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
@@ -19,6 +21,7 @@ import CalendarMonthView from "./CalendarMonthView";
 const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { publications } = usePublicationsContext();
+  const { socialNetworks } = useSocialNetworksContext();
   const [open, setOpen] = useState(false);
   const [days, setDays] = useState<CalendarDay[]>([]);
   const [filterSocialNetworks, setFilterSocialNetworks] = useState<string[]>([]);
@@ -143,9 +146,24 @@ const Calendar: React.FC = () => {
           </Button>
         </div>
         <div className="flex justify-end">
-          <Button className="rounded-lg" onClick={() => onCreatePublication()}>
-            <CirclePlus /> Create a publication
-          </Button>
+          <TooltipProvider>
+            {socialNetworks.socialNetworks!.length <= 0 ? (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 rounded-lg cursor-not-allowed">
+                    <CirclePlus /> Create a publication
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>You dont have social networks linked to your organizations.</p>
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Button className="rounded-lg" onClick={() => onCreatePublication()}>
+                <CirclePlus /> Create a publication
+              </Button>
+            )}
+          </TooltipProvider>
         </div>
       </div>
       <div className="bg-white overflow-hidden border flex-1">
