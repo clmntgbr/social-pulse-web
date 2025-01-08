@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from "@/hooks/use-toast";
+import { dispatch, toast } from "@/hooks/use-toast";
 
 export function ToastSuccess() {
   toast({
@@ -9,6 +9,11 @@ export function ToastSuccess() {
     title: "Great Success!",
     description: "Your request was completed successfully.",
   });
+
+  setTimeout(() => {
+    dispatch({ type: "DISMISS_TOAST", toastId: "success" });
+    dispatch({ type: "DISMISS_TOAST", toastId: "fail" });
+  }, 2000);
 }
 
 export function ToastFail(title?: string | null, description?: string | null) {
@@ -18,4 +23,9 @@ export function ToastFail(title?: string | null, description?: string | null) {
     title: title ?? "Something went wrong.",
     description: description ?? "There was a problem with your request.",
   });
+
+  setTimeout(() => {
+    dispatch({ type: "DISMISS_TOAST", toastId: "success" });
+    dispatch({ type: "DISMISS_TOAST", toastId: "fail" });
+  }, 2000);
 }

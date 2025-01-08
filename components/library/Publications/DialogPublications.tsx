@@ -30,12 +30,12 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     const imagesCount = publication.selected.pictures.length + files.length;
 
     if (publication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER && imagesCount > 4) {
-      ToastFail("Something went wrong.", "Please choose up to 4 photos, videos, or GIFs.");
+      ToastFail("An error occurred while selecting your media files.", "Please choose up to 4 photos, videos, or GIFs.");
       return;
     }
 
     if (publication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.LINKEDIN && imagesCount > 20) {
-      ToastFail("Something went wrong.", "Please choose up to 20 photos, videos, or GIFs.");
+      ToastFail("An error occurred while selecting your media files.", "Please choose up to 20 photos, videos, or GIFs.");
       return;
     }
 
@@ -203,8 +203,9 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
             }, 2000);
           });
       })
-      .catch(() => {
-        ToastFail();
+      .catch((error) => {
+        setIsLoading(false);
+        ToastFail(null, error.errors[0] ?? null);
       });
   };
 
