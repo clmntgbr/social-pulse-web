@@ -7,6 +7,7 @@ import { SocialNetwork } from "@/store/client/interface/social-network";
 import { postPublications } from "@/store/publications/postPublications";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import * as yup from "yup";
 import { EmojiPicker } from "../EmojiPicker";
 import { ToastFail, ToastSuccess } from "../Toast";
 import { DialogPublicationsHeader } from "./DialogPublicationsHeader";
@@ -152,7 +153,19 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     });
   };
 
-  const handleSelect = (value: string, scheduledDate: Date) => {
+  const publicationSchema = yup.object({
+    id: yup.number().nullable(),
+    publicationType: yup.string().nullable(),
+    threadType: yup.string().nullable(),
+    content: yup.string().test("content-or-pictures", "Content is required when there are no pictures", function (value) {
+      const pictures = this.parent.pictures;
+      if (pictures?.length > 0) return true;
+      return Boolean(value && value.length > 0);
+    }),
+    pictures: yup.array().of(yup.string()),
+  });
+
+  const handleSelect = async (value: string, scheduledDate: Date) => {
     setIsLoading(true);
 
     if (value === "now") {
@@ -170,19 +183,28 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
       return updatedPub;
     });
 
-    postPublications(`${data?.accessToken}`, updatedPublications, publicationsDispatch)
+    yup
+      .array()
+      .of(publicationSchema)
+      .validate(updatedPublications)
       .then(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-          ToastSuccess();
-          onCancel();
-        }, 2000);
+        postPublications(`${data?.accessToken}`, updatedPublications, publicationsDispatch)
+          .then(() => {
+            setTimeout(() => {
+              setIsLoading(false);
+              ToastSuccess();
+              onCancel();
+            }, 2000);
+          })
+          .catch(() => {
+            setTimeout(() => {
+              setIsLoading(false);
+              ToastFail();
+            }, 2000);
+          });
       })
       .catch(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-          ToastFail();
-        }, 2000);
+        ToastFail();
       });
   };
 
