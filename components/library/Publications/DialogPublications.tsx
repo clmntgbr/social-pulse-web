@@ -157,11 +157,17 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
     id: yup.number().nullable(),
     publicationType: yup.string().nullable(),
     threadType: yup.string().nullable(),
-    content: yup.string().test("content-or-pictures", "Content is required when there are no pictures", function (value) {
-      const pictures = this.parent.pictures;
-      if (pictures?.length > 0) return true;
-      return Boolean(value && value.length > 0);
-    }),
+    content: yup
+      .string()
+      .test("content-or-pictures", "Content is required when there are no pictures", function (value) {
+        const pictures = this.parent.pictures;
+        if (pictures?.length > 0) return true;
+        return Boolean(value && value.length > 0);
+      })
+      .test("max-content-length", `Content cannot exceed ${publication.selected.socialNetwork?.maxCharacter} characters`, function (value) {
+        if (!value) return true;
+        return value.length <= (publication.selected.socialNetwork?.maxCharacter ?? 0);
+      }),
     pictures: yup.array().of(yup.string()),
   });
 
@@ -225,7 +231,12 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                       Add a {publication.selected.socialNetwork?.socialNetworkType.name === SocialNetworkTypeEnum.TWITTER ? "thread" : "post"}
                     </Button>
                     {publication.socialNetwork && (
-                      <Button variant="secondary" className="hover:text-primary">
+                      <Button
+                        variant="secondary"
+                        className={`hover:text-primary ${
+                          (publication.selected.characters ?? 0) > publication.socialNetwork.maxCharacter ? "text-red-600" : "text-green-600"
+                        }`}
+                      >
                         {publication.selected.characters} / {publication.selected.socialNetwork?.maxCharacter}
                       </Button>
                     )}

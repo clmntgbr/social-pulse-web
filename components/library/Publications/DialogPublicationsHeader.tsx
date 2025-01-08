@@ -47,7 +47,7 @@ export function DialogPublicationsHeader({ onSelectSocialNetwork }: DialogPublic
                     />
                   </div>
                 </TooltipTrigger>
-                <TooltipContent sideOffset={5}>
+                <TooltipContent sideOffset={5} className="font-semibold">
                   <p>@{item.username}</p>
                 </TooltipContent>
               </Tooltip>

@@ -11,7 +11,7 @@ import usePublicationsContext from "@/contexts/publications/hooks";
 import useSocialNetworksContext from "@/contexts/social-networks/hooks";
 import { dispatch } from "@/hooks/use-toast";
 import { Publication } from "@/store/client/interface/publication";
-import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { CalendarDay } from "../../types/calendar";
 import CreatePublication from "../Publications/DialogPublications";
@@ -151,16 +151,16 @@ const Calendar: React.FC = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 rounded-lg cursor-not-allowed">
-                    <CirclePlus /> Create a publication
+                    <Plus /> Create a publication
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="bg-black font-semibold">
                   <p>You dont have social networks linked to your organizations.</p>
                 </TooltipContent>
               </Tooltip>
             ) : (
               <Button className="rounded-lg" onClick={() => onCreatePublication()}>
-                <CirclePlus /> Create a publication
+                <Plus /> Create a publication
               </Button>
             )}
           </TooltipProvider>

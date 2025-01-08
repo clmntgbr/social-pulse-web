@@ -230,7 +230,9 @@ export default function SidebarOrganizationSwitcher() {
                       </div>
                     </>
                   </TooltipTrigger>
-                  <TooltipContent side="right">You can change the logo organization by clicking on it.</TooltipContent>
+                  <TooltipContent side="right" className="font-semibold">
+                    You can change the logo organization by clicking on it.
+                  </TooltipContent>
                 </Tooltip>
               </div>
             </div>
