@@ -53,16 +53,16 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   };
 
   const handleAddThread = () => {
+    const newPublication = {
+      ...initializePublication(publication.publications.length + 1, "secondary"),
+      socialNetwork: publication.socialNetwork,
+      publicationType: publication.socialNetwork?.socialNetworkType.name || null,
+    };
+
     setCreatePublication({
       ...publication,
-      publications: [
-        ...publication.publications,
-        {
-          ...initializePublication(publication.publications.length + 1, "secondary"),
-          socialNetwork: publication.socialNetwork,
-          publicationType: publication.socialNetwork?.socialNetworkType.name || null,
-        },
-      ],
+      publications: [...publication.publications, newPublication],
+      selected: newPublication,
     });
   };
 
