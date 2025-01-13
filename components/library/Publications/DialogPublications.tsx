@@ -6,7 +6,7 @@ import { CreatePublication, initializeCreatePublication, initializePublication, 
 import { SocialNetwork } from "@/store/client/interface/social-network";
 import { postPublications } from "@/store/publications/postPublications";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import * as yup from "yup";
 import { EmojiPicker } from "../EmojiPicker";
 import { ToastFail, ToastSuccess } from "../Toast";
@@ -25,6 +25,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   const { publicationsDispatch } = usePublicationsContext();
   const { data } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleImageUpload = async (files: FileList) => {
     const imagesCount = publication.selected.pictures.length + files.length;
@@ -53,6 +54,8 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   };
 
   const handleAddThread = () => {
+    textareaRef?.current?.focus(); // to have the focus when we create a thread
+
     const newPublication = {
       ...initializePublication(publication.publications.length + 1, "secondary"),
       socialNetwork: publication.socialNetwork,
@@ -85,6 +88,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   };
 
   const handlePublicationSelect = (selectedPublication: Publication) => {
+    textareaRef?.current?.focus();
     setCreatePublication({
       ...publication,
       selected: selectedPublication,
@@ -242,6 +246,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
                     )}
                   </div>
                   <textarea
+                    ref={textareaRef}
                     className={`w-full h-full pt-14 p-4 border rounded-lg resize-none dark:bg-background  focus:outline-none focus:ring-0 ${
                       !publication.socialNetwork ? "cursor-not-allowed" : ""
                     }`}
