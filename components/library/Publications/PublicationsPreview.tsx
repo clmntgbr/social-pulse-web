@@ -13,7 +13,7 @@ import YoutubeView from "./Youtube/YoutubeView";
 
 interface PreviewPanelProps {
   publications: Publication[];
-  selected: Publication;
+  selected: Publication | null;
   socialNetwork: SocialNetwork | null;
   onSelect: (publication: Publication) => void;
   onDelete: (publication: Publication) => void;
@@ -24,8 +24,8 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
     return (
       <div className="flex flex-col space-y-2 items-center justify-center">
         {publications.map((publication) => (
-          <div key={publication.id} className="relative">
-            <LinkedinView publication={publication} onSelect={onSelect} isSelected={selected.uuid === publication.uuid && publications.length > 1} />
+          <div key={publication.uuid} className="relative">
+            <LinkedinView publication={publication} onSelect={onSelect} isSelected={selected?.uuid === publication.uuid && publications.length > 1} />
             {publication.id !== 1 && (
               <Button className="absolute -right-4 z-50 top-1/2 -translate-y-1/2 rounded-full w-8 h-8" onClick={() => onDelete(publication)}>
                 <Trash2 size={16} strokeWidth={2.5} />
@@ -41,8 +41,8 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
     return (
       <div className="flex flex-col space-y-2 items-center justify-center">
         {publications.map((publication) => (
-          <div key={publication.id} className="relative">
-            <FacebookView publication={publication} onSelect={onSelect} isSelected={selected.uuid === publication.uuid && publications.length > 1} />
+          <div key={publication.uuid} className="relative">
+            <FacebookView publication={publication} onSelect={onSelect} isSelected={selected?.uuid === publication.uuid && publications.length > 1} />
             {publication.id !== 1 && (
               <Button className="absolute -right-4 z-50 top-1/2 -translate-y-1/2 rounded-full w-8 h-8" onClick={() => onDelete(publication)}>
                 <Trash2 size={16} strokeWidth={2.5} />
@@ -62,10 +62,10 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
             case PublicationThreadType.PRIMARY:
               return (
                 <TwitterViewPrimary
-                  key={publication.id}
+                  key={publication.uuid}
                   publication={publication}
                   onSelect={onSelect}
-                  isSelected={selected.uuid === publication.uuid && publications.length > 1}
+                  isSelected={selected?.uuid === publication.uuid && publications.length > 1}
                 />
               );
             case PublicationThreadType.SECONDARY:
@@ -79,7 +79,7 @@ export function PublicationsPreview({ publications, socialNetwork, onSelect, onD
                   <TwitterViewSecondary
                     publication={publication}
                     onSelect={onSelect}
-                    isSelected={selected.uuid === publication.uuid && publications.length > 1}
+                    isSelected={selected?.uuid === publication.uuid && publications.length > 1}
                   />
                 </div>
               );

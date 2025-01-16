@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Publication } from "@/store/client/interface/publication";
 import Image from "next/image";
+import Link from "next/link";
 import TwitterAction from "./TwitterAction";
 import TwitterBody from "./TwitterBody";
 import TwitterImage from "./TwitterImage";
@@ -14,11 +15,15 @@ interface TwitterViewProps {
 export default function TwitterViewPrimary({ publication, onSelect, isSelected }: TwitterViewProps) {
   return (
     <Card
-      className={`shadow-none relative text-wrap w-[500px] cursor-pointer z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
+      className={`shadow-none relative text-wrap w-[500px] z-30 ${isSelected ? "border-dashed border-gray-400" : ""}`}
       onClick={() => onSelect(publication)}
     >
-      <CardContent className="p-4 px-0">
-        <div className="flex items-start gap-3 group px-4">
+      <CardContent className="p-4 px-0 cursor-default">
+        <Link
+          className="flex items-start gap-3 group px-4 cursor-pointer"
+          href={`https://x.com/${publication.socialNetwork?.username}`}
+          target="_blank"
+        >
           <div className="font-semibold">
             <Image
               src={publication.socialNetwork?.avatarUrl ?? "https://ui.shadcn.com/avatars/01.png"}
@@ -32,13 +37,7 @@ export default function TwitterViewPrimary({ publication, onSelect, isSelected }
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex gap-4">
-                  <a
-                    href={`https://www.linkedin.com/in/${publication.socialNetwork?.username}`}
-                    className="font-semibold hover:underline"
-                    target="_blank"
-                  >
-                    {publication.socialNetwork?.name}
-                  </a>
+                  <p className="font-semibold hover:underline">{publication.socialNetwork?.name}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <p className="text-sm text-gray-400 font-normal">@{publication.socialNetwork?.username}</p>
@@ -46,7 +45,7 @@ export default function TwitterViewPrimary({ publication, onSelect, isSelected }
               </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {publication.content && (
           <div className="mt-2 px-4">

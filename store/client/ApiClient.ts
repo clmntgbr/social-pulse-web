@@ -129,6 +129,14 @@ export default class ApiClient {
     }
   }
 
+  public async deletePublication(uuid: string): Promise<AxiosResponse<any> | null> {
+    try {
+      return await this.httpClient.get(PUBLICATIONS.DELETE_PUBLICATION.replace("{uuid}", uuid));
+    } catch {
+      return null;
+    }
+  }
+
   public async postPublications(body: PostPublications): Promise<AxiosResponse<any> | null> {
     try {
       return await this.httpClient.post(PUBLICATIONS.POST_PUBLICATIONS, body);

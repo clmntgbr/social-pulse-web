@@ -54,7 +54,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
   };
 
   const handleAddThread = () => {
-    textareaRef?.current?.focus(); // to have the focus when we create a thread
+    textareaRef?.current?.focus();
 
     const newPublication = {
       ...initializePublication(publication.publications.length + 1, "secondary"),
@@ -110,6 +110,7 @@ export function DialogPublications({ onCancel }: DialogPublicationsProps) {
         publicationType: selectedSocialNetwork.socialNetworkType.name,
       })),
     });
+    textareaRef?.current?.focus();
   };
 
   const handleTextChange = (value: string) => {

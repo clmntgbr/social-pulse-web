@@ -11,6 +11,7 @@ import { getSocialNetworks } from "@/store/social-networks/getSocialNetworks";
 import { getSocialNetworksByCode } from "@/store/social-networks/getSocialNetworksByCode";
 import { postSocialNetworksValidate } from "@/store/social-networks/postSocialNetworksValidate";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { Shield } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -98,6 +99,19 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
                 </div>
               </Card>
             )}
+            {socialNetworks && socialNetworks?.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center gap-4 mb-4">
+                  <Shield className="w-8 h-8 text-blue-600" />
+                  <h1 className="text-2xl font-bold text-gray-900">Connect Your Social Networks</h1>
+                </div>
+
+                <p className="text-gray-600 mb-4">
+                  Select the social network accounts you would like to connect to your profile. You can manage these connections at any time.
+                </p>
+              </div>
+            )}
+
             {socialNetworks?.map((socialNetwork) => (
               <SocialNetworksValidateCard
                 key={socialNetwork.uuid}

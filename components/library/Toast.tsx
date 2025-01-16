@@ -13,7 +13,7 @@ export function ToastSuccess() {
   setTimeout(() => {
     dispatch({ type: "DISMISS_TOAST", toastId: "success" });
     dispatch({ type: "DISMISS_TOAST", toastId: "fail" });
-  }, 2000);
+  }, 4000);
 }
 
 export function ToastFail(title?: string | null, description?: string | null) {
@@ -27,5 +27,5 @@ export function ToastFail(title?: string | null, description?: string | null) {
   setTimeout(() => {
     dispatch({ type: "DISMISS_TOAST", toastId: "success" });
     dispatch({ type: "DISMISS_TOAST", toastId: "fail" });
-  }, 2000);
+  }, 4000);
 }
