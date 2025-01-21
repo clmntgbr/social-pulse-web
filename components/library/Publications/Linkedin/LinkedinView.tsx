@@ -34,11 +34,7 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex gap-4">
-                  <a
-                    href={`https://www.linkedin.com/in/${publication.socialNetwork?.username}`}
-                    className="font-semibold hover:underline"
-                    target="_blank"
-                  >
+                  <a className="font-semibold hover:underline" target="_blank">
                     {publication.socialNetwork?.name}
                   </a>
                 </div>
@@ -47,7 +43,9 @@ export default function LinkedinView({ publication, onSelect, isSelected }: Link
                 </div>
                 <div className="flex items-center gap-2">
                   <p className="text-xs text-gray-400 font-normal">
-                    {DateTime.fromISO(new Date().toISOString()).setZone("UTC").toFormat("dd/MM/yyyy 'à' HH'h'mm")}
+                    {DateTime.fromISO(publication.publishedAt ?? new Date().toISOString())
+                      .setZone("UTC")
+                      .toFormat("dd/MM/yyyy 'à' HH'h'mm")}
                   </p>
                   <Earth size={15} strokeWidth={2} className="text-gray-400" />
                 </div>

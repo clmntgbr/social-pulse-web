@@ -40,11 +40,11 @@ export default function Page({ params }: { params: Promise<{ uuid: string }> }) 
   };
 
   return (
-    <div className="flex-1 flex gap-4 h-full">
+    <div className="flex-1 flex gap-4" style={{ height: "calc(100vh - 4rem)" }}>
       <div className="w-1/2 h-full">
         <div className="h-full flex flex-col">
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="flex-1 min-h-0"></div>
+            <div className="flex-1 min-h-0">{JSON.stringify(publications)}</div>
           </div>
         </div>
       </div>
